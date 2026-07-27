@@ -12,3 +12,4 @@ graphify-out/
 # Secrets. Never commit. See rules/SAFETY.md
 .env
 .env.*
+.claude/credentials.md

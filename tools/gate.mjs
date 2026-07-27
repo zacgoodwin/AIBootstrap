@@ -49,6 +49,12 @@ for (const [title, level] of REQUIRED)
   if (!headings.some(([t, l]) => t === title.toLowerCase() && l === level))
     fails.push(`TICKET-TEMPLATE.md missing h${level} "${title}"`);
 
+// 4. Credentials file must stay gitignored (rules/SAFETY.md; the file holds
+// test-account passwords Claude reads but git must never see).
+const gitignore = readFileSync(join(root, ".gitignore"), "utf8").split(/\r?\n/).map((l) => l.trim());
+if (!gitignore.includes(".claude/credentials.md"))
+  fails.push(".gitignore missing the '.claude/credentials.md' line");
+
 if (fails.length) {
   console.error("GATE RED:");
   for (const f of fails) console.error(" - " + f);

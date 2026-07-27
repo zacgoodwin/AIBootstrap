@@ -28,6 +28,19 @@
       "Bash(git log:*)",
       "Bash(git diff:*)",
       "Bash(ls:*)"
+    ],
+    "ask": [
+      "Bash(rm -rf:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
     ]
   }
 }

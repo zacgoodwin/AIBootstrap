@@ -7,7 +7,13 @@ run the interview with the user before any other work.**
 
 ## Stack
 
-TODO(bootstrap): language, framework, package manager, run command.
+TODO(bootstrap): language, framework, package manager, run command — with
+exact versions (e.g. "Next.js 15 App Router", not "Next.js").
+
+## Map
+
+services/ code · contracts/ boundaries · architecture/ maps · tools/ scripts
+rules/ behavior · docs/ strategy+user-guide+ai · .claude/ agents+skills+hooks
 
 ## Commands
 
@@ -67,4 +73,5 @@ TODO(bootstrap) markers.
 
 ## Landmines
 
-None yet. Add gotchas here as one-liners when discovered.
+Cross-cutting gotchas only, one line each. A mistake that belongs to a rules/
+domain goes in that file instead. None yet.

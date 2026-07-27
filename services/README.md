@@ -11,6 +11,7 @@ Model service shape:
 ```
 services/<name>/
 ├── README.md      # what it does, its contract, how to run it
+├── CLAUDE.md      # optional: local commands/rules only; details live in README
 ├── src/
 ├── config.*       # this service's config only
 ├── test/          # gate tests: deterministic, <2s, run on every commit

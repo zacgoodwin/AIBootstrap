@@ -17,6 +17,15 @@ another session's work.
   sides, call it out explicitly.
 - Fan out when it pays: parallel agents in worktrees for genuinely independent
   units; serial when small, cheap, or tightly coupled.
+- A service MAY ship `services/<name>/CLAUDE.md` holding ONLY its local
+  commands and local rules, plus a pointer to its README (which owns the
+  contract). Nested CLAUDE.md files concatenate with the root; keep them thin.
+
+## Project conventions
+
+TODO(bootstrap): naming patterns and file conventions for this project
+(component casing, test file naming, import style). Layout is fixed by the
+services-first contract above.
 
 ## Tech choice: search before building
 

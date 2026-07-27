@@ -21,18 +21,30 @@ Ask, one at a time:
 3. What measurable outcome defines success in 90 days?
 4. What is explicitly out of scope?
 5. What signal would tell you to stop or pivot? (kill criteria)
+6. Any existing business rules Claude must never invent (pricing tiers,
+   permission models, compliance constraints, billing mechanics)? If yes,
+   record each in docs/ai/BUSINESS-RULES.md; if greenfield, skip — that file
+   fills reactively.
+7. Brand voice for user-facing text (register, banned phrases, preferred
+   terminology)? Append to rules/VOICE.md; skip if undecided.
 
-Write answers into docs/STRATEGY.md (replace the TODO(bootstrap) markers).
+Write answers 1-5 into docs/STRATEGY.md (replace the TODO(bootstrap) markers).
 Copy each 90-day outcome and kill criterion into the Product outcomes table of
 docs/ai/HEALTH-METRICS.md with source + threshold.
 
 ## Step 3 — Stack
 
-Ask: language, framework, package manager, how to run the app, the gate-test
-command (must be deterministic and <2s), the eval command (or "none yet").
+Ask: language, framework, package manager — WITH exact versions ("Next.js 15
+App Router", never "Next.js") — how to run the app, the gate-test command
+(must be deterministic and <2s), the eval command (or "none yet"). Also:
+naming conventions (component casing, test file naming, import style), and
+any test accounts Claude should use for /qa or /browse.
 
 Then:
-- Fill CLAUDE.md `## Stack` and `## Commands`.
+- Fill CLAUDE.md `## Stack` and `## Commands` (versions included).
+- Fill the `## Project conventions` block in rules/CODING.md (naming only).
+- Test accounts: create `.claude/credentials.md` from
+  `.claude/credentials.example.md` (gitignored; test/dev accounts only).
 - Update `TEST_RUNNERS` in .claude/hooks/filter-test-output.mjs to match the
   real gate command; run `node .claude/hooks/filter-test-output.mjs --check`.
 - Offer to wire the gate as a pre-commit hook (stack-appropriate: husky,
