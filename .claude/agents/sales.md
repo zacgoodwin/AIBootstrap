@@ -21,4 +21,4 @@ Output contract:
 3. Every experiment carries kill criteria: the number that says stop.
 4. Every section answers "so what".
 
-Escalation: work above your tier (pricing entangled with unit economics or strategy pivots) returns to the parent with the model recommendation (Fable). Don't burn tokens on it.
+Escalation: work above your tier (pricing entangled with unit economics or strategy pivots) returns to the parent naming the tier needed (top tier). Don't burn tokens on it.

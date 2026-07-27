@@ -45,8 +45,9 @@ Then:
 - Fill the `## Project conventions` block in rules/CODING.md (naming only).
 - Test accounts: create `.claude/credentials.md` from
   `.claude/credentials.example.md` (gitignored; test/dev accounts only).
-- Update `TEST_RUNNERS` in .claude/hooks/filter-test-output.mjs to match the
-  real gate command; run `node .claude/hooks/filter-test-output.mjs --check`.
+- Update `TEST_RUNNERS` and `SELF_CHECK` in
+  .claude/hooks/filter-test-output.mjs to match the real gate command; run
+  `node .claude/hooks/filter-test-output.mjs --check`.
 - Offer to wire the gate as a pre-commit hook (stack-appropriate: husky,
   pre-commit, core.hooksPath — pick what fits, never `--no-verify` culture).
 - Offer the code-intelligence plugin for the chosen language (one

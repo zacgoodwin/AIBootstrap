@@ -1,7 +1,8 @@
 # Knowledge index
 
 The router. One line per knowledge file: what it holds, when to read it.
-tools/gate.mjs fails if a knowledge file exists that isn't listed here.
+tools/gate.mjs fails if a knowledge file exists that isn't listed here
+(docs/user-guide/ and docs/ai/plans/ are content, not knowledge routing).
 
 ## Always loaded
 
@@ -11,7 +12,7 @@ tools/gate.mjs fails if a knowledge file exists that isn't listed here.
 
 - rules/PRINCIPLES.md — precedence, how to work, latent-vs-deterministic, measurable outcomes, lazy-dev ladder. Read on any scope or architecture decision.
 - rules/CODING.md — services-first layout, tech-choice ladder, local-Claude-only LLM rule, SOLID/DRY. Read when writing or reviewing code.
-- rules/TESTING.md — two test lanes, tests+evals every change, skeletons. Read when writing tests or evals.
+- rules/TESTING.md — two test lanes, tests+evals every change. Read when writing tests or evals.
 - rules/WORKFLOW.md — tickets, deferred-work-as-issue, completion statuses, confusion protocol, background jobs. Read when working a ticket or finishing a task.
 - rules/DELEGATION.md — model tiers, effort defaults, briefing rule, escalation, orchestration patterns. Read before spawning subagents.
 - rules/AUTONOMY.md — act vs ask, park-don't-stall. Read when unsure whether to proceed.
@@ -33,7 +34,7 @@ tools/gate.mjs fails if a knowledge file exists that isn't listed here.
 
 - docs/ai/SETUP.md — machine setup: prerequisites, bootstrap scripts, env notes.
 - docs/ai/BOOTSTRAP.md — first-session interview (exists only until initialized).
-- docs/ai/SKILLS.md — full catalog of skills, plugins, agents by phase.
+- docs/ai/SKILLS.md — plugins and project agents; pack skills live in the session skill listing.
 - docs/ai/BUSINESS-RULES.md — non-obvious product rules (pricing, permissions, compliance). Read before touching billing, auth, or data-handling code.
 - docs/ai/TICKET-TEMPLATE.md — the six lint-enforced ticket sections + example.
 - docs/ai/HEALTH-METRICS.md — metrics with sources, thresholds, actions.

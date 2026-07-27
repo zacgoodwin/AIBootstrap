@@ -1,9 +1,8 @@
 # Delegation and escalation
 
-Ticket execution: the board's `Model` + `Model Effort` fields win. Read them
-first (GraphQL `fieldValueByName(name:"Model")` on the issue's project item)
-and run the implementation as a subagent with that model. Everything below
-governs work without a ticket field.
+Ticket execution: the board's `Model` + `Model Effort` fields win; read them
+from the issue's project item and run the implementation as a subagent with
+that model. Everything below governs work without a ticket field.
 
 ## Delegation posture
 

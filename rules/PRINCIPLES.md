@@ -65,4 +65,5 @@ anything explicitly requested.
 
 When a request matches an installed skill, invoke it (CLAUDE.md routing table;
 full catalog docs/ai/SKILLS.md). Don't re-implement what a skill already does.
-Done twice by hand means the third time is a command: skillify it.
+Done twice by hand means the third time is a command: codify it as a script or
+skill (/skillify automates this for scrape flows; write others by hand).

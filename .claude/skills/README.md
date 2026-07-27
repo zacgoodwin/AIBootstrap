@@ -2,7 +2,9 @@
 
 Project-specific skills live here and are auto-discovered by Claude Code.
 
-- `/skillify` output lands here: repeated manual flows codified as skills.
+- `/skillify` output lands here: successful /scrape flows codified as
+  browser-skills (scrape flows only). Other repeated flows become scripts in
+  tools/ or hand-written skills here.
 - Dependency-delivered skills (packages that ship their own SKILL.md) may land
   here or in `.agents/skills/` (gitignored when generated).
 - Skill PACKS (gstack, zstack) are host-installed via `bootstrap.ps1` /

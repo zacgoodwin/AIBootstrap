@@ -8,7 +8,7 @@ action. A metric without a decision attached is decoration.
 
 | Metric | Source | Threshold | Action on breach |
 |---|---|---|---|
-| Gate pass rate on main | pre-commit + CI history | 100% | fix before any new work |
+| Gate pass rate on main | CI history | 100% | fix before any new work |
 | Eval scores | eval suite runs | per-suite threshold | ship blocked |
 | Estimate vs Actual (board) | /z-status cost totals | Actual <= 1.5x Estimate | re-estimate model routing |
 | Post-deploy canary | /canary reports | green | rollback per launch checklist |

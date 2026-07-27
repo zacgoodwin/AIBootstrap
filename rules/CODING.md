@@ -4,17 +4,10 @@
 
 Build everything as independent services / self-contained directories, so any
 single piece can be worked on by a separate agent session without stepping on
-another session's work.
+another session's work. The service contract (layout, boundaries, independent
+suites and deploys, cross-service changes) lives in services/README.md; it
+owns those rules and they are not restated here.
 
-- One concern, one directory: `services/<name>/` owns its code, tests, evals,
-  README, and config. See services/README.md for the contract.
-- Contracts at the boundary: typed interfaces defined in `contracts/` or
-  `schemas/` that both sides import. Never reach into another service's
-  internals.
-- Independent test + eval suites and independent deploy per service.
-- Root holds only glue: orchestration scripts, shared config, contracts, docs.
-- Cross-service change = contract change: bump the schema version, update both
-  sides, call it out explicitly.
 - Fan out when it pays: parallel agents in worktrees for genuinely independent
   units; serial when small, cheap, or tightly coupled.
 - A service MAY ship `services/<name>/CLAUDE.md` holding ONLY its local

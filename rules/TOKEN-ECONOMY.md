@@ -28,9 +28,6 @@ exceeds 80 lines (the gate enforces it); any addition evicts something.
   cavecrew agents return compressed results.
 - Bounded outputs: briefs and prompts state the return shape and cap ("5
   bullets max", "table only"). Output tokens cost multiples of input.
-- Compact serialization for row-heavy data between agents/stages: schema line
-  once + value rows, never repeated JSON keys per row (30-60% on tabular
-  payloads).
 
 ## Memory maintenance
 

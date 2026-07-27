@@ -14,10 +14,11 @@ services/<name>/
 ├── CLAUDE.md      # optional: local commands/rules only; details live in README
 ├── src/
 ├── config.*       # this service's config only
-├── test/          # gate tests: deterministic, <2s, run on every commit
+├── test/          # gate tests: deterministic, <2s (CI + pre-commit once wired)
 └── evals/         # paid evals, only if the service has latent behavior
 ```
 
 A change in one service must not require running another service's suite to
 validate. Cross-service change = contract change: bump the schema version,
-update both sides, call it out explicitly (rules/CODING.md).
+update both sides, call it out explicitly. This file owns the service
+contract; rules/CODING.md points here.

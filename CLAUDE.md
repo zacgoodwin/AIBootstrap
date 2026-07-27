@@ -12,12 +12,12 @@ exact versions (e.g. "Next.js 15 App Router", not "Next.js").
 
 ## Map
 
-services/ code · contracts/ boundaries · architecture/ maps · tools/ scripts
+services/ code · architecture/ maps · tools/ scripts
 rules/ behavior · docs/ strategy+user-guide+ai · .claude/ agents+skills+hooks
 
 ## Commands
 
-- Gate tests (free, deterministic, <2s, pre-commit): `TODO(bootstrap)`
+- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `TODO(bootstrap)`
 - Evals (paid, periodic, before ship + nightly): `TODO(bootstrap)`
 
 ## Non-negotiables

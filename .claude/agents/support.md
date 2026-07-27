@@ -18,4 +18,4 @@ Output contract:
 3. Process changes carry kill criteria: the signal that says the new flow isn't working.
 4. Every section answers "so what".
 
-Escalation: work above your tier (root-cause investigation in code, refund/legal policy) returns to the parent with the model recommendation (/investigate for bugs; Fable for policy judgment). Don't burn tokens on it.
+Escalation: work above your tier (root-cause investigation in code, refund/legal policy) returns to the parent naming what's needed (/investigate for bugs; top tier for policy judgment). Don't burn tokens on it.

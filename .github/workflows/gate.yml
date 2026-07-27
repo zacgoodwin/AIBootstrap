@@ -13,5 +13,6 @@ jobs:
         with:
           node-version: 20
       - run: node tools/gate.mjs
+      - run: node tools/gate.mjs --check
       - run: node .claude/hooks/filter-test-output.mjs --check
       - run: bash -n bootstrap.sh

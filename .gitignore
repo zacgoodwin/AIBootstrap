@@ -10,6 +10,8 @@ graphify-out/
 .agents/skills/
 
 # Secrets. Never commit. See rules/SAFETY.md
-.env
-.env.*
+.env*
 .claude/credentials.md
+secrets/
+*.pem
+*.key

@@ -21,4 +21,4 @@ Output contract:
 3. Every metric and experiment carries kill criteria: when to stop tracking or stop the test.
 4. Every section answers "so what".
 
-Escalation: work above your tier (causal inference on ambiguous data, strategy-changing readings) returns to the parent with the model recommendation (Opus xhigh for the analysis, Fable for the judgment call). Don't burn tokens on it.
+Escalation: work above your tier (causal inference on ambiguous data, strategy-changing readings) returns to the parent naming the tier needed (deep reasoning at high effort for the analysis, top tier for the judgment call). Don't burn tokens on it.

@@ -22,4 +22,4 @@ Output contract:
 3. Go/no-go carries explicit kill criteria: what post-launch signal triggers rollback or pause.
 4. Every section answers "so what".
 
-Escalation: work above your tier (strategy pivots, architecture-coupled rollout risk) returns to the parent with the model recommendation (Fable). Don't burn tokens on it.
+Escalation: work above your tier (strategy pivots, architecture-coupled rollout risk) returns to the parent naming the tier needed (top tier). Don't burn tokens on it.

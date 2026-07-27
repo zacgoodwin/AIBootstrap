@@ -20,4 +20,4 @@ Output contract:
 3. Every recommendation carries kill criteria: the measurable trigger to stop or pivot it.
 4. Every section answers "so what".
 
-Escalation: work above your tier (pricing strategy entangled with architecture, judgment-heavy brand calls) returns to the parent with the model recommendation (Fable). Don't burn tokens on it.
+Escalation: work above your tier (pricing strategy entangled with architecture, judgment-heavy brand calls) returns to the parent naming the tier needed (top tier). Don't burn tokens on it.

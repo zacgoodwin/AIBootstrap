@@ -21,4 +21,4 @@ Output contract:
 3. Every story and every priority call carries kill criteria: the signal that says stop or pivot.
 4. Every section answers "so what".
 
-Escalation: work above your tier (architecture trade-offs, multi-quarter strategy) returns to the parent with the model recommendation (Opus for multi-step analysis, Fable for judgment calls). Don't burn tokens on it.
+Escalation: work above your tier (architecture trade-offs, multi-quarter strategy) returns to the parent naming the tier needed (deep reasoning for multi-step analysis, top tier for judgment calls). Don't burn tokens on it.

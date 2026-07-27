@@ -18,11 +18,13 @@ makes that failure path unreachable.
 
 | Lane | Cost | When | Rules |
 |---|---|---|---|
-| Gate tests | free, deterministic, <2s | every commit (pre-commit hook) | never flaky, always green on main |
+| Gate tests | free, deterministic, <2s | CI on every push/PR; every commit once bootstrap wires the pre-commit hook | never flaky, always green on main |
 | Periodic evals | paid (LLM calls) | before ship + nightly | may be non-deterministic, must have a pass threshold |
 
 Gate command and eval command live in CLAUDE.md `## Commands`. Each service
 carries its own suites (services/README.md).
 
 Non-trivial logic leaves ONE runnable check behind (an assert-based self-check
-or one small test file); trivial one-liners need no test.
+or one small test file); trivial one-liners need no test. The one-check rule
+is the floor under the feature-suite rule above, not a replacement for it: a
+feature ships its suite, and every non-trivial helper keeps at least its check.

@@ -18,8 +18,8 @@ GitHub-board dev loop and token-efficient defaults.
 
 ## What's inside
 
-- **CLAUDE.md** — always-loaded brain, kept under 80 lines; routes to
-  everything else on demand.
+- **CLAUDE.md** — always-loaded brain, capped at 80 lines (gate-enforced);
+  routes to everything else on demand.
 - **rules/** — principles, coding, testing, workflow, delegation, autonomy,
   safety, voice, token economy.
 - **.claude/agents/** — marketing, launch, product, sales, support, data
