@@ -16,3 +16,4 @@ jobs:
       - run: node tools/gate.mjs --check
       - run: node .claude/hooks/filter-test-output.mjs --check
       - run: bash -n bootstrap.sh
+      - run: pwsh -NoProfile -Command '$e = $null; [void][System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD "bootstrap.ps1"), [ref]$null, [ref]$e); if ($e) { $e; exit 1 }'

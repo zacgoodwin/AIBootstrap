@@ -23,23 +23,38 @@ check_binary "node >= 20" node "https://nodejs.org" && {
 check_binary "claude CLI" claude "https://code.claude.com/docs/en/setup" || true
 
 if [ "$has_gh" = 1 ]; then
-  if gh auth status >/dev/null 2>&1; then results+=("OK       gh auth")
-  else results+=("MISSING  gh auth -> run: gh auth login"); missing=$((missing + 1)); fi
+  if gh auth status >/dev/null 2>&1; then
+    results+=("OK       gh auth")
+    # Boards need the full 'project' scope. Scopes print quoted, so a literal
+    # 'project' match cannot false-positive on 'read:project'.
+    if gh auth status 2>&1 | grep -qF "'project'"; then
+      results+=("OK       gh project scope")
+    else
+      results+=("MISSING  gh project scope -> run: gh auth refresh -s project")
+      missing=$((missing + 1))
+    fi
+  else
+    results+=("MISSING  gh auth -> run: gh auth login"); missing=$((missing + 1))
+  fi
 fi
 
 install_pack() { # name url
   dest="$HOME/.claude/skills/$1"
-  if [ -d "$dest" ]; then
-    results+=("OK       $1 (already at $dest)")
-  elif [ "$has_git" = 1 ]; then
-    if git clone "$2" "$dest" >/dev/null 2>&1; then
-      (cd "$dest" && ./setup >/dev/null 2>&1) || true
-      results+=("OK       $1 (installed)")
-    else
-      results+=("MISSING  $1 -> clone failed: $2"); missing=$((missing + 1))
+  if [ ! -d "$dest" ]; then
+    if [ "$has_git" != 1 ]; then
+      results+=("SKIPPED  $1 (git missing)"); missing=$((missing + 1)); return
     fi
+    if ! git clone "$2" "$dest" >/dev/null 2>&1; then
+      results+=("MISSING  $1 -> clone failed: $2"); missing=$((missing + 1)); return
+    fi
+  fi
+  # Run the pack's own idempotent setup every time: heals a clone whose setup
+  # failed on a previous run instead of reporting a half-install as OK.
+  if (cd "$dest" && ./setup >/dev/null 2>&1); then
+    results+=("OK       $1 (ready at $dest)")
   else
-    results+=("SKIPPED  $1 (git missing)"); missing=$((missing + 1))
+    results+=("FAILED   $1 setup -> run manually: cd $dest && ./setup")
+    missing=$((missing + 1))
   fi
 }
 

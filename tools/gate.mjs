@@ -5,6 +5,7 @@
 // (2) every knowledge file is routed in docs/ai/INDEX.md;
 // (3) TICKET-TEMPLATE.md carries the zstack-required headings at exact levels.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -14,6 +15,19 @@ export function countContentLines(text) {
   const lines = text.split(/\r?\n/);
   if (lines.at(-1) === "") lines.pop();
   return lines.length;
+}
+
+// Is .claude/credentials.md actually ignored? Ask git itself (catches spelling
+// variants and later negation lines a literal string check misses); fall back
+// to the literal .gitignore line only when git isn't available (ZIP download).
+export function credentialsGitignored(runGitCheckIgnore, gitignoreLines) {
+  try {
+    runGitCheckIgnore();
+    return true;
+  } catch (e) {
+    if (e && e.status === 1) return false; // git ran and says: not ignored
+    return gitignoreLines.includes(".claude/credentials.md");
+  }
 }
 
 // Headings outside fenced blocks, as [lowercased title, level] pairs
@@ -43,6 +57,13 @@ if (process.argv[2] === "--check") {
     "fence skipping + whitespace normalization"
   );
   assert.deepEqual(parseHeadings(["~~~", "## Hidden", "~~~", "# Top"]), [["top", 1]]);
+  const gitSaysIgnored = () => {};
+  const gitSaysNotIgnored = () => { const e = new Error("not ignored"); e.status = 1; throw e; };
+  const gitMissing = () => { throw new Error("ENOENT"); };
+  assert.ok(credentialsGitignored(gitSaysIgnored, []), "git yes wins over empty gitignore");
+  assert.ok(!credentialsGitignored(gitSaysNotIgnored, [".claude/credentials.md"]), "git no wins over literal line");
+  assert.ok(credentialsGitignored(gitMissing, [".claude/credentials.md"]), "no git: literal fallback hit");
+  assert.ok(!credentialsGitignored(gitMissing, []), "no git: literal fallback miss");
   console.log("gate: self-check OK");
   process.exit(0);
 }
@@ -86,8 +107,12 @@ for (const [title, level] of REQUIRED)
 // 4. Credentials file must stay gitignored (rules/SAFETY.md; the file holds
 // test-account passwords Claude reads but git must never see).
 const gitignore = readFileSync(join(root, ".gitignore"), "utf8").split(/\r?\n/).map((l) => l.trim());
-if (!gitignore.includes(".claude/credentials.md"))
-  fails.push(".gitignore missing the '.claude/credentials.md' line");
+const credsIgnored = credentialsGitignored(
+  () => execSync("git check-ignore -q .claude/credentials.md", { cwd: root, stdio: "ignore" }),
+  gitignore
+);
+if (!credsIgnored)
+  fails.push(".claude/credentials.md is not gitignored (git check-ignore says no)");
 
 if (fails.length) {
   console.error("GATE RED:");

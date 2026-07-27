@@ -31,10 +31,22 @@
     ],
     "ask": [
       "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(sudo rm:*)",
       "Bash(git reset --hard:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
-      "PowerShell(Remove-Item -Recurse:*)"
+      "Bash(git push origin --force:*)",
+      "Bash(git push origin -f:*)",
+      "Bash(git clean:*)",
+      "PowerShell(Remove-Item -Recurse:*)",
+      "PowerShell(Remove-Item -Force:*)",
+      "PowerShell(git reset --hard:*)",
+      "PowerShell(git push --force:*)",
+      "PowerShell(git push -f:*)",
+      "PowerShell(git push origin --force:*)",
+      "PowerShell(git push origin -f:*)",
+      "PowerShell(git clean:*)"
     ],
     "deny": [
       "Read(./.env)",

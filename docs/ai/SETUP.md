@@ -4,7 +4,8 @@ Once per machine. After this, every repo born from the template just works.
 
 ## Prerequisites
 
-git, GitHub CLI (`gh`, authenticated with `project` scope for boards),
+git (on Windows: Git for Windows, whose Git Bash runs the pack setups),
+GitHub CLI (`gh`, authenticated with `project` scope for boards),
 Node 20+, Claude Code CLI.
 
 ## Run the bootstrap script
@@ -21,7 +22,9 @@ macOS / Linux:
 bash bootstrap.sh
 ```
 
-The script verifies prerequisites and installs the two skill packs if absent:
+The script verifies prerequisites (including the gh `project` scope) and
+installs or repairs the two skill packs, cloning if absent and re-running
+each pack's own idempotent setup:
 
 - **gstack** (github.com/garrytan/gstack) — plan, review, QA, ship, deploy skills
 - **zstack** (github.com/zacgoodwin/zstack) — GitHub-board dev loop (z-setup, z-plan, z-loop)
