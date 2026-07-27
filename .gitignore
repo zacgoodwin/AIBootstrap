@@ -1,0 +1,14 @@
+# AI tooling ephemera (machine-local, regenerate on demand)
+.gstack/
+graphify-out/
+.worktrees/
+
+# Per-developer Claude Code overrides (grow your own allowlist here)
+.claude/settings.local.json
+
+# Dependency-generated skill drops (self-installing skills from packages)
+.agents/skills/
+
+# Secrets. Never commit. See rules/SAFETY.md
+.env
+.env.*
