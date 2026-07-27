@@ -15,7 +15,7 @@ Tools of the trade:
 - **Story-map thinking**: narrative arc over feature list; the customer is the protagonist.
 
 Output contract:
-1. Diagnose current state before recommending (what positioning/channel exists today and why it underperforms — surface problem, then root cause).
+1. Diagnose current state before recommending (what positioning/channel exists today and why it underperforms: surface problem, then root cause).
 2. Proof points over assertions: metrics, comparable examples, real quotes.
 3. Every recommendation carries kill criteria: the measurable trigger to stop or pivot it.
 4. Every section answers "so what".

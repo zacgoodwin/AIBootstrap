@@ -5,24 +5,12 @@ the contract, the relevant files, concrete examples; leave the noise out. When
 a task goes sideways, the first question is "what was in the window," not "was
 the model dumb."
 
-## Session hygiene
-
-- `/clear` between unrelated tasks (`/rename` first so `/resume` can find it).
-  Stale context taxes every subsequent message.
-- `/context` and `/usage` to audit what's eating space; statusline can show
-  context usage continuously.
-- Match `/effort` to the task; thinking tokens are output tokens.
-- Plan mode before complex work; course-correct early; give verification
-  targets in prompts.
-- Specific prompts over vague: "add validation to auth.ts:login", not
-  "improve the codebase".
-
 ## Cache stability
 
 Always-loaded files (CLAUDE.md, .claude/settings.json) stay stable: every edit
 busts the prompt-cache prefix for all later calls. Volatile state (status,
-active work, running notes) lives in on-demand files only. CLAUDE.md stays
-under 80 lines; any addition evicts something.
+active work, running notes) lives in on-demand files only. CLAUDE.md never
+exceeds 80 lines (the gate enforces it); any addition evicts something.
 
 ## Tools and retrieval
 
@@ -47,4 +35,4 @@ under 80 lines; any addition evicts something.
 ## Memory maintenance
 
 - caveman-compress memory files (CLAUDE.md excluded) when they grow.
-- /context-save before breaks; /recap on return.
+- /context-save before breaks; /context-restore to resume.

@@ -33,7 +33,8 @@
       "Bash(rm -rf:*)",
       "Bash(git reset --hard:*)",
       "Bash(git push --force:*)",
-      "Bash(git push -f:*)"
+      "Bash(git push -f:*)",
+      "PowerShell(Remove-Item -Recurse:*)"
     ],
     "deny": [
       "Read(./.env)",

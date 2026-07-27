@@ -62,16 +62,14 @@ Full knowledge index: docs/ai/INDEX.md. Load the file when the situation matches
 ## Estimation
 
 TODO(bootstrap): per-ticket Model + Model Effort defaults for this project.
-Until then use rules/DELEGATION.md table: Haiku bulk mechanical, Sonnet scoped
-research, Opus multi-step reasoning (xhigh), Fable judgment (medium; xhigh only
-for the hardest calls).
-
-# Compact instructions
-
-When compacting, preserve test output, code changes, and any open
-TODO(bootstrap) markers.
+Until then, the rules/DELEGATION.md table governs.
 
 ## Landmines
 
 Cross-cutting gotchas only, one line each. A mistake that belongs to a rules/
 domain goes in that file instead. None yet.
+
+# Compact instructions
+
+When compacting, preserve test output, code changes, and any open
+TODO(bootstrap) markers.

@@ -57,7 +57,7 @@ Then:
 
 Ask whether this project has a UI yet. If yes, offer /design-consultation and
 write the outcome into DESIGN.md. If no, replace DESIGN.md's TODO with
-"Deferred — no UI yet (revisit at first UI ticket)."
+"Deferred: no UI yet (revisit at first UI ticket)."
 
 ## Step 5 — Board
 

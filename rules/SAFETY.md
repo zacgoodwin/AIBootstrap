@@ -6,6 +6,7 @@ Top of the precedence order. These override everything else.
   `.gitignore` before any commit.
 - Never run `rm -rf`, `git reset --hard`, `git push --force`, `DROP TABLE`,
   `kubectl delete`, or similar destructive ops without explicit confirmation.
+  Exception: scratch/temp paths this session created.
 - Never skip pre-commit hooks with `--no-verify`. If a hook fails, fix the
   underlying issue.
 - Never commit binaries, compiled outputs, or model weights. Use Git LFS or

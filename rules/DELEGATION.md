@@ -13,9 +13,9 @@ context for judgment.
 | Model | Best for | Delegates? | Default effort |
 |---|---|---|---|
 | Haiku | bulk mechanical | never | medium |
-| Sonnet | scoped research | when it helps or saves significant tokens | medium |
+| Sonnet | scoped research | when it helps or saves material tokens | medium |
 | Opus | multi-step reasoning | on clear benefit | xhigh |
-| Fable | judgment, taste, long tasks, comprehensive planning | by default | medium (xhigh only for the hardest calls) |
+| Fable | judgment, taste, long tasks, deep planning | by default | medium (xhigh only for the hardest calls) |
 
 Brief every child: the context, the why, what done looks like, and a bounded
 return format (output tokens are the priciest; cap them in the brief). It

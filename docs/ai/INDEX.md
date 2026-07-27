@@ -5,8 +5,7 @@ tools/gate.mjs fails if a knowledge file exists that isn't listed here.
 
 ## Always loaded
 
-- CLAUDE.md — identity, stack, commands, routing, estimation. Keep <=80 lines.
-- AGENTS.md — pointer for non-Claude agents.
+- CLAUDE.md — identity, stack, commands, routing, estimation. 80 lines maximum (gate-enforced).
 
 ## Rules (read when the situation matches)
 
@@ -22,6 +21,7 @@ tools/gate.mjs fails if a knowledge file exists that isn't listed here.
 
 ## Project knowledge
 
+- AGENTS.md (root) — pointer for non-Claude tools (never auto-loaded).
 - DESIGN.md (root) — design system. Read before any visual decision.
 - docs/STRATEGY.md — vision, users, beachhead, 90-day outcomes, kill criteria. Read before strategy or prioritization calls.
 - architecture/ — one map per subsystem, file:line citations. Read for codebase questions (after /graphify).

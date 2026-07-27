@@ -56,7 +56,7 @@ is the full menu.
 
 - /context-save, /context-restore — save/resume working context
 - /learn — project learnings (export to docs/ai/LEARNINGS.md)
-- /skillify — codify a repeated flow into a permanent skill
+- /skillify — codify the most recent successful /scrape flow into a browser-skill (scrape flows only)
 - /retro — weekly engineering retrospective
 - /browse, /scrape — headless browser for QA and data pulls
 - /freeze, /unfreeze, /guard, /careful — edit-scope and safety guards

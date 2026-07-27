@@ -54,7 +54,9 @@ Lazy means efficient, not careless. Stop at the first rung that holds:
 
 Understand the problem and trace the real flow first, then climb. Bug fix =
 root cause in the shared function, not a per-caller patch. Mark deliberate
-corner-cuts with a `ponytail:` comment naming the ceiling and upgrade path.
+corner-cuts with a `ponytail:` comment naming the ceiling; if the upgrade
+should ever happen, it also gets a Backlog ticket (rules/WORKFLOW.md). The
+comment marks the spot, the ticket owns the work.
 Never lazy about: understanding the problem, input validation at trust
 boundaries, error handling that prevents data loss, security, accessibility,
 anything explicitly requested.

@@ -43,9 +43,6 @@ offer the first-session interview (docs/ai/BOOTSTRAP.md).
 ## Optional tuning
 
 - Statusline: show context usage continuously (see /statusline).
-- `CLAUDE_CODE_SUBAGENT_MODEL=haiku` routes exploration subagents to Haiku.
-  Off by default here: it conflicts with board Model-field routing once
-  /z-loop is running.
 
 ## Troubleshooting
 
