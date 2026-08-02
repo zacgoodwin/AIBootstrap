@@ -3,7 +3,9 @@
 //      node tools/gate.mjs --check (self-check of this script's own logic)
 // Checks: (1) CLAUDE.md stays under the always-loaded line cap;
 // (2) every knowledge file is routed in docs/ai/INDEX.md;
-// (3) TICKET-TEMPLATE.md carries the zstack-required headings at exact levels.
+// (3) TICKET-TEMPLATE.md carries the zstack-required headings at exact levels;
+// (4) .claude/credentials.md stays gitignored;
+// (5) every agent loads and every agent + project skill is in the catalog.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
@@ -45,6 +47,27 @@ export function parseHeadings(lines) {
   return headings;
 }
 
+// Claude Code loads a .claude/agents/*.md file only when its YAML block has
+// name + description; without them the file is inert and nothing says so.
+// Returns null for "would not load".
+export function parseAgentFrontmatter(text) {
+  const m = text.replace(/^\uFEFF/, "").match(/^---\r?\n([\s\S]*?)\r?\n---(\r?\n|$)/);
+  if (!m) return null;
+  const field = (k) => (m[1].match(new RegExp(`^${k}:[ \\t]*(.+)$`, "m")) || ["", ""])[1].trim();
+  const name = field("name");
+  return name && field("description") ? { name, description: field("description") } : null;
+}
+
+// Catalog entries are bullets ("- skeptic — ..."), so match the name at the
+// start of a list item: a bare substring test passes on prose like "the data
+// lead" and would call an uncataloged agent covered. The trailing lookahead
+// rejects [\w-] rather than using \b, which a hyphen satisfies -- otherwise
+// "- engineer-reviewer" would count as an entry for a missing "engineer".
+export function catalogListsEntry(catalog, name) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`^[-*]\\s+\`?${escaped}\`?(?![\\w-])`, "m").test(catalog);
+}
+
 // Self-check (tools/README.md contract): node tools/gate.mjs --check
 if (process.argv[2] === "--check") {
   const { strict: assert } = await import("node:assert");
@@ -64,6 +87,18 @@ if (process.argv[2] === "--check") {
   assert.ok(!credentialsGitignored(gitSaysNotIgnored, [".claude/credentials.md"]), "git no wins over literal line");
   assert.ok(credentialsGitignored(gitMissing, [".claude/credentials.md"]), "no git: literal fallback hit");
   assert.ok(!credentialsGitignored(gitMissing, []), "no git: literal fallback miss");
+  assert.equal(parseAgentFrontmatter("---\nname: skeptic\ndescription: d\n---\nbody").name, "skeptic");
+  assert.equal(parseAgentFrontmatter("---\r\nname: s\r\ndescription: d\r\n---\r\n").name, "s", "CRLF");
+  assert.equal(parseAgentFrontmatter("﻿---\nname: s\ndescription: d\n---\n").name, "s", "BOM");
+  assert.equal(parseAgentFrontmatter("# Skeptic Sub-Agent\n\nChallenge.\n"), null, "heading-only file is inert");
+  assert.equal(parseAgentFrontmatter("---\nname: s\n---\n"), null, "description required");
+  assert.equal(parseAgentFrontmatter("---\ndescription: d\n---\n"), null, "name required");
+  assert.equal(parseAgentFrontmatter("intro\n---\nname: s\ndescription: d\n---\n"), null, "must open the file");
+  assert.ok(catalogListsEntry("- data — metric design\n", "data"));
+  assert.ok(catalogListsEntry("* `skeptic` — devil's advocate\n", "skeptic"), "backticked bullet");
+  assert.ok(catalogListsEntry("- graphify\n", "graphify"), "bullet with no hook");
+  assert.ok(!catalogListsEntry("You are the data lead; data matters.\n", "data"), "prose is not an entry");
+  assert.ok(!catalogListsEntry("- engineer-reviewer — feasibility\n", "engineer"), "prefix is not an entry");
   console.log("gate: self-check OK");
   process.exit(0);
 }
@@ -114,9 +149,47 @@ const credsIgnored = credentialsGitignored(
 if (!credsIgnored)
   fails.push(".claude/credentials.md is not gitignored (git check-ignore says no)");
 
+// 5. Agents and project skills: loadable, and findable in the catalog
+// CLAUDE.md routes through (docs/ai/SKILLS.md). An agent with no frontmatter
+// fails silently -- Claude Code just never offers it -- and an uncataloged
+// skill is invisible to the routing table, so both are gate failures.
+const catalogPath = join(root, "docs/ai/SKILLS.md");
+const catalog = existsSync(catalogPath) ? readFileSync(catalogPath, "utf8") : "";
+let agentCount = 0;
+let skillCount = 0;
+const agentsDir = join(root, ".claude/agents");
+if (existsSync(agentsDir))
+  for (const f of readdirSync(agentsDir)) {
+    if (!f.endsWith(".md") || f === "README.md") continue;
+    agentCount++;
+    const expected = f.slice(0, -3);
+    const fm = parseAgentFrontmatter(readFileSync(join(agentsDir, f), "utf8"));
+    if (!fm) {
+      fails.push(`.claude/agents/${f}: no name+description frontmatter; Claude Code will not load it`);
+      continue;
+    }
+    if (fm.name !== expected)
+      fails.push(`.claude/agents/${f}: declares name "${fm.name}"; must equal the filename (dispatch is by name)`);
+    if (!catalogListsEntry(catalog, expected))
+      fails.push(`docs/ai/SKILLS.md has no catalog entry for agent ${expected}`);
+  }
+const skillsDir = join(root, ".claude/skills");
+if (existsSync(skillsDir))
+  for (const e of readdirSync(skillsDir, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    skillCount++;
+    if (!existsSync(join(skillsDir, e.name, "SKILL.md")))
+      fails.push(`.claude/skills/${e.name}/: no SKILL.md; the skill will not load`);
+    if (!catalogListsEntry(catalog, e.name))
+      fails.push(`docs/ai/SKILLS.md has no catalog entry for skill ${e.name}`);
+  }
+
 if (fails.length) {
   console.error("GATE RED:");
   for (const f of fails) console.error(" - " + f);
   process.exit(1);
 }
-console.log(`gate: OK (CLAUDE.md ${claudeLines}/${CAP} lines, ${knowledge.length} knowledge files indexed, ticket headings valid)`);
+console.log(
+  `gate: OK (CLAUDE.md ${claudeLines}/${CAP} lines, ${knowledge.length} knowledge files indexed, ` +
+    `ticket headings valid, ${agentCount} agents + ${skillCount} skills cataloged)`
+);
