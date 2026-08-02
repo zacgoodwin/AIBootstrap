@@ -1,33 +1,17 @@
 {
-  "extraKnownMarketplaces": {
-    "ponytail": { "source": { "source": "github", "repo": "DietrichGebert/ponytail" } },
-    "caveman": { "source": { "source": "github", "repo": "JuliusBrussee/caveman" } },
-    "context-optimizer": { "source": { "source": "github", "repo": "egorfedorov/claude-context-optimizer" } }
-  },
-  "enabledPlugins": {
-    "ponytail@ponytail": true,
-    "caveman@caveman": true,
-    "claude-context-optimizer@context-optimizer": true
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/filter-test-output.mjs\""
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(git status:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
       "Bash(ls:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
     ],
     "ask": [
       "Bash(rm -rf:*)",
@@ -47,13 +31,45 @@
       "PowerShell(git push origin --force:*)",
       "PowerShell(git push origin -f:*)",
       "PowerShell(git clean:*)"
-    ],
-    "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)",
-      "Read(./secrets/**)",
-      "Read(**/*.pem)",
-      "Read(**/*.key)"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/filter-test-output.mjs\""
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true,
+    "caveman@caveman": true,
+    "claude-context-optimizer@context-optimizer": true,
+    "context-engineering@context-engineering-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "context-optimizer": {
+      "source": {
+        "source": "github",
+        "repo": "egorfedorov/claude-context-optimizer"
+      }
+    }
   }
 }
