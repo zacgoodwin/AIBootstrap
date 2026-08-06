@@ -29,6 +29,10 @@ GitHub-board dev loop and token-efficient defaults.
 - **architecture/**, **services/**, **tools/**, **docs/** — the layout
   contract; see [docs/ai/INDEX.md](docs/ai/INDEX.md) for the full map.
 - **tools/gate.mjs** — the template's own gate test (`node tools/gate.mjs`).
+- **RTK-ai.app** - minimize input
+- **ponytail** - minimize code
+- **graphify** - minimize searching
+- **z-stack** - loop based development
 
 ## Pulling template improvements later
 
