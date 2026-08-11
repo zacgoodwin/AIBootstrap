@@ -21,6 +21,9 @@ check_binary "node >= 20" node "https://nodejs.org" && {
   [ "$major" -lt 20 ] && results+=("WARN     node is v$major; 20+ recommended")
 }
 check_binary "claude CLI" claude "https://code.claude.com/docs/en/setup" || true
+check_binary "bun" bun "https://bun.sh" && has_bun=1 || has_bun=0
+check_binary "jq" jq "https://jqlang.org/download" || true
+check_binary "stax (st)" st "cargo install stax (needs Rust: https://rustup.rs)" || true
 
 if [ "$has_gh" = 1 ]; then
   if gh auth status >/dev/null 2>&1; then
@@ -38,7 +41,46 @@ if [ "$has_gh" = 1 ]; then
   fi
 fi
 
-install_pack() { # name url
+# gh-stack extension: GitHub native stacked PRs, used by stax submits.
+if [ "$has_gh" = 1 ]; then
+  if gh extension list 2>/dev/null | grep -q gh-stack; then
+    results+=("OK       gh-stack extension")
+  elif gh extension install github/gh-stack >/dev/null 2>&1; then
+    results+=("OK       gh-stack extension (installed)")
+  else
+    results+=("MISSING  gh-stack extension -> run: gh extension install github/gh-stack")
+    missing=$((missing + 1))
+  fi
+fi
+
+# roborev: background AI review of every commit. Official installer is
+# pipe-to-shell from roborev.io; inspect/pin the script if that exposure
+# matters on this host.
+if ! command -v roborev >/dev/null 2>&1; then
+  curl -fsSL https://roborev.io/install.sh | bash >/dev/null 2>&1
+  export PATH="$PATH:$HOME/.roborev/bin"
+fi
+if command -v roborev >/dev/null 2>&1; then
+  results+=("OK       roborev")
+  # --git-path resolves through linked worktrees, same as check-pipeline.sh.
+  hook="$(git rev-parse --git-path hooks)/post-commit"
+  if [ -f "$hook" ] && grep -q roborev "$hook"; then
+    results+=("OK       roborev hook")
+  elif roborev init >/dev/null 2>&1 && grep -q roborev "$hook" 2>/dev/null; then
+    results+=("OK       roborev hook (installed)")
+  else
+    results+=("MISSING  roborev hook -> run: roborev init"); missing=$((missing + 1))
+  fi
+  if [ ! -f .roborev.toml ]; then
+    printf 'agent = "claude-code"\nreview_model = "haiku"\n' > .roborev.toml
+    results+=("OK       .roborev.toml (created)")
+  fi
+else
+  results+=("MISSING  roborev -> curl -fsSL https://roborev.io/install.sh | bash")
+  missing=$((missing + 1))
+fi
+
+install_pack() { # name url setup_kind(bash|bun)
   dest="$HOME/.claude/skills/$1"
   if [ ! -d "$dest" ]; then
     if [ "$has_git" != 1 ]; then
@@ -50,15 +92,24 @@ install_pack() { # name url
   fi
   # Run the pack's own idempotent setup every time: heals a clone whose setup
   # failed on a previous run instead of reporting a half-install as OK.
-  if (cd "$dest" && ./setup >/dev/null 2>&1); then
+  if [ "${3:-bash}" = bun ]; then
+    if [ "$has_bun" != 1 ]; then
+      results+=("MISSING  $1 setup needs bun (https://bun.sh)"); missing=$((missing + 1)); return
+    fi
+    setup_cmd="bun install"
+  else
+    setup_cmd="./setup"
+  fi
+  if (cd "$dest" && $setup_cmd >/dev/null 2>&1); then
     results+=("OK       $1 (ready at $dest)")
   else
-    results+=("FAILED   $1 setup -> run manually: cd $dest && ./setup")
+    results+=("FAILED   $1 setup -> run manually: cd $dest && $setup_cmd")
     missing=$((missing + 1))
   fi
 }
 
-install_pack gstack https://github.com/garrytan/gstack.git
+install_pack gstack https://github.com/garrytan/gstack.git bash
+install_pack z-adversarial-review https://github.com/zacgoodwin/z-adversarial-review.git bun
 
 results+=("OK       plugins (ponytail, caveman, context-optimizer) install automatically when you trust this repo in Claude Code")
 

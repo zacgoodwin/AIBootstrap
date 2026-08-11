@@ -18,6 +18,36 @@ the Context section ("Deferred from <ticket/PR> on <date>").
 
 UX-changing tickets update docs/user-guide/ pages in the same PR.
 
+## Shipping
+
+Branch work rides the stax + roborev + adversarial-review pipeline. Review is
+the bottleneck, not code generation — so review happens at three layers:
+
+1. **Branch:** `st create <name>` (stacked on trunk). Parallel agent work uses
+   worktree lanes: `st wt c <name>` or `st lane <name> --agent claude`
+   (`--no-tmux` on Windows).
+2. **Iterate:** small incremental commits. The roborev post-commit hook
+   reviews each one in the background (haiku, config in `.roborev.toml`).
+   Check verdicts with `roborev show HEAD` / `roborev tui`; fix findings as
+   they land, or run `roborev refine` to loop fix + re-review until clean.
+3. **Ship:** `/stack-ship` — gates on roborev (branch-level re-review, no
+   failing verdicts among completed reviews), then `st stack submit --squash`
+   pushes ONE clean commit
+   per branch and opens the PR (2+ PR stacks register as GitHub native
+   stacks), then `/z-adversarial-review` runs a blinded reviewer + skeptics
+   on codex/agy/claude against the PR.
+4. **Merge:** after review, `st merge` from the stack, then `st sync` to pull
+   trunk and delete merged branches.
+
+Troubleshooting:
+
+- Daemon down: self-heals — any roborev CLI call (including the one inside
+  `tools/check-pipeline.sh`) auto-starts it. Commits made while it was down
+  are the real gap; `roborev review --branch` (the /stack-ship gate) covers
+  them.
+- Orphaned or stale findings after restacks: `roborev compact`.
+- Stack health: `st doctor` (use `--fix` for gh-stack extension issues).
+
 ## Completion status protocol
 
 End every task with exactly one of:
