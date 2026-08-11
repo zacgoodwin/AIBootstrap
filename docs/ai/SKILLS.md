@@ -1,6 +1,6 @@
 # Skill catalog
 
-Packs (gstack, zstack) are host-installed by bootstrap; plugins install on
+Packs (gstack) are host-installed by bootstrap; plugins install on
 repo trust; project agents and skills live in .claude/. CLAUDE.md `## Routing`
 covers the common paths.
 

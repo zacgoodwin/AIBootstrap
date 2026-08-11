@@ -33,7 +33,6 @@ export function credentialsGitignored(runGitCheckIgnore, gitignoreLines) {
 }
 
 // Headings outside fenced blocks, as [lowercased title, level] pairs
-// (mirrors zstack lib/ticket-schema.ts REQUIRED_SECTIONS parsing).
 export function parseHeadings(lines) {
   let fence = "";
   const headings = [];

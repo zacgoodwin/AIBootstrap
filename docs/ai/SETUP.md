@@ -27,7 +27,6 @@ installs or repairs the two skill packs, cloning if absent and re-running
 each pack's own idempotent setup:
 
 - **gstack** (github.com/garrytan/gstack) — plan, review, QA, ship, deploy skills
-- **zstack** (github.com/zacgoodwin/zstack) — GitHub-board dev loop (z-setup, z-plan, z-loop)
 
 Re-running is safe; everything checks before acting. Exit code 0 = ready.
 
