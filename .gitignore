@@ -15,3 +15,5 @@ graphify-out/
 secrets/
 *.pem
 *.key
+# roborev snapshots
+/.roborev/

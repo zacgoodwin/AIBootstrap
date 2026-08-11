@@ -53,3 +53,5 @@ engineering loop lives in the packs.
 - launch-checklist — launch planning
 - graphify — knowledge-graph queries over the codebase (vendored; see
   .claude/skills/README.md for why)
+- stack-ship — ship a stax branch: roborev gate, squash-submit one clean
+  commit as a PR, blinded adversarial review (rules/WORKFLOW.md Shipping)
