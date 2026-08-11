@@ -52,6 +52,11 @@ Then:
   pre-commit, core.hooksPath — pick what fits, never `--no-verify` culture).
 - Offer the code-intelligence plugin for the chosen language (one
   go-to-definition replaces grep + candidate reads).
+- Promote stack-matched items from the parked library now that the stack is
+  known: run /agent-sort (or follow the promote recipe in the skill-library
+  router skill) to `git mv` matching skills from .claude/skill-library/ and
+  agents from .claude/agent-library/ into the live dirs, then
+  `node tools/catalog-sync.mjs` and a green `node tools/gate.mjs`.
 - Add stack ignores to .gitignore (node_modules/, dist/, __pycache__/, etc.).
 
 ## Step 4 — Design

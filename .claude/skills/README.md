@@ -12,3 +12,9 @@ Project-specific skills live here and are auto-discovered by Claude Code.
 - `graphify/` is vendored deliberately: a standalone skill, no pack or
   installer upstream, so every clone gets knowledge-graph queries day one.
   Its output dir `graphify-out/` is gitignored.
+- Only DAILY surfaces live here (and in `../agents/`); they load every
+  session. Off-stack and situational items are parked in
+  `../skill-library/` and `../agent-library/` — not auto-discovered. The
+  `skill-library` router skill maps triggers to parked items and holds the
+  promote/demote recipe. Sorted by /agent-sort; re-sort when the stack
+  changes.
