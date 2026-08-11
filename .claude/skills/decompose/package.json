@@ -1,0 +1,27 @@
+{
+  "name": "@zcaceres/skill-decompose",
+  "version": "2.0.0",
+  "description": "Break a problem into smaller pieces (subsystems that are easier to think about) and show how they relate. Invoked via /decompose.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "fetch-tools": "echo 'no bundled tools'",
+    "build": "echo 'no build step'",
+    "test": "echo 'no tests'"
+  },
+  "files": [
+    "SKILL.md",
+    "scripts",
+    "references",
+    "assets",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "claude-code",
+    "skill",
+    "slash-command",
+    "thinking",
+    "problem-solving"
+  ]
+}
