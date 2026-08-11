@@ -59,7 +59,6 @@ install_pack() { # name url
 }
 
 install_pack gstack https://github.com/garrytan/gstack.git
-install_pack zstack https://github.com/zacgoodwin/zstack.git
 
 results+=("OK       plugins (ponytail, caveman, context-optimizer) install automatically when you trust this repo in Claude Code")
 

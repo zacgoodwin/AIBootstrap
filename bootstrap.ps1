@@ -58,8 +58,8 @@ if ($hasGh) {
 # Skill packs: clone if absent, then run their own idempotent setup every time,
 # so a clone whose setup failed on a previous run is healed, not reported OK.
 $packs = @(
-    @{ Name = 'gstack'; Url = 'https://github.com/garrytan/gstack.git' },
-    @{ Name = 'zstack'; Url = 'https://github.com/zacgoodwin/zstack.git' }
+    @{ Name = 'gstack'; Url = 'https://github.com/garrytan/gstack.git' }
+    
 )
 foreach ($p in $packs) {
     $dest = Join-Path $HOME ".claude\skills\$($p.Name)"

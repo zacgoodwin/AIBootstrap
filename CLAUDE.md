@@ -30,8 +30,6 @@ rules/ behavior · docs/ strategy+user-guide+ai · .claude/ agents+skills+hooks
 
 | Need | Use |
 |---|---|
-| Spec / plan work | /spec, /autoplan, /z-plan |
-| Build loop | /z-loop |
 | Design decision | Read DESIGN.md first; /design-consultation, /design-review |
 | Strategy question | Read docs/STRATEGY.md; /office-hours, /plan-ceo-review |
 | Eng review | /plan-eng-review, /review |
