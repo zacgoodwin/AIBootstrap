@@ -101,6 +101,7 @@ if (Get-Command roborev -ErrorAction SilentlyContinue) {
 $packs = @(
     @{ Name = 'gstack'; Url = 'https://github.com/garrytan/gstack.git'; Setup = 'bash' }
     @{ Name = 'z-adversarial-review'; Url = 'https://github.com/zacgoodwin/z-adversarial-review.git'; Setup = 'bun' }
+    @{ Name = 'stack-ship'; Url = 'https://github.com/zacgoodwin/stack-ship.git'; Setup = 'bash' }
 )
 foreach ($p in $packs) {
     $dest = Join-Path $HOME ".claude\skills\$($p.Name)"

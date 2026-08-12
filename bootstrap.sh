@@ -110,6 +110,7 @@ install_pack() { # name url setup_kind(bash|bun)
 
 install_pack gstack https://github.com/garrytan/gstack.git bash
 install_pack z-adversarial-review https://github.com/zacgoodwin/z-adversarial-review.git bun
+install_pack stack-ship https://github.com/zacgoodwin/stack-ship.git bash
 
 results+=("OK       plugins (ponytail, caveman, context-optimizer) install automatically when you trust this repo in Claude Code")
 
