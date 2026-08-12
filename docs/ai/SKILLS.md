@@ -54,7 +54,9 @@ engineering loop lives in the packs.
 - graphify — knowledge-graph queries over the codebase (vendored; see
   .claude/skills/README.md for why)
 - stack-ship — ship a stax branch: roborev gate, squash-submit one clean
-  commit as a PR, blinded adversarial review (rules/WORKFLOW.md Shipping)
+  commit as a PR, blinded adversarial review (rules/WORKFLOW.md Shipping).
+  Global pack: github.com/zacgoodwin/stack-ship, installed to
+  ~/.claude/skills/stack-ship/ by bootstrap.sh / bootstrap.ps1
 - skill-library — router into the parked library (.claude/skill-library/,
   .claude/agent-library/): find, use in place, or promote parked items
 

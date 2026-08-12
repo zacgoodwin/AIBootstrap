@@ -5,7 +5,10 @@
 // (2) every knowledge file is routed in docs/ai/INDEX.md;
 // (3) TICKET-TEMPLATE.md carries the zstack-required headings at exact levels;
 // (4) .claude/credentials.md stays gitignored;
-// (5) every agent loads and every agent + project skill is in the catalog.
+// (5) every agent loads and every agent + project skill is in the catalog;
+// (6) every $HOME skill pack tools/check-pipeline.sh requires is installed by
+//     BOTH bootstrap scripts (bash + ps1), so no platform bootstraps green
+//     and then gates red.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
@@ -67,6 +70,27 @@ export function catalogListsEntry(catalog, name) {
   return new RegExp(`^[-*]\\s+\`?${escaped}\`?(?![\\w-])`, "m").test(catalog);
 }
 
+// Packs the pipeline gate requires under $HOME. Parsed from
+// tools/check-pipeline.sh itself so the list can't drift from the gate that
+// enforces it; repo-local .claude/skills checks deliberately don't match.
+// (Failure path seen on PR #8: bootstrap.sh gained the pack, bootstrap.ps1
+// didn't, so a fresh Windows host bootstrapped green then gated red.)
+export function requiredHomePacks(checkPipeline) {
+  return [...checkPipeline.matchAll(/\$HOME\/\.claude\/skills\/([\w-]+)\/SKILL\.md/g)].map((m) => m[1]);
+}
+
+// Line-anchored so a commented-out install line ("# install_pack x ...")
+// cannot satisfy check 6 — same class as the commented-out-pin rule in the
+// .roborev.toml check in tools/check-pipeline.sh.
+export function installsPack(text, script, pack) {
+  const escaped = pack.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re =
+    script === "bootstrap.sh"
+      ? new RegExp(`^install_pack ${escaped} `, "m")
+      : new RegExp(`^\\s*@\\{ Name = '${escaped}';`, "m");
+  return re.test(text);
+}
+
 // Self-check (tools/README.md contract): node tools/gate.mjs --check
 if (process.argv[2] === "--check") {
   const { strict: assert } = await import("node:assert");
@@ -98,6 +122,17 @@ if (process.argv[2] === "--check") {
   assert.ok(catalogListsEntry("- graphify\n", "graphify"), "bullet with no hook");
   assert.ok(!catalogListsEntry("You are the data lead; data matters.\n", "data"), "prose is not an entry");
   assert.ok(!catalogListsEntry("- engineer-reviewer — feasibility\n", "engineer"), "prefix is not an entry");
+  assert.deepEqual(
+    requiredHomePacks('[ -f "$HOME/.claude/skills/stack-ship/SKILL.md" ]\n[ -f "$HOME/.claude/skills/z-adversarial-review/SKILL.md" ]'),
+    ["stack-ship", "z-adversarial-review"]
+  );
+  assert.deepEqual(requiredHomePacks('[ -f .claude/skills/x/SKILL.md ]'), [], "repo-local checks are not HOME packs");
+  assert.ok(installsPack("install_pack stack-ship https://x.git bash\n", "bootstrap.sh", "stack-ship"));
+  assert.ok(!installsPack("# install_pack stack-ship https://x.git bash\n", "bootstrap.sh", "stack-ship"), "commented sh line is not an install");
+  assert.ok(!installsPack("install_pack stack-ship-extra https://x.git bash\n", "bootstrap.sh", "stack-ship"), "prefix pack is not an install");
+  assert.ok(installsPack("    @{ Name = 'stack-ship'; Url = 'u'; Setup = 'bash' }\n", "bootstrap.ps1", "stack-ship"));
+  assert.ok(!installsPack("    # @{ Name = 'stack-ship'; Url = 'u' }\n", "bootstrap.ps1", "stack-ship"), "commented ps1 line is not an install");
+  assert.ok(!installsPack("    @{ Name = 'stack-ship-extra'; Url = 'u' }\n", "bootstrap.ps1", "stack-ship"), "ps1 prefix pack is not an install");
   console.log("gate: self-check OK");
   process.exit(0);
 }
@@ -182,6 +217,23 @@ if (existsSync(skillsDir))
     if (!catalogListsEntry(catalog, e.name))
       fails.push(`docs/ai/SKILLS.md has no catalog entry for skill ${e.name}`);
   }
+
+// 6. Bootstrap parity: a pack the pipeline gate requires in $HOME must be
+// installed by both bootstrap scripts, or one platform's fresh host
+// bootstraps green and then gates red.
+const checkPipelinePath = join(root, "tools/check-pipeline.sh");
+if (existsSync(checkPipelinePath)) {
+  const packs = requiredHomePacks(readFileSync(checkPipelinePath, "utf8"));
+  // A missing bootstrap script is a red gate, not a crash.
+  const read = (f) => (existsSync(join(root, f)) ? readFileSync(join(root, f), "utf8") : null);
+  for (const script of ["bootstrap.sh", "bootstrap.ps1"]) {
+    const text = read(script);
+    if (text === null) { fails.push(`${script} is missing (check 6 needs both bootstrap scripts)`); continue; }
+    for (const p of packs)
+      if (!installsPack(text, script, p))
+        fails.push(`${script} does not install pack ${p} (tools/check-pipeline.sh requires it in $HOME)`);
+  }
+}
 
 if (fails.length) {
   console.error("GATE RED:");

@@ -54,11 +54,11 @@ if command -v roborev >/dev/null 2>&1; then
     && ok "roborev list schema (status + done-verdict P/F)" || bad "roborev list failed (daemon down? -> roborev daemon start) or schema changed"
 fi
 
-[ -f .claude/skills/stack-ship/SKILL.md ] \
-  && ok "/stack-ship skill" || bad "/stack-ship skill missing (.claude/skills/stack-ship/SKILL.md)"
+[ -f "$HOME/.claude/skills/stack-ship/SKILL.md" ] \
+  && ok "/stack-ship skill" || bad "/stack-ship skill -> bash bootstrap.sh (Windows: bootstrap.ps1)"
 
 [ -f "$HOME/.claude/skills/z-adversarial-review/SKILL.md" ] \
-  && ok "z-adversarial-review skill" || bad "z-adversarial-review skill -> bash bootstrap.sh"
+  && ok "z-adversarial-review skill" || bad "z-adversarial-review skill -> bash bootstrap.sh (Windows: bootstrap.ps1)"
 
 # st validate is metadata-only (local, fast); full `st doctor` does network
 # checks and belongs in troubleshooting, not the pre-commit gate.

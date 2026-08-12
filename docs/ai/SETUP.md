@@ -23,10 +23,14 @@ bash bootstrap.sh
 ```
 
 The script verifies prerequisites (including the gh `project` scope) and
-installs or repairs the two skill packs, cloning if absent and re-running
+installs or repairs the skill packs, cloning if absent and re-running
 each pack's own idempotent setup:
 
 - **gstack** (github.com/garrytan/gstack) — plan, review, QA, ship, deploy skills
+- **z-adversarial-review** (github.com/zacgoodwin/z-adversarial-review) —
+  blinded adversarial PR review with cross-provider skeptics
+- **stack-ship** (github.com/zacgoodwin/stack-ship) — roborev gate,
+  stax squash-submit, adversarial review pipeline
 
 Re-running is safe; everything checks before acting. Exit code 0 = ready.
 
