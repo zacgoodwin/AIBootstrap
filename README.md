@@ -11,6 +11,10 @@ Designed to ask questions and help focus the start of an idea into something com
 
 You have the idea now you need to firm up what the product will look like 
 
+## Research Skills
+
+## Business Skills
+
 ## Designer Skills
 
 Take that PRD and turn it into a demo so you can continue to iterate
