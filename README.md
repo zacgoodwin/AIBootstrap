@@ -8,6 +8,7 @@ Started out as a template repository but as I learn more it keeps morphing. Curr
 Designed to ask questions and help focus the start of an idea into something complete.
 
 || Name || Pack || Flag || Purpose ||
+| | | | |
 
 ## PRD Skills
 
