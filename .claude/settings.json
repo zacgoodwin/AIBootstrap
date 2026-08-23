@@ -47,18 +47,10 @@
     ]
   },
   "enabledPlugins": {
-    "ponytail@ponytail": true,
     "caveman@caveman": true,
-    "claude-context-optimizer@context-optimizer": true,
-    "context-engineering@context-engineering-marketplace": true
+    "claude-context-optimizer@context-optimizer": true
   },
   "extraKnownMarketplaces": {
-    "ponytail": {
-      "source": {
-        "source": "github",
-        "repo": "DietrichGebert/ponytail"
-      }
-    },
     "caveman": {
       "source": {
         "source": "github",
