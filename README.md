@@ -6,16 +6,16 @@ Started out as a template repository but as I learn more it keeps morphing. Curr
 ## Pack Setup 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/codemyspec:init` | Code-My-Spec/plugins | Project setup, authentication, and sync. Use when starting a new project, logging in, or refreshing stale state. |
-| `/codemyspec:init auth` | Code-My-Spec/plugins | Project setup, authentication, and sync. Use when starting a new project, logging in, or refreshing stale state. |
+| `/codemyspec:init` | Code-My-Spec/plugins | Runs the local CodeMySpec server's init endpoint against the project dir: setup prereq checklist and project state sync. No login. |
+| `/codemyspec:init auth` | Code-My-Spec/plugins | Same endpoint but triggers the OAuth flow: checks auth status, opens the auth_url in the OS browser, then re-checks. Logs you in rather than checking project readiness. |
 | `/inherit-legacy-style` | affaan-m/ECC | Legacy-project style inheritance skill. Use when the user types /inherit-legacy-style, or when onboarding an AI coding agent onto a hand-written legacy project and you need to prev |
 | `/setup-deploy` | garrytan/gstack | Configure deployment settings for /land-and-deploy. |
 | `/setup-browser-cookies` | garrytan/gstack | Import cookies from your real Chromium browser into the headless browse session. |
-| `/setup-gbrain` | garrytan/gstack | Set up gbrain for this coding agent: install the CLI, initialize a local PGLite or Supabase brain, register MCP, capture per-remote trust policy. |
-| `/setup-gbrain --cleanup-orphans` | garrytan/gstack | Set up gbrain for this coding agent: install the CLI, initialize a local PGLite or Supabase brain, register MCP, capture per-remote trust policy. |
-| `/setup-gbrain --repo` | garrytan/gstack | Set up gbrain for this coding agent: install the CLI, initialize a local PGLite or Supabase brain, register MCP, capture per-remote trust policy. |
-| `/setup-gbrain --resume-provision <ref>` | garrytan/gstack | Set up gbrain for this coding agent: install the CLI, initialize a local PGLite or Supabase brain, register MCP, capture per-remote trust policy. |
-| `/setup-gbrain --switch` | garrytan/gstack | Set up gbrain for this coding agent: install the CLI, initialize a local PGLite or Supabase brain, register MCP, capture per-remote trust policy. |
+| `/setup-gbrain` | garrytan/gstack | One-time gbrain install on this machine: detects current state, picks PGLite or Supabase, registers the MCP server, and records per-remote trust policy. |
+| `/setup-gbrain --cleanup-orphans` | garrytan/gstack | Skips setup and instead lists and deletes in-flight Supabase projects left behind by failed or abandoned provisioning runs. |
+| `/setup-gbrain --repo` | garrytan/gstack | Skips the install flow and only flips the per-remote brain policy for the repo you are in. |
+| `/setup-gbrain --resume-provision <ref>` | garrytan/gstack | Re-enters an interrupted Supabase auto-provision at its polling step using the given reference, instead of starting a fresh provision. |
+| `/setup-gbrain --switch` | garrytan/gstack | Only migrates the brain engine between PGLite and Supabase, leaving the original brain untouched. |
 | `/agent-sort` | affaan-m/ECC | Build an evidence-backed ECC install plan for a specific repo by sorting skills, commands, rules, hooks, and extras into DAILY vs LIBRARY buckets using parallel repo-aware review p |
 | `/config-gc` | affaan-m/ECC | Garbage collection for your Claude Code configuration. Periodically scans ~/.claude (skills, memory, hooks, permissions, MCP servers, caches) for redundant, stale, orphaned, or low |
 | `/configure-ecc` | affaan-m/ECC | Guide ECC installation, update, or reconfiguration from inside Claude Code, Codex, or Kimi while respecting each harness's real plugin, scope, and hook capabilities. |
@@ -36,7 +36,7 @@ Designed to ask questions and help focus the start of an idea into something com
 | `/grill-me` | mattpocock/skills | A relentless interview to sharpen a plan or design. |
 | `/grill-with-docs` | mattpocock/skills | A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go. |
 | `/office-hours` | garrytan/gstack | YC Office Hours — two modes. |
-| `/codemyspec:product interview` | Code-My-Spec/plugins | Product management — guided story interview, review, and Three Amigos sessions. Use when defining what to build, refining requirements, reviewing story quality, or running an Examp |
+| `/codemyspec:product interview` | Code-My-Spec/plugins | Guided story interview that defines new stories and acceptance criteria, with writes proxied to the remote codemyspec server. |
 | `/loop-me` | mattpocock/skills | Grill me about specs for the workflows I want to build, within this workspace. |
 | `/plan-canvas` | affaan-m/ECC | Open plans and HTML artifacts in a local browser canvas where the human annotates elements, chats, and approves or requests changes without leaving the page. |
 | `/napkin-sketch` | Aakash Gupta PM OS | ASCII wireframes + browser capture for design matching |
@@ -50,7 +50,7 @@ You have the idea now you need to firm up what the product will look like
 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/codemyspec:product` | Code-My-Spec/plugins | Product management — guided story interview, review, and Three Amigos sessions. Use when defining what to build, refining requirements, reviewing story quality, or running an Examp |
+| `/codemyspec:product` | Code-My-Spec/plugins | With no args it lists the product subcommands. Router only. |
 | `/product-capability` | affaan-m/ECC | Translate PRD intent, roadmap asks, or product discussions into an implementation-ready capability plan that exposes constraints, invariants, interfaces, and unresolved decisions b |
 | `/plan-devex-review` | garrytan/gstack | Interactive developer experience plan review. |
 | `/plan-eng-review` | garrytan/gstack | Eng manager-mode plan review. |
@@ -68,8 +68,8 @@ You have the idea now you need to firm up what the product will look like
 | `/prd-draft` | Aakash Gupta PM OS | Create a modern, AI-era PRD for features and initiatives. Guides through clarifying questions, generates draft, and offers multi-agent review. |
 | `/prd-draft --ai` | Aakash Gupta PM OS | Create a modern, AI-era PRD for features and initiatives. Guides through clarifying questions, generates draft, and offers multi-agent review. |
 | `/prd-draft --stage` | Aakash Gupta PM OS | Create a modern, AI-era PRD for features and initiatives. Guides through clarifying questions, generates draft, and offers multi-agent review. |
-| `/prd-review-panel` | Aakash Gupta PM OS | Multi-agent PRD review (7 perspectives) |
-| `/prd-review-panel --perspectives "eng,design,exec"` | Aakash Gupta PM OS | Multi-agent PRD review (7 perspectives) |
+| `/prd-review-panel` | Aakash Gupta PM OS | Fans a PRD out to seven reviewer subagents in parallel (engineer, designer, executive, legal, UX research, skeptic, customer voice) and reports gaps, challenged assumptions and conflicts. |
+| `/prd-review-panel --perspectives "eng,design,exec"` | Aakash Gupta PM OS | Runs only the named subset of the seven reviewers, cutting cost and time when you need specific angles. |
 | `/write-prod-strategy` | Aakash Gupta PM OS | Product strategy docs using 7-component framework |
 
 
@@ -88,7 +88,7 @@ You have the idea now you need to firm up what the product will look like
 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/codemyspec:product review` | Code-My-Spec/plugins | Product management — guided story interview, review, and Three Amigos sessions. Use when defining what to build, refining requirements, reviewing story quality, or running an Examp |
+| `/codemyspec:product review` | Code-My-Spec/plugins | Same interview machinery in review mode: critiques existing stories for quality and completeness instead of authoring new ones. |
 | `/domain-modeling` | mattpocock/skills | Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill |
 | `/deep-research` | affaan-m/ECC | Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. |
 | `/find-docs` | zcaceres/skills | Retrieve authoritative, up-to-date documentation, API references, configuration details, and code examples for any developer technology (libraries, frameworks, languages, SDKs, API |
@@ -125,9 +125,9 @@ You have the idea now you need to firm up what the product will look like
 | `/diagram` | garrytan/gstack | Turn an English description (or mermaid source) into a diagram triplet: the source, an editable .excalidraw file you can open |
 | `/figma-use-slides` | anthropics/claude-plugins-official | This skill helps agents use Figma's use_figma MCP tool in the Slides context. Can be used alongside figma-use which has foundational context for using the use_figma tool. |
 | `/frontend-slides` | affaan-m/ECC | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
-| `/acid-trip` | zcaceres/skills | Generate frontend designs from random rolls — a Wikipedia article (subject), a document_type, and a lineage. |
-| `/acid-trip --paper` | zcaceres/skills | Generate frontend designs from random rolls — a Wikipedia article (subject), a document_type, and a lineage. |
-| `/acid-trip --react` | zcaceres/skills | Generate frontend designs from random rolls — a Wikipedia article (subject), a document_type, and a lineage. |
+| `/acid-trip` | zcaceres/skills | Rolls a random Wikipedia article as subject plus random document_type and lineage, derives palette, typography, layout and mood, presents a brief, pauses, then realizes it. Default output is HTML. |
+| `/acid-trip --paper` | zcaceres/skills | Same rolled trip, but realization goes through the Paper MCP tools directly into the active Paper canvas, with a provenance stamp and a spec-sheet artboard for the design system. |
+| `/acid-trip --react` | zcaceres/skills | Same rolled trip, but writes acid-trip-<trip_id>.tsx to the cwd instead of HTML, assuming Tailwind and the motion library are available. |
 | `/ui-design` | uizze.com | Design or refine intentional web and iOS interfaces, using compact UIZZE evidence only when it answers a concrete unresolved question. |
 | `/ui-radar` | uizze.com | Find and compare real UI examples from UIZZE’s 800,000+ web and iOS screens. Use for UI inspiration, UI research, design references, comparable apps, user flows, layouts, navigatio |
 
@@ -170,31 +170,31 @@ Take that PRD and turn it into a demo so you can continue to iterate
 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/codemyspec:design` | Code-My-Spec/plugins | Architecture design, UI design system, and technology strategy. Use before writing code to plan how to build it. |
-| `/codemyspec:design ui` | Code-My-Spec/plugins | Architecture design, UI design system, and technology strategy. Use before writing code to plan how to build it. |
-| `/anti-ui-slop` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop adapt [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop animate [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop audit [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop bolder [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop clarify [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop colorize [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop critique [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop delight [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop distill [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop document` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop extract [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop harden [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop init` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop layout [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop live` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop onboard [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop optimize [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop overdrive [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop polish [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop quieter [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop shape [feature]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
-| `/anti-ui-slop typeset [target]` | uizze.com | Compare AI design against real world UI to remove generic AI slop |
+| `/codemyspec:design` | Code-My-Spec/plugins | With no args it lists the available design subcommands. Router only, not a design pass. |
+| `/codemyspec:design ui` | Code-My-Spec/plugins | DaisyUI design system interview that establishes the visual system. |
+| `/anti-ui-slop` | uizze.com | With no argument it reads the routing reference and presents a context-aware menu, never auto-running a command. Pure router. |
+| `/anti-ui-slop adapt [target]` | uizze.com | Fix: adapts a target for different devices and screen sizes, loading the native variant reference on iOS or Android. |
+| `/anti-ui-slop animate [target]` | uizze.com | Enhance: adds purposeful animation and motion to a target. |
+| `/anti-ui-slop audit [target]` | uizze.com | Evaluate: technical quality checks for accessibility, performance and responsiveness. Reports only; optimize fixes. |
+| `/anti-ui-slop bolder [target]` | uizze.com | Refine: amplifies designs that read as safe or bland. Opposite of quieter. |
+| `/anti-ui-slop clarify [target]` | uizze.com | Fix: improves UX copy, labels and error messages rather than visual styling. |
+| `/anti-ui-slop colorize [target]` | uizze.com | Enhance: adds strategic color to a monochromatic or washed-out UI. |
+| `/anti-ui-slop critique [target]` | uizze.com | Evaluate: UX design review with heuristic scoring, the subjective counterpart to audit. |
+| `/anti-ui-slop delight [target]` | uizze.com | Enhance: adds personality and memorable touches beyond baseline correctness. |
+| `/anti-ui-slop distill [target]` | uizze.com | Refine: strips a design to its essence and removes accumulated complexity. |
+| `/anti-ui-slop document` | uizze.com | Build: generates a DESIGN.md from the existing project code, reading rather than writing UI. |
+| `/anti-ui-slop extract [target]` | uizze.com | Build: pulls reusable tokens and components out of a target into the design system. |
+| `/anti-ui-slop harden [target]` | uizze.com | Refine: makes a surface production ready by covering error states, i18n and edge cases. |
+| `/anti-ui-slop init` | uizze.com | Build: captures durable product context into PRODUCT.md and records the platform. Most other subcommands assume it has run. |
+| `/anti-ui-slop layout [target]` | uizze.com | Enhance: fixes spacing, rhythm and visual hierarchy specifically. Narrower than polish. |
+| `/anti-ui-slop live` | uizze.com | Iterate: pick elements in the browser and it generates visual variants. The only interactive browser-driven subcommand. |
+| `/anti-ui-slop onboard [target]` | uizze.com | Refine: designs first-run flows, empty states and activation paths. |
+| `/anti-ui-slop optimize [target]` | uizze.com | Fix: diagnoses and fixes UI performance problems, where audit only reports them. |
+| `/anti-ui-slop overdrive [target]` | uizze.com | Enhance: pushes a design past conventional limits. More extreme than bolder. |
+| `/anti-ui-slop polish [target]` | uizze.com | Refine: final broad quality pass before shipping, covering what the narrower refine commands touch individually. |
+| `/anti-ui-slop quieter [target]` | uizze.com | Refine: tones down aggressive or overstimulating designs. Inverse of bolder and overdrive. |
+| `/anti-ui-slop shape [feature]` | uizze.com | Build: plans the UX and UI for a named feature before any code is written and owns task discovery before routing into new work. |
+| `/anti-ui-slop typeset [target]` | uizze.com | Enhance: improves typographic hierarchy and font choices only. |
 | `/design-consultation` | garrytan/gstack | Design consultation: understands your product, researches the landscape, proposes a complete design system (aesthetic, typography, color, layout, spacing, motion), and generates fo |
 | `/design-html` | garrytan/gstack | Design finalization: generates production-quality Pretext-native HTML/CSS. |
 | `/design-review` | garrytan/gstack | Designer's eye QA: finds visual inconsistency, spacing issues, hierarchy problems, AI slop patterns, and slow interactions — then fixes them. |
@@ -242,8 +242,8 @@ Take that PRD and turn it into a demo so you can continue to iterate
 | --- | --- | --- |
 | `/architecture-decision-records` | affaan-m/ECC | Capture architectural decisions made during Claude Code sessions as structured ADRs. |
 | `/codebase-design` | mattpocock/skills | Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code m |
-| `/codemyspec:design architecture` | Code-My-Spec/plugins | Architecture design, UI design system, and technology strategy. Use before writing code to plan how to build it. |
-| `/codemyspec:design strategy` | Code-My-Spec/plugins | Architecture design, UI design system, and technology strategy. Use before writing code to plan how to build it. |
+| `/codemyspec:design architecture` | Code-My-Spec/plugins | Guided bounded-context session that lays out contexts and their dependency graph. Module boundaries, not visuals. |
+| `/codemyspec:design strategy` | Code-My-Spec/plugins | Identifies open technical decisions and produces ADRs for them. Outputs decision records rather than a design. |
 
 # Dev Tooling
 | Execution | Source (origin) | What it does |
@@ -259,7 +259,7 @@ The product is defined; turn it into developable chunks
 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/codemyspec:product three-amigos <story_id>` | Code-My-Spec/plugins | Product management — guided story interview, review, and Three Amigos sessions. Use when defining what to build, refining requirements, reviewing story quality, or running an Examp |
+| `/codemyspec:product three-amigos <story_id>` | Code-My-Spec/plugins | Runs an Example Mapping / Three Amigos session on one story, pulling business, dev and test perspectives into concrete examples. Requires a story ID. |
 | `/decompose [focus]` | zcaceres/skills | Break a problem into smaller pieces — subsystems that are easier to think about — and show how they relate. |
 | `/intent-driven-development` | affaan-m/ECC | Turn ambiguous or high-impact product and engineering changes into scoped, verifiable acceptance criteria before or alongside implementation. |
 | `/plan-orchestrate` | affaan-m/ECC | Read a plan document, decompose it into steps, design a per-step agent chain from the ECC catalogue, and emit ready-to-paste /orchestrate custom prompts. |
@@ -283,9 +283,9 @@ The product is defined; turn it into developable chunks
 | `/api-connector-builder` | affaan-m/ECC | Build a new API connector or provider by matching the target repo's existing integration pattern exactly. |
 | `/code-first-draft` | Aakash Gupta PM OS | Initial feature implementation |
 | `/code-first-draft --explore-only` | Aakash Gupta PM OS | Initial feature implementation |
-| `/codemyspec:develop` | Code-My-Spec/plugins | Full-lifecycle development — context orchestration, LiveView orchestration, and interactive refactoring. |
-| `/codemyspec:develop context` | Code-My-Spec/plugins | Full-lifecycle development — context orchestration, LiveView orchestration, and interactive refactoring. |
-| `/codemyspec:develop liveview` | Code-My-Spec/plugins | Full-lifecycle development — context orchestration, LiveView orchestration, and interactive refactoring. |
+| `/codemyspec:develop` | Code-My-Spec/plugins | With no args it lists the develop subcommands. Router only. |
+| `/codemyspec:develop context` | Code-My-Spec/plugins | Drives one Elixir context module through the spec, test, then code lifecycle, spawning subagents per step. |
+| `/codemyspec:develop liveview` | Code-My-Spec/plugins | Same full lifecycle specialized for a Phoenix LiveView module; differs from context only in target layer and templates. |
 | `/codemyspec:implement [start\|stop]` | Code-My-Spec/plugins | Implement the next requirement task from the codemyspec plan; start or stop the loop. |
 | `/codemyspec:next` | Code-My-Spec/plugins | Find and start the next requirement task in one gesture. Use after each completed task as your single onboarding instruction. |
 | `/codemyspec:sync` | Code-My-Spec/plugins | Sync project components and regenerate architecture views. Use after git pulls, before design sessions, or when views feel stale. |
@@ -310,10 +310,10 @@ The product is defined; turn it into developable chunks
 | `/verification-loop` | affaan-m/ECC | A comprehensive verification system for Claude Code sessions. |
 | `/ai-regression-testing` | affaan-m/ECC | Regression testing strategies for AI-assisted development. Sandbox-mode API testing without database dependencies, automated bug-check workflows, and patterns to catch AI blind spo |
 | `/browser-qa` | affaan-m/ECC | Use this skill to automate visual testing and UI interaction verification using browser automation after deploying features. |
-| `/codemyspec:qa fix [severity]` | Code-My-Spec/plugins | codemyspec QA: test a story, run integrations, or triage/fix findings by severity. |
-| `/codemyspec:qa integrations` | Code-My-Spec/plugins | codemyspec QA: test a story, run integrations, or triage/fix findings by severity. |
-| `/codemyspec:qa story <id>` | Code-My-Spec/plugins | codemyspec QA: test a story, run integrations, or triage/fix findings by severity. |
-| `/codemyspec:qa triage [severity]` | Code-My-Spec/plugins | codemyspec QA: test a story, run integrations, or triage/fix findings by severity. |
+| `/codemyspec:qa fix [severity]` | Code-My-Spec/plugins | Writes actual code fixes for issues already accepted in triage, optionally filtered to a minimum severity. Does not test the app. |
+| `/codemyspec:qa integrations` | Code-My-Spec/plugins | Produces a plan for testing third-party integrations rather than running a QA pass. |
+| `/codemyspec:qa story <id>` | Code-My-Spec/plugins | QA tests one specific story by ID against its acceptance criteria. Narrower and cheaper than full-app QA. |
+| `/codemyspec:qa triage [severity]` | Code-My-Spec/plugins | Walks the open issue list accepting or dismissing each one, optionally filtered to a minimum severity. Sits between finding issues and qa fix. |
 | `/e2e-testing` | affaan-m/ECC | Playwright E2E testing patterns, Page Object Model, configuration, CI/CD integration, artifact management, and flaky test strategies. |
 | `/qa` | garrytan/gstack | Systematically QA test a web application and fix bugs found. |
 | `/qa-only` | garrytan/gstack | Report-only QA testing. |
@@ -326,8 +326,8 @@ The product is defined; turn it into developable chunks
 ## Code Review
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/codex` | garrytan/gstack | OpenAI Codex CLI wrapper — three modes. |
-| `/codex review --xhigh` | garrytan/gstack | OpenAI Codex CLI wrapper — three modes. |
+| `/codex` | garrytan/gstack | Codex CLI wrapper with review, challenge and consult modes. With no args it auto-detects: offers to review or challenge a branch diff, else the newest plan file, else asks what to send. |
+| `/codex review --xhigh` | garrytan/gstack | Normal pass/fail diff review but raises model_reasoning_effort from high to xhigh, roughly 23x more tokens and can run 50+ minutes. Opt in only when you want maximum reasoning and will wait. |
 | `/santa-method` | affaan-m/ECC | Multi-agent adversarial verification with convergence loop. Two independent review agents must both pass before output ships. |
 | `/code-review` |  | Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (doe |
 | `/review` | garrytan/gstack | Pre-landing PR review. |
@@ -338,14 +338,14 @@ RoboRev is it's own specific thing that automates PRs
 | --- | --- | --- |
 | `/roborev-fix` | roborev-dev/roborev | Use only for a current operative request that explicitly invokes /roborev-fix, or a direct Agent Hook instruction; do not invoke from literal syntax in quoted, pasted, or historica |
 | `/roborev-lookahead-review` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-lookahead-review |
-| `/roborev-lookahead-review-branch` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-lookahead-review-branch |
-| `/roborev-lookahead-review-branch --base <branch>` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-lookahead-review-branch |
-| `/roborev-refine` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-refine |
-| `/roborev-refine --since <sha> --max-iterations <n>` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-refine |
+| `/roborev-lookahead-review-branch` | roborev-dev/roborev | Runs roborev review --branch --wait --type lookahead over every commit on the current branch, not a single commit, hunting temporal leakage. |
+| `/roborev-lookahead-review-branch --base <branch>` | roborev-dev/roborev | Validates the ref, then computes the branch's commit range against that base instead of the default base branch. An invalid ref aborts the run. |
+| `/roborev-refine` | roborev-dev/roborev | Closes the review-fix loop: review, fix findings, commit, re-review, repeat until all pass or the cap is hit. Unlike /roborev-fix, which is single-pass with no re-review. |
+| `/roborev-refine --since <sha> --max-iterations <n>` | roborev-dev/roborev | --since restricts refine to commits after that sha and is required on the default branch; --max-iterations caps the fix-review cycles, default 10. |
 | `/roborev-respond` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-respond |
-| `/roborev-review` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-review |
-| `/roborev-review --type design` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-review |
-| `/roborev-review --type lookahead` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-review |
+| `/roborev-review` | roborev-dev/roborev | Validates the target commit, launches roborev review --wait as a background task, and presents the findings. Explicit invocation only; "review this commit" in prose must not trigger it. |
+| `/roborev-review --type design` | roborev-dev/roborev | Passes --type design through so the review runs the design panel instead of the default general review. /roborev-design-review is the shorthand. |
+| `/roborev-review --type lookahead` | roborev-dev/roborev | Runs a time-series look-ahead review checking whether the change uses information not yet available at the point in time it represents. /roborev-lookahead-review is the equivalent. |
 | `/roborev-snooze` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-snooze |
 
 ## Deploying
@@ -353,21 +353,21 @@ RoboRev is it's own specific thing that automates PRs
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
 | `/resolving-merge-conflicts` | mattpocock/skills | Use when you need to resolve an in-progress git merge/rebase conflict. |
-| `/canary` | garrytan/gstack | Post-deploy canary monitoring. |
-| `/canary <url>` | garrytan/gstack | Post-deploy canary monitoring. |
-| `/canary <url> --baseline` | garrytan/gstack | Post-deploy canary monitoring. |
-| `/canary <url> --duration 5m` | garrytan/gstack | Post-deploy canary monitoring. |
-| `/canary <url> --pages <paths>` | garrytan/gstack | Post-deploy canary monitoring. |
-| `/canary <url> --quick` | garrytan/gstack | Post-deploy canary monitoring. |
-| `/canary-watch` | affaan-m/ECC | Use this skill to monitor and verify a deployed URL after releases — checks HTTP endpoints, SSE streams, static assets, console errors, and performance regressions after deploys, m |
-| `/canary-watch --compare` | affaan-m/ECC | Use this skill to monitor and verify a deployed URL after releases — checks HTTP endpoints, SSE streams, static assets, console errors, and performance regressions after deploys, m |
+| `/canary` | garrytan/gstack | Post-deploy visual monitor via the browse daemon. The normal shape is /canary <url>. |
+| `/canary <url>` | garrytan/gstack | Monitors the URL for 10 minutes after a deploy, screenshotting pages, counting console errors and checking load times against the captured baseline. |
+| `/canary <url> --baseline` | garrytan/gstack | Captures pre-deploy screenshots, console error counts and load times into .gstack/canary-reports/baselines. Run BEFORE deploying, not after. |
+| `/canary <url> --duration 5m` | garrytan/gstack | Replaces the default 10 minute watch window with a custom duration, anywhere from 1m to 30m. |
+| `/canary <url> --pages <paths>` | garrytan/gstack | Overrides navigation auto-discovery with an explicit comma separated path list for both baseline capture and monitoring. |
+| `/canary <url> --quick` | garrytan/gstack | Does one health check pass and exits instead of monitoring for the full duration. |
+| `/canary-watch` | affaan-m/ECC | Single-pass post-deploy smoke check of a URL: HTTP status, console errors, network failures, LCP/CLS/INP, key content, API SLAs, static assets and SSE streams, reported against critical/warning/info thresholds. |
+| `/canary-watch --compare` | affaan-m/ECC | Diff mode taking two URLs, typically staging and production, and comparing their check results against each other instead of one URL against a stored baseline. |
 | `/land-and-deploy` | garrytan/gstack | Land and deploy workflow. |
 | `/landing-report` | garrytan/gstack | Read-only queue dashboard for workspace-aware ship. |
 | `/ship` | garrytan/gstack | Ship workflow: detect + merge base branch, run tests, review diff, bump VERSION, update CHANGELOG, commit, push, create PR. |
-| `/launch-checklist` | Aakash Gupta PM OS | Comprehensive product launch planning |
-| `/launch-checklist --template major` | Aakash Gupta PM OS | Comprehensive product launch planning |
-| `/launch-checklist --template regulatory` | Aakash Gupta PM OS | Comprehensive product launch planning |
-| `/launch-checklist --template small` | Aakash Gupta PM OS | Comprehensive product launch planning |
+| `/launch-checklist` | Aakash Gupta PM OS | Generates a prioritized launch checklist with owners, dependencies, due dates and a flagged critical path, saved to outputs/launches/. Asks which of three launch types applies. |
+| `/launch-checklist --template major` | Aakash Gupta PM OS | Skips the launch-type question and uses the major template, adding press and media, investor and board comms, partner enablement and expanded marketing. |
+| `/launch-checklist --template regulatory` | Aakash Gupta PM OS | Uses the regulatory template: expanded legal and compliance, audit trail, certification process and regulatory submission items. |
+| `/launch-checklist --template small` | Aakash Gupta PM OS | Uses the small-feature template for builds under two weeks: no beta section, simplified compliance, lighter comms plan. |
 | `/opensource-pipeline` | affaan-m/ECC | Open-source pipeline: fork, sanitize, and package private projects for safe public release. |
 
 
@@ -377,7 +377,7 @@ RoboRev is it's own specific thing that automates PRs
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
 | `/improve-codebase-architecture` | mattpocock/skills | Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick. |
-| `/codemyspec:develop refactor [ModuleName]` | Code-My-Spec/plugins | Full-lifecycle development — context orchestration, LiveView orchestration, and interactive refactoring. |
+| `/codemyspec:develop refactor [ModuleName]` | Code-My-Spec/plugins | Interactive refactoring session on existing code for the named module, reworking rather than generating. |
 | `/clean-ai-slop` | zcaceres/skills | Find AI-generated noise on the current branch — tombstone comments, restating-the-code comments, callsite-reference comments, unused imports, dead internal symbols — propose each f |
 | `/health` | garrytan/gstack | Code quality dashboard. |
 | `/ponytail:ponytail-audit` | DietrichGebert/ponytail | Whole-repo audit for over-engineering. Like ponytail-review, but scans the entire codebase instead of a diff: a ranked list of what to delete, simplify, or replace with stdlib/nati |
@@ -418,43 +418,43 @@ RoboRev is it's own specific thing that automates PRs
 Graphify is it's own specific thing
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/graphify` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify --help` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path>` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --cluster-only` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --directed` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --falkordb` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --falkordb-push` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --graphml` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --html` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --mcp` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --mode <mode>` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --neo` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --no-viz` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --obsidian` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --svg` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --update` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --watch` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --whisper-model <m>` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
-| `/graphify <path> --wiki` | safishamsi/graphify | Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a gr |
+| `/graphify` | safishamsi/graphify | Builds a knowledge graph of the current directory: detect files, extract nodes and edges, cluster communities, write graphify-out/ with graph.json, GRAPH_REPORT.md and an HTML viz. If graph.json already exists and the input is a question, it answers from the graph instead. |
+| `/graphify --help` | safishamsi/graphify | Prints the SKILL.md Usage block verbatim and stops. Runs no commands and does no file detection. |
+| `/graphify <path>` | safishamsi/graphify | Same pipeline but scans the given directory or GitHub URL instead of the cwd. A URL is cloned first, optionally at a branch via --branch. |
+| `/graphify <path> --cluster-only` | safishamsi/graphify | Skips detection and extraction and re-runs community detection on the existing graph, regenerating the report, graph.json and graph.html. Self-contained; do not follow with the normal build steps. |
+| `/graphify <path> --directed` | safishamsi/graphify | Builds a DiGraph preserving edge direction instead of the default undirected graph. Must be repeated on later --update runs or the rebuild silently reverts to undirected. |
+| `/graphify <path> --falkordb` | safishamsi/graphify | Writes graphify-out/cypher.txt as OpenCypher statements for FalkorDB without loading anything. Use --falkordb-push to actually load a graph. |
+| `/graphify <path> --falkordb-push` | safishamsi/graphify | Pushes the graph into a running FalkorDB over the given URI (default falkordb://localhost:6379, graph name graphify). Uses MERGE so re-runs do not duplicate nodes. |
+| `/graphify <path> --graphml` | safishamsi/graphify | Adds a graph.graphml export for desktop tools like Gephi and yEd, on top of the default outputs. |
+| `/graphify <path> --html` | safishamsi/graphify | Explicit no-op, since HTML is generated on every default run. Exists only so the flag does not error. |
+| `/graphify <path> --mcp` | safishamsi/graphify | Starts a graphify MCP stdio server after the build so other agents can query the graph as a tool, instead of ending at the report. |
+| `/graphify <path> --mode <mode>` | safishamsi/graphify | Only deep is documented: extraction becomes more aggressive about INFERRED edges such as indirect dependencies and sets DEEP_MODE=true on every extraction subagent. |
+| `/graphify <path> --neo` | safishamsi/graphify | Spelled --neo4j on disk: exports graphify-out/cypher.txt for manual Neo4j import. Sibling --neo4j-push <uri> loads directly into a live instance (default bolt://localhost:7687) using MERGE. |
+| `/graphify <path> --no-viz` | safishamsi/graphify | Suppresses HTML visualization, leaving just the report and graph.json. The one flag that removes a default output. |
+| `/graphify <path> --obsidian` | safishamsi/graphify | Additionally exports an Obsidian vault, one markdown file per node. --obsidian-dir <path> redirects it into an existing vault. |
+| `/graphify <path> --svg` | safishamsi/graphify | Adds a graph.svg export for embedding in Notion or GitHub, on top of the default HTML. |
+| `/graphify <path> --update` | safishamsi/graphify | Incremental rebuild that re-extracts only files new or changed since the last manifest, handles deletions, and rewrites the manifest for the next diff. |
+| `/graphify <path> --watch` | safishamsi/graphify | Background watcher with a 3 second debounce. Code changes trigger an immediate AST re-extract and re-cluster with no LLM; doc, paper or image changes only set a needs_update flag. |
+| `/graphify <path> --whisper-model <m>` | safishamsi/graphify | Overrides the default base Whisper model via GRAPHIFY_WHISPER_MODEL for video and audio transcription, trading speed for accuracy. Affects only the transcription step. |
+| `/graphify <path> --wiki` | safishamsi/graphify | Builds an agent-crawlable wiki with index.md plus one article per detected community. Must run before cleanup while .graphify_labels.json still exists. |
 
 ## Security
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/cso` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --code` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --comprehensive` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --diff` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --infra` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --owasp` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --scope <area>` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --skills` | garrytan/gstack | Chief Security Officer mode. |
-| `/cso --supply-chain` | garrytan/gstack | Chief Security Officer mode. |
+| `/cso` | garrytan/gstack | Full security audit, all phases 0-14, with an 8/10 confidence gate so only high-confidence findings reach the report. Reports only, never edits code. |
+| `/cso --code` | garrytan/gstack | Narrows the audit to application code: LLM/AI security, OWASP, STRIDE and data classification phases. Skips secrets, CI/CD, infra and webhook phases. |
+| `/cso --comprehensive` | garrytan/gstack | Same all-phase sweep but drops the confidence gate from 8/10 to 2/10, surfacing many more findings marked TENTATIVE. Meant as a monthly deep scan. |
+| `/cso --diff` | garrytan/gstack | Constrains every phase to files and commits changed on the current branch versus base instead of the whole repo. The one flag combinable with any scope flag. |
+| `/cso --infra` | garrytan/gstack | Limits the audit to infrastructure: stack detection, attack surface, secrets archaeology, dependency supply chain, CI/CD, shadow infra and webhooks. Also blocks auto-discarding CI/CD findings. |
+| `/cso --owasp` | garrytan/gstack | Runs only the OWASP Top 10 phase plus the mandatory setup and reporting phases. Skips secrets, supply chain, CI/CD, STRIDE and data classification. |
+| `/cso --scope <area>` | garrytan/gstack | Focuses the audit on one named domain such as auth rather than a phase group. Mutually exclusive with the other scope flags. |
+| `/cso --skills` | garrytan/gstack | Runs only the skill supply chain scan of installed agent skills plus setup and reporting phases. Ignores application code and infra entirely. |
+| `/cso --supply-chain` | garrytan/gstack | Runs only the dependency supply chain phase plus setup and reporting. Answers "are my packages safe" without the rest of the audit. |
 | `/defi-amm-security` | affaan-m/ECC | Security checklist for Solidity AMM contracts, liquidity pools, and swap flows. Covers reentrancy, CEI ordering, donation or inflation attacks, oracle manipulation, slippage, admin |
 | `/security-gitleaks` | zcaceres/skills | Set up gitleaks secret-scanning on a repo. Scans history for existing leaks first — stops if dirty, because installing CI on top of a polluted history makes CI permanently red. |
-| `/security-openssf` | zcaceres/skills | Scaffold OpenSSF Scorecard GitHub Action on a public repo with a safe two-phase rollout — first run with publish_results false so SARIF findings can be triaged before any score rea |
-| `/security-openssf fix` | zcaceres/skills | Scaffold OpenSSF Scorecard GitHub Action on a public repo with a safe two-phase rollout — first run with publish_results false so SARIF findings can be triaged before any score rea |
-| `/security-openssf install` | zcaceres/skills | Scaffold OpenSSF Scorecard GitHub Action on a public repo with a safe two-phase rollout — first run with publish_results false so SARIF findings can be triaged before any score rea |
+| `/security-openssf` | zcaceres/skills | Same as the install subcommand, which is the default. Hard-refuses on private or internal repos. |
+| `/security-openssf fix` | zcaceres/skills | Turns an existing Scorecard run's findings into a bucketed remediation plan, applies the file-based fixes and offers the settings-based ones. Remediates an installed Scorecard rather than scaffolding one. |
+| `/security-openssf install` | zcaceres/skills | Phase 1 only: installs the workflow with publish_results false so SARIF findings stay private in the Security tab. Will not flip to publish_results true or add the README badge in the same session unless asked. |
 | `/security-review` | affaan-m/ECC | Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. |
 | `/security-scan` | affaan-m/ECC | Scan your Claude Code configuration (.claude/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. |
 
@@ -463,13 +463,13 @@ Graphify is it's own specific thing
 ## Product Health
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/benchmark` | garrytan/gstack | Performance regression detection using the browse daemon. |
-| `/benchmark --diff` | garrytan/gstack | Performance regression detection using the browse daemon. |
-| `/benchmark --trend` | garrytan/gstack | Performance regression detection using the browse daemon. |
-| `/benchmark <url>` | garrytan/gstack | Performance regression detection using the browse daemon. |
-| `/benchmark <url> --baseline` | garrytan/gstack | Performance regression detection using the browse daemon. |
-| `/benchmark <url> --pages <paths>` | garrytan/gstack | Performance regression detection using the browse daemon. |
-| `/benchmark <url> --quick` | garrytan/gstack | Performance regression detection using the browse daemon. |
+| `/benchmark` | garrytan/gstack | Performance audit driven by the browse daemon. Without a URL it needs --diff or --trend; the normal shape is /benchmark <url>. |
+| `/benchmark --diff` | garrytan/gstack | Restricts the benchmark to pages affected by files changed on the current branch versus base, rather than the full discovered page list. |
+| `/benchmark --trend` | garrytan/gstack | Skips measurement and prints a table of FCP, LCP, bundle size, request count and grade across the last several stored runs. |
+| `/benchmark <url>` | garrytan/gstack | Navigates the URL with the browse daemon, collects TTFB, FCP, LCP, DOM timings, resource waterfall and bundle sizes, and compares against the saved baseline. |
+| `/benchmark <url> --baseline` | garrytan/gstack | Captures current numbers as the reference point in .gstack/benchmark-reports/baselines instead of comparing. Run before the changes you want to measure. |
+| `/benchmark <url> --pages <paths>` | garrytan/gstack | Overrides page auto-discovery with an explicit comma separated path list such as /,/dashboard,/api/health. |
+| `/benchmark <url> --quick` | garrytan/gstack | Single-pass timing check with no stored baseline and no comparison, for a fast "how slow is it right now" answer. |
 | `/quality-project-health [focus]` | zcaceres/skills | Assess the current project's repo and work-tracker status, then rate overall project health from 0-10. |
 
 ## Agent Safety
@@ -542,15 +542,15 @@ See Agents Readme
 ## Token Savings
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/context-budget` | affaan-m/ECC | Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. |
-| `/context-budget --verbose` | affaan-m/ECC | Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. |
+| `/context-budget` | affaan-m/ECC | Inventories agents, skills, rules, MCP servers and the CLAUDE.md chain, estimates tokens for each, classifies as always/sometimes/rarely needed, and reports prioritized savings. |
+| `/context-budget --verbose` | affaan-m/ECC | Adds per-file token counts, a line-by-line breakdown of the heaviest files, the exact duplicated lines between overlapping components, and per-tool MCP schema sizes. For pinpointing offenders, not routine audits. |
 | `/cost-tracking` | affaan-m/ECC | Track and report Claude Code token usage, spending, and budgets from the local ECC cost-tracker metrics log. |
 | `/ecc-tools-cost-audit` | affaan-m/ECC | Evidence-first ECC Tools burn and billing audit workflow. Use when investigating runaway PR creation, quota bypass, premium-model leakage, duplicate jobs, or GitHub App cost spikes |
 | `/ponytail:ponytail-gain` | DietrichGebert/ponytail | Show ponytail's measured impact as a compact scoreboard: less code, less cost, more speed, from the benchmark medians. |
-| `/ponytail:ponytail` | DietrichGebert/ponytail | Forces the laziest solution that actually works, simplest, shortest, most minimal. |
-| `/ponytail:ponytail full` | DietrichGebert/ponytail | Forces the laziest solution that actually works, simplest, shortest, most minimal. |
-| `/ponytail:ponytail lite` | DietrichGebert/ponytail | Forces the laziest solution that actually works, simplest, shortest, most minimal. |
-| `/ponytail:ponytail ultra` | DietrichGebert/ponytail | Forces the laziest solution that actually works, simplest, shortest, most minimal. |
+| `/ponytail:ponytail` | DietrichGebert/ponytail | Switches the session into persistent lazy-senior-dev mode at level full: YAGNI, then stdlib, then native, then existing dependency, then one line, before any new code. |
+| `/ponytail:ponytail full` | DietrichGebert/ponytail | The default intensity. Enforces the full ladder, stdlib and native first, shortest working diff and shortest explanation. |
+| `/ponytail:ponytail lite` | DietrichGebert/ponytail | The gentlest level. Builds exactly what was asked, then names the lazier alternative in one line and lets you choose rather than imposing it. |
+| `/ponytail:ponytail ultra` | DietrichGebert/ponytail | YAGNI extremist. Deletion before addition; ships the one-liner and challenges whether the rest of the requirement should exist at all. |
 | `/token-budget-advisor` | affaan-m/ECC | Offers the user an informed choice about how much response depth to consume before answering. |
 | `/workspace-surface-audit` | affaan-m/ECC | Audit the active repo, MCP servers, plugins, connectors, env surfaces, and harness setup, then recommend the highest-value ECC-native skills, hooks, agents, and operator workflows. |
 
@@ -570,21 +570,21 @@ See Agents Readme
 | --- | --- | --- |
 | `/claude-handoff` | mattpocock/skills | Hand the current conversation off to a fresh background agent that picks up the work immediately. |
 | `/context-restore` | garrytan/gstack | Restore working context saved earlier by /context-save. |
-| `/context-save` | garrytan/gstack | Save working context. |
-| `/context-save list --all` | garrytan/gstack | Save working context. |
+| `/context-save` | garrytan/gstack | Captures branch, git status, diff stat, recent log, decisions and remaining work into a timestamped checkpoint for /context-restore. Optional title names it; never touches code. |
+| `/context-save list --all` | garrytan/gstack | Lists saved checkpoints from every branch instead of the default current-branch view, adding a Branch column. |
 | `/learn` |  | Manage project learnings. |
 | `/handoff` | mattpocock/skills | Compact the current conversation into a handoff document for another agent to pick up. |
 | `/strategic-compact` | affaan-m/ECC | Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction. |
-| `/sync-gbrain` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --audit` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --code-only` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --dream` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --dry-run` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --full` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --no-dream` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --no-memory` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --quiet` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
-| `/sync-gbrain --refresh-cache` | garrytan/gstack | Keep gbrain current with this repo's code and refresh agent search guidance in AGENTS.md. |
+| `/sync-gbrain` | garrytan/gstack | Incremental sync of the gbrain index with this repo's code via an mtime fast path (about 50ms steady state), then refreshes the AGENTS.md guidance on when to prefer gbrain search over Grep. |
+| `/sync-gbrain --audit` | garrytan/gstack | Read-only: lists gstack-owned brain pages per project, summarizes by page type, and flags cached salience entries outside the allowlist. No sync stages run. |
+| `/sync-gbrain --code-only` | garrytan/gstack | Runs only the code indexing stage, skipping the memory and brain-sync stages the default run includes. |
+| `/sync-gbrain --dream` | garrytan/gstack | Forces a rebuild of the call graph behind code-callers and code-callees, even if one already exists. --full only auto-dreams when the graph was never built. |
+| `/sync-gbrain --dry-run` | garrytan/gstack | Previews exactly what the sync would do without writing to the brain, cache or repo. |
+| `/sync-gbrain --full` | garrytan/gstack | Replaces the incremental fast path with a complete reindex-code pass (25-35 minutes on a large repo) and builds the call graph if it never existed. Also pins an unpinned worktree. |
+| `/sync-gbrain --no-dream` | garrytan/gstack | Suppresses the call graph build that --full would otherwise trigger, keeping the reindex to the code stage only. |
+| `/sync-gbrain --no-memory` | garrytan/gstack | Skips the memory stage while still running the code and brain-sync stages. |
+| `/sync-gbrain --quiet` | garrytan/gstack | Suppresses per-stage progress output, leaving just the final verdict block. |
+| `/sync-gbrain --refresh-cache` | garrytan/gstack | Forces a rebuild of the brain-aware planning cache for the current project slug plus the user-profile page, skipping code and memory stages. Replaced the old /brain-refresh-context. |
 | `/unified-memory` | affaan-m/ECC | Share durable, inspectable context and handoffs between Claude, Codex, Hermes, Cursor, OpenCode, and other agents through the local ECC Memory Vault. |
 | `/context-engineering:context-compression` | muratcankoylan/Agent-Skills-for-Context-Engineering | Use when long-running agent sessions need context compression, structured summarization, compaction, token-per-task optimization, or durable handoff summaries that preserve decisio |
 | `/context-engineering:context-degradation` | muratcankoylan/Agent-Skills-for-Context-Engineering | Use for diagnosing and mitigating context degradation: lost-in-middle failures, context poisoning, context clash, context confusion, attention-pattern issues, and agent performance |
@@ -606,7 +606,7 @@ See Agents Readme
 | `/team-builder` | affaan-m/ECC | Interactive agent picker for composing and dispatching parallel teams |
 | `/continuous-learning-v2` | affaan-m/ECC | Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents. |
 | `/everything-claude-code` |  | Development conventions and patterns for everything-claude-code. JavaScript project with conventional commits. |
-| `/everything-claude-code-conventions` |  | Development conventions and patterns for everything-claude-code. JavaScript project with conventional commits. |
+| `/everything-claude-code-conventions` |  | Auto-generated conventions skill for the everything-claude-code repo (JavaScript, hybrid module organization, separate test location) with conventional-commit rules distilled from 500 commits. No separate /everything-claude-code command exists on disk. |
 | `/find-skills` | vercel-labs/skills | Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending c |
 | `/rules-distill` | affaan-m/ECC | Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files |
 
