@@ -10,16 +10,11 @@ limits code volume, never scope. Details: docs/rules/PRINCIPLES.md.
 **First run: if TODO(bootstrap) markers remain in this file, read
 docs/SETUP.md and complete it with the user before any other work.**
 
-## Stack
-
-TODO(bootstrap): language, framework, package manager, run command — with
-exact versions (e.g. "Next.js 15 App Router", not "Next.js").
-
 ## Map
 
 - services/ — product code, one service per directory (docs/rules/SERVICES.md)
 - docs/rules/ — how to work here; load per the table below
-- docs/plans/ — plans archive · docs/architecture/ — subsystem maps
+- docs/plans/ — plans archive · docs/architecture/ — subsystem maps + docs/architecture/STACK.MD (stack, exact versions)
 - docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy
 - tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
 - README.md — skill catalog by workflow stage; per-source install files in

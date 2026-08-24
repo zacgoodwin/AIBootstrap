@@ -7,8 +7,9 @@ reference but the trigger is disarmed.
 
 ## 1. Name the project
 
-Replace the TODO(bootstrap) markers in CLAUDE.md's title, description, and
-`## Stack` section. Exact versions ("Next.js 15 App Router", not "Next.js").
+Replace the TODO(bootstrap) markers in CLAUDE.md's title and description, and
+fill docs/architecture/STACK.MD. Exact versions ("Next.js 15 App Router",
+not "Next.js").
 
 ## 2. Install the toolchain the rules reference
 
