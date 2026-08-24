@@ -18,7 +18,8 @@ docs/SETUP.md and complete it with the user before any other work.**
 - docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy
 - tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
 - README.md — skill catalog by workflow stage; per-source install files in
-  docs/frameworks/ · agents.md — subagent inventory
+  docs/frameworks/ · docs/agents/ — per-pack agent rosters +
+  docs/agents/IN-REPO-AGENTS.md (machine-wide subagent inventory)
 
 ## Commands
 

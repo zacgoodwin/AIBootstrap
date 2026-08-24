@@ -16,7 +16,6 @@ Execution: agents run as subagents, via the Agent tool with `subagent_type=<name
 - [Product & Review Panel](#product-review-panel) (8)
 - [Business Personas](#business-personas) (6)
 - [Domain Specialists](#domain-specialists) (1)
-- [Job Search](#job-search) (4)
 
 ## Plan & Architecture
 
