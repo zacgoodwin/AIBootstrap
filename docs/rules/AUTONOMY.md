@@ -4,14 +4,14 @@
 
 - Reversible work that follows from the current request or ticket scope.
 - Retrying after errors; gathering missing information yourself.
-- Filing deferred-work tickets (rules/WORKFLOW.md).
+- Filing deferred-work tickets (docs/rules/WORKFLOW.md).
 - Running read-only commands, tests, and builds.
 
 ## Stop and ask
 
-- Destructive operations (rules/SAFETY.md list) or unclear blast radius.
+- Destructive operations (docs/rules/SAFETY.md list) or unclear blast radius.
 - Genuine scope changes and architectural forks (confusion protocol,
-  rules/WORKFLOW.md): name the ambiguity, present 2-3 real options, ask.
+  docs/rules/WORKFLOW.md): name the ambiguity, present 2-3 real options, ask.
 - Anything touching production.
 - A request that contradicts an existing pattern or a settled decision.
 
@@ -24,5 +24,5 @@ tickets stay open for human close.
 
 ## Background work
 
-Monitor on the cadence in rules/WORKFLOW.md (5-minute updates, deterministic
+Monitor on the cadence in docs/rules/WORKFLOW.md (5-minute updates, deterministic
 monitor script). Never fire-and-forget a job that modifies data.

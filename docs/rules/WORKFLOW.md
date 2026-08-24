@@ -1,10 +1,14 @@
+<!-- Mapped from the global CLAUDE.md, 2026-08-23 -->
+
 # Workflow
 
 ## Tickets
 
 Tickets live on the GitHub ProjectV2 board (/z-setup creates it; /z-plan fills
-it; /z-loop drains it). Every ticket body follows docs/ai/TICKET-TEMPLATE.md —
-the zstack lint enforces it.
+it; /z-loop drains it). Every ticket body carries three sections — **Context**
+(including origin: "Deferred from <ticket/PR> on <date>" when applicable),
+**Acceptance Criteria**, and **Out of scope** — and the zstack lint enforces
+the shape.
 
 **Deferred work is a ticket, never a TODO file or code comment.** When work is
 consciously deferred, file it immediately:
@@ -13,8 +17,7 @@ consciously deferred, file it immediately:
 gh issue create --title "<short imperative>" --body-file <ticket-body.md>
 ```
 
-into Backlog. z-plan's backlog gate schema-checks it later. Include origin in
-the Context section ("Deferred from <ticket/PR> on <date>").
+into Backlog. z-plan's backlog gate schema-checks it later.
 
 UX-changing tickets update docs/user-guide/ pages in the same PR.
 
@@ -41,10 +44,9 @@ the bottleneck, not code generation — so review happens at three layers:
 
 Troubleshooting:
 
-- Daemon down: self-heals — any roborev CLI call (including the one inside
-  `tools/check-pipeline.sh`) auto-starts it. Commits made while it was down
-  are the real gap; `roborev review --branch` (the /stack-ship gate) covers
-  them.
+- Daemon down: self-heals — any roborev CLI call auto-starts it. Commits made
+  while it was down are the real gap; `roborev review --branch` (the
+  /stack-ship gate) covers them.
 - Orphaned or stale findings after restacks: `roborev compact`.
 - Stack health: `st doctor` (use `--fix` for gh-stack extension issues).
 
@@ -52,35 +54,46 @@ Troubleshooting:
 
 End every task with exactly one of:
 
-- **DONE**: all steps completed, evidence for every claim, tests + evals in the
-  diff, ready to merge.
-- **DONE_WITH_CONCERNS**: completed, but with issues to know about. List each
-  with severity and a proposed follow-up.
+- **DONE**: all steps completed, evidence for every claim, tests + evals in
+  the diff, ready to merge.
+- **DONE_WITH_CONCERNS**: completed, but with issues the user should know.
+  List each with severity and a proposed follow-up.
 - **BLOCKED**: cannot proceed. State what's blocking and what was tried.
-- **NEEDS_CONTEXT**: missing required information. State exactly what's needed.
+- **NEEDS_CONTEXT**: missing required information. State exactly what's
+  needed.
 
-"Partially done" is not a status.
+"Partially done" is not a status. Honesty about incompleteness beats
+pretending.
 
 ## Confusion protocol
 
 On high-stakes ambiguity (two plausible architectures, a request contradicting
 an existing pattern, a destructive operation with unclear scope, missing
 context that would change the approach): STOP. Name the ambiguity in one
-sentence. Present 2-3 options with real trade-offs. Ask. Never guess on
-architectural decisions. Does not apply to routine coding or obvious changes.
+sentence. Present 2-3 options with real trade-offs, not a fake spread. Ask
+the user. Never guess on architectural decisions. Does not apply to routine
+coding, small features, or obvious changes.
 
 ## Background jobs and backfills
 
-Any background job that modifies data triggers the full protocol; read-only
-jobs get the monitoring part only.
+Any job that modifies data triggers the full protocol. Read-only jobs
+(scrape, analysis) get monitoring only.
 
-- **Monitor, don't fire-and-forget.** Progress update at least every 5 minutes:
-  print it live AND append timestamped to the job's temp dir progress.log.
-  Print the exact follow command when creating the file. Percent, rate, and
-  ETA come from a deterministic monitor script reading the job's real state.
-- **Snapshot before touching anything.** Save every row the job will modify to
-  the temp dir first. Over 100k rows or 100MB: stop and ask before
-  snapshotting.
-- **On completion:** verdict with evidence; specific gap + fix if it needs to
-  be better; before/after examples per category; full before/after CSV with
-  the exact path. Tie the result to a measurable outcome.
+**Monitor, don't fire-and-forget.** Update at least every 5 minutes, faster
+near completion or when errors spike. Two places: live in the session, and
+appended timestamped to `$env:TEMP\<job-name>\progress.log` (Windows;
+`/tmp/<job-name>/progress.log` elsewhere). Print the follow command on file
+creation (`Get-Content -Wait <path>` or `tail -f <path>`). Update order:
+event title, percent done and ETA, rows processed, rate, error count,
+anomalies. Percent, rate, and ETA come from a monitor script reading the
+job's real state, never from you. You read it and flag what looks wrong.
+
+**Snapshot first.** Every row the job will modify goes to the temp dir before
+it runs: proof of reversibility and the diff baseline. Over 100k rows or
+100MB, stop and ask the user before snapshotting; don't start until they
+answer.
+
+**Report on completion:** verdict with evidence; whether it needs to be better
+plus the specific gap and fix (no vague "could be improved"); a table of
+concrete before/after examples per category; a full before/after CSV with its
+exact path printed. All of it under the job's temp dir.

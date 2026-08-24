@@ -2,8 +2,13 @@
 
 TODO(bootstrap): one-line description of what this product does and for whom.
 
-**If `docs/ai/BOOTSTRAP.md` exists, this project is uninitialized: read it and
-run the interview with the user before any other work.**
+Precedence when rules conflict: Safety first (docs/rules/SAFETY.md), then How
+to work (scope: finish everything asked, with tests and docs), then the lazy
+ladder (style: the smallest correct diff that covers that scope). The ladder
+limits code volume, never scope. Details: docs/rules/PRINCIPLES.md.
+
+**First run: if TODO(bootstrap) markers remain in this file, read
+docs/SETUP.md and complete it with the user before any other work.**
 
 ## Stack
 
@@ -12,13 +17,18 @@ exact versions (e.g. "Next.js 15 App Router", not "Next.js").
 
 ## Map
 
-services/ code · architecture/ maps · tools/ scripts
-rules/ behavior · docs/ strategy+user-guide+ai · .claude/ agents+skills+hooks
+- services/ — product code, one service per directory (docs/rules/SERVICES.md)
+- docs/rules/ — how to work here; load per the table below
+- docs/plans/ — plans archive · docs/architecture/ — subsystem maps
+- docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy
+- tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
+- README.md — skill catalog by workflow stage; per-source install files in
+  docs/frameworks/ · agents.md — subagent inventory
 
 ## Commands
 
-- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (structure) + `bash tools/check-pipeline.sh` (pipeline wiring) + `TODO(bootstrap)` (project tests)
-- Ship a branch: `/stack-ship` (roborev gate -> squash-submit PR -> adversarial review; see rules/WORKFLOW.md Shipping)
+- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (doc paths + hook self-checks) + `TODO(bootstrap)` (project tests)
+- Ship a branch: `/stack-ship` (roborev gate -> squash-submit PR -> adversarial review; see docs/rules/WORKFLOW.md Shipping)
 - Evals (paid, periodic, before ship + nightly): `TODO(bootstrap)`
 
 ## Non-negotiables
@@ -26,47 +36,53 @@ rules/ behavior · docs/ strategy+user-guide+ai · .claude/ agents+skills+hooks
 - Every change ships with gate tests, plus evals when latent behavior changed.
 - Never merge to main with the gate red.
 - End every task with a status: DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT.
+- Read the file before making claims about it. Never speculate about code you
+  have not opened.
 
 ## Routing
 
 | Need | Use |
 |---|---|
-| Design decision | Read DESIGN.md first; /design-consultation, /design-review |
+| Design decision | Read docs/DESIGN.md first; /design-consultation, /design-review |
 | Strategy question | Read docs/STRATEGY.md; /office-hours, /plan-ceo-review |
 | Eng review | /plan-eng-review, /review |
 | Bugs / errors | /investigate |
 | QA site behavior | /qa, /qa-only |
 | Ship / deploy | /ship, /land-and-deploy |
 | Security | /cso |
-| Codebase questions | /graphify, then architecture/ |
-| Learnings | /learn (export to docs/ai/LEARNINGS.md) |
-| Plans archive | docs/ai/plans/ |
+| Codebase questions | /graphify, then docs/architecture/ |
+| Learnings | /learn (export to docs/LEARNINGS.md) |
+| Plans archive | docs/plans/ |
 | Marketing / launch / sales / support / product / data | matching agent in .claude/agents/ |
-| Full skill catalog | docs/ai/SKILLS.md |
+| Full skill catalog | README.md |
+
+Skills above come from the packs docs/SETUP.md installs; until a pack is
+installed, its rows are inert.
 
 ## Rules (read on demand)
 
-Full knowledge index: docs/ai/INDEX.md. Load the file when the situation matches:
+Load the file when the situation matches:
 
-- Writing or reviewing code -> rules/CODING.md
-- Writing tests or evals -> rules/TESTING.md
-- Working a ticket, finishing a task, deferring work -> rules/WORKFLOW.md
-- Any scope or architecture decision -> rules/PRINCIPLES.md
-- Spawning subagents or picking models -> rules/DELEGATION.md
-- Context growing, session long -> rules/TOKEN-ECONOMY.md
-- Destructive ops, commits, secrets -> rules/SAFETY.md
-- Writing documentation -> rules/VOICE.md
-- Unsure whether to act or ask -> rules/AUTONOMY.md
+- Any scope or architecture decision -> docs/rules/PRINCIPLES.md
+- Writing or reviewing code -> docs/rules/CODING.md
+- Writing tests or evals -> docs/rules/TESTING.md
+- Working a ticket, finishing a task, deferring work -> docs/rules/WORKFLOW.md
+- Service layout and contracts -> docs/rules/SERVICES.md
+- Spawning subagents or picking models -> docs/rules/DELEGATION.md
+- Unsure whether to act or ask -> docs/rules/AUTONOMY.md
+- Destructive ops, commits, secrets -> docs/rules/SAFETY.md
+- Writing prose, docs, or talking to the user -> docs/rules/VOICE.md
+- rtk meta commands, output filtering -> docs/rules/RTK.md
 
 ## Estimation
 
 TODO(bootstrap): per-ticket Model + Model Effort defaults for this project.
-Until then, the rules/DELEGATION.md table governs.
+Until then, the docs/rules/DELEGATION.md table governs.
 
 ## Landmines
 
-Cross-cutting gotchas only, one line each. A mistake that belongs to a rules/
-domain goes in that file instead. None yet.
+Cross-cutting gotchas only, one line each. A mistake that belongs to a
+docs/rules/ domain goes in that file instead. None yet.
 
 # Compact instructions
 
@@ -75,5 +91,5 @@ TODO(bootstrap) markers.
 
 <!-- rtk-instructions v2 -->
 Always prefix shell commands with `rtk`, even inside `&&` chains: it filters
-output when it has a filter, passes through when it doesn't. Ref: ~/.claude/RTK.md.
+output when it has a filter, passes through when it doesn't. Ref: docs/rules/RTK.md.
 <!-- /rtk-instructions -->

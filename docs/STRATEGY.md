@@ -1,6 +1,6 @@
 # Strategy
 
-Filled by the first-session interview (docs/ai/BOOTSTRAP.md). Read before any
+Filled by the first-session interview (docs/SETUP.md). Read before any
 strategy, scope, or prioritization decision.
 
 ## Vision
@@ -14,8 +14,8 @@ strongest fit, and the explicit qualification criteria that identify them.
 
 ## Measurable outcomes (90-day)
 
-TODO(bootstrap): the metrics that define success in 90 days. Each gets a row in
-docs/ai/HEALTH-METRICS.md.
+TODO(bootstrap): the metrics that define success in 90 days.
+
 
 ## Out of scope
 
@@ -23,5 +23,5 @@ TODO(bootstrap): what this product deliberately does not do.
 
 ## Kill criteria
 
-TODO(bootstrap): the stop-or-pivot triggers, each tied to a metric in
-docs/ai/HEALTH-METRICS.md.
+TODO(bootstrap): the stop-or-pivot triggers, each tied to a metric above.
+

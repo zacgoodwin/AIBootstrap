@@ -1,6 +1,7 @@
 # Agents
 
 Every subagent definition reachable from this machine, deduplicated by `name`. 57 agents. Generated 2026-08-22 from `~/.claude/agents`, every repo's `.claude/agents` under `~/GitHub`, `AIBootstrap/.claude/agent-library` (parked ECC library, load via `/skill-library`), `PMOS/sub-agents`, `JobSearchOS/sub-agents`, `CostFlow.Finance/docs/agents`, and installed plugin caches (latest version only).
+> Inventory generated from the author's machine across all repos and plugin caches — an example of a mature agent roster. Only the rows sourced `zacgoodwin/AIBootstrap` ship in this repo (.claude/agents/).
 
 Execution: agents run as subagents, via the Agent tool with `subagent_type=<name>` or by asking Claude to "use the <name> agent". Source = where the agent was originally installed from. Blank = origin could not be determined.
 

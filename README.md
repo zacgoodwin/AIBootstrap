@@ -1,6 +1,15 @@
 # AIBootstrap
 
-Started out as a template repository but as I learn more it keeps morphing. Currently it's a list of skills and what they are used for: 
+A Claude Code starter kit: the author's /doctor-tuned setup, codified so you
+can pick it up and get the same experience. Three parts — a CLAUDE.md template
+with a rules pack ([CLAUDE.md](CLAUDE.md) + [docs/rules/](docs/rules/)), a
+first-run checklist that installs the toolchain ([docs/SETUP.md](docs/SETUP.md)),
+and the curated skill catalog below, organized by workflow stage with
+per-source install files in [docs/frameworks/](docs/frameworks/).
+
+Quickstart: (1) clone or copy this repo, (2) open Claude Code in it — the
+first-run trigger walks you through docs/SETUP.md, (3) install the skill
+packs you want from the catalog. The catalog:
 
 # Product Process
 ## Pack Setup 
@@ -211,7 +220,7 @@ Take that PRD and turn it into a demo so you can continue to iterate
 | `/frontend-a11y` | affaan-m/ECC | Accessibility patterns for React and Next.js — semantic HTML, ARIA attributes, form labeling, keyboard navigation, focus management, and screen reader support. |
 | `/frontend-design-direction` | affaan-m/ECC | Set an ECC-specific frontend design direction for production UI work. Use when building or improving websites, dashboards, applications, components, landing pages, visual tools, or |
 | `/make-interfaces-feel-better` | affaan-m/ECC | Apply concrete design-engineering details that make interfaces feel polished. Use when reviewing or improving UI spacing, typography, borders, shadows, motion, hit areas, icons, te |
-
+| `/ui-ux-pro-max` | nextlevelbuilder/ui-ux-pro-max-skill | Design intelligence and automated design-system generation for professional UI/UX across platforms. https://github.com/nextlevelbuilder/ui-ux-pro-max-skill | 
 
 
 ## Technical Stack Specific
@@ -329,7 +338,7 @@ The product is defined; turn it into developable chunks
 | `/codex` | garrytan/gstack | Codex CLI wrapper with review, challenge and consult modes. With no args it auto-detects: offers to review or challenge a branch diff, else the newest plan file, else asks what to send. |
 | `/codex review --xhigh` | garrytan/gstack | Normal pass/fail diff review but raises model_reasoning_effort from high to xhigh, roughly 23x more tokens and can run 50+ minutes. Opt in only when you want maximum reasoning and will wait. |
 | `/santa-method` | affaan-m/ECC | Multi-agent adversarial verification with convergence loop. Two independent review agents must both pass before output ships. |
-| `/code-review` |  | Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (doe |
+| `/code-review` | mattpocock/skills | Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (doe |
 | `/review` | garrytan/gstack | Pre-landing PR review. |
 | `/z-adversarial-review` | zacgoodwin/zg-skills | Blinded adversarial review for any GitHub PR. Assembles a blinded four-key input (spec, acceptance criteria, diff, throwaway worktree), spawns one fresh reviewer agent holding noth |
 
@@ -414,6 +423,7 @@ RoboRev is it's own specific thing that automates PRs
 | `/document-generate` | garrytan/gstack | Generate missing documentation from scratch for a feature, module, or entire project. |
 | `/quality-docs-update` | zcaceres/skills | Audit project documentation against the current state of the codebase and produce a revision plan. |
 | `/writing-for-agents` | mattpocock/skills | Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md. |
+| `/book_to_skill` |  virgiliojr94/book-to-skill | Turn PDF and docs folder into a reference skill |
 
 Graphify is it's own specific thing
 | Execution | Source (origin) | What it does |
@@ -535,7 +545,7 @@ See Agents Readme
 | --- | --- | --- |
 | `/optimize-permissions` | zcaceres/skills | Scan recent conversation transcripts for safe commands that could be auto-allowed by your CLI agent (Claude Code, Codex, Cursor, …), preview the proposed allowlist changes, then wr |
 | `/optimize-skill-activation` | zcaceres/skills | Audit installed skills and right-size each one's activation mode — slash-only, model-invocable (name+description in context), or eager-loaded (full body up front). |
-| `/skill-library` |  | Router into the parked skill/agent library (.claude/skill-library/, .claude/agent-library/). |
+| `/skill-library` | affaan-m/ECC | Router into the parked skill/agent library (.claude/skill-library/, .claude/agent-library/). |
 | `/skill-scout` | affaan-m/ECC | Search existing local, marketplace, GitHub, and web skill sources before creating a new skill. |
 | `/skill-stocktake` | affaan-m/ECC | Use when auditing Claude skills and commands for quality. Supports Quick Scan (changed skills only) and Full Stocktake modes with sequential subagent batch evaluation. |
 
@@ -572,7 +582,7 @@ See Agents Readme
 | `/context-restore` | garrytan/gstack | Restore working context saved earlier by /context-save. |
 | `/context-save` | garrytan/gstack | Captures branch, git status, diff stat, recent log, decisions and remaining work into a timestamped checkpoint for /context-restore. Optional title names it; never touches code. |
 | `/context-save list --all` | garrytan/gstack | Lists saved checkpoints from every branch instead of the default current-branch view, adding a Branch column. |
-| `/learn` |  | Manage project learnings. |
+| `/learn` | garrytan/gstack | Manage project learnings. |
 | `/handoff` | mattpocock/skills | Compact the current conversation into a handoff document for another agent to pick up. |
 | `/strategic-compact` | affaan-m/ECC | Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction. |
 | `/sync-gbrain` | garrytan/gstack | Incremental sync of the gbrain index with this repo's code via an mtime fast path (about 50ms steady state), then refreshes the AGENTS.md guidance on when to prefer gbrain search over Grep. |
@@ -605,8 +615,8 @@ See Agents Readme
 | `/skill-comply` | affaan-m/ECC | Visualize whether skills, rules, and agent definitions are actually followed — auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, |
 | `/team-builder` | affaan-m/ECC | Interactive agent picker for composing and dispatching parallel teams |
 | `/continuous-learning-v2` | affaan-m/ECC | Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents. |
-| `/everything-claude-code` |  | Development conventions and patterns for everything-claude-code. JavaScript project with conventional commits. |
-| `/everything-claude-code-conventions` |  | Auto-generated conventions skill for the everything-claude-code repo (JavaScript, hybrid module organization, separate test location) with conventional-commit rules distilled from 500 commits. No separate /everything-claude-code command exists on disk. |
+| `/everything-claude-code` | affaan-m/ECC (auto-generated) | Development conventions and patterns for everything-claude-code. JavaScript project with conventional commits. |
+| `/everything-claude-code-conventions` | affaan-m/ECC (auto-generated) | Auto-generated conventions skill for the everything-claude-code repo (JavaScript, hybrid module organization, separate test location) with conventional-commit rules distilled from 500 commits. No separate /everything-claude-code command exists on disk. |
 | `/find-skills` | vercel-labs/skills | Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending c |
 | `/rules-distill` | affaan-m/ECC | Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files |
 
@@ -614,22 +624,95 @@ See Agents Readme
 
 
 
-# Frameworks
-## Applications
+# Tools
+## CLI Apps
 
 | Name | Purpose | URL |
 | --- | --- | --- |
-|     |     |     |
+|  OpenCode   |   Mainstream Code Agent Alternative  |   https://github.com/anomalyco/opencode  |
+|  Context Builder   |  Local Context holder   |   https://github.com/igorls/context-builder  |
+|  Worktrunk   |  AI Worktree Management   |   https://github.com/max-sixty/worktrunk  |
+|  CodeGraph   |   Auto Code catalog and analysis  |   https://github.com/colbymchenry/codegraph  |
+|  Karpathy LLM Wiki   |   Local KB for LLM  |  https://github.com/Astro-Han/karpathy-llm-wiki   |
+|  FirstMate   |  Orca Teams Helper   |   https://github.com/kunchenguid/firstmate  |
+|  git-stack   |  Stacked PR helper   |   https://github.com/benwyrosdick/git-stack  |
+|  RoboRev   |   Auto Code Review (pair with stacked PR)  |   https://github.com/kenn-io/roborev  |
+|  Stax   |  Stacked PRs   |   https://github.com/cesarferreira/stax  |
+|  SST   |  Quick full stack development  |   https://github.com/anomalyco/sst  |
+|  Kata   |  Local-first issue tracking for AI coding agents with CLI and TUI   |    https://github.com/kenn-io/kata |
+|  Git Credential Manager   |  Secure cross-platform Git credential storage and authentication   |   https://github.com/git-ecosystem/git-credential-manager  |
+|  Context   |  Local-first MCP documentation server for AI agents, instant and offline   |   https://github.com/neuledge/context  |
+|  AgentField   |  Build, run, and scale AI agents like APIs and microservices   |   https://github.com/Agent-Field/agentfield  |
+|  Token Saver   |  Content-aware CLI output compression cutting AI assistant tokens 60-99%   |  https://github.com/ppgranger/token-saver   |
+|  RTK   |  Rust CLI proxy cutting LLM token usage 60-90% on dev commands   |   https://github.com/rtk-ai/rtk  |
+|  Graphify   |  Turns any codebase and docs into a queryable knowledge graph   |   https://github.com/Graphify-Labs/graphify  |
+|  Dify Docs   |  Official multilingual documentation source for Dify   |   https://github.com/langgenius/dify-docs  |
+|  LangChain   |  Agent engineering platform for building LLM apps   |    https://github.com/langchain-ai/langchain |
+|  Rivet Actors   |  Stateful compute primitive for AI agents and durable execution   |   https://github.com/rivet-dev/actors  |
+|  i-have-adhd   |  Skill preventing coding agents from burying the answer   |   https://github.com/ayghri/i-have-adhd  |
+|  Temporal   |  Durable execution platform for reliable, scalable applications   |   https://github.com/temporalio/temporal  |
+|  Create Context Graph   |  CLI scaffolding AI agent apps with graph-based reasoning memory   |  https://github.com/render-examples/create-context-graph   |
+|  oh-my-claudecode   |  Teams-first multi-agent orchestration layer for Claude Code   |  https://github.com/Yeachan-Heo/oh-my-claudecode   |
+|  brain.md   |  File-based persistent memory layer for coding agents   |  https://github.com/mindmuxai/brain.md   |
+|  Wyolet Relay   |  Self-hostable high-throughput LLM router with key pooling   |   https://github.com/wyolet/relay  |
+|  ccusage   |  Analyzes coding agent CLI token usage and costs locally   |   https://github.com/ccusage/ccusage  |
+|  memU   |  Shared personal memory system across agents and sessions   |   https://github.com/NevaMind-AI/memU  |
+|  Vault   |  Centralized secrets management, encryption, and access control   |  https://github.com/hashicorp/vault   |
+|  LEANN   |  Smallest vector index for RAG with 97% storage savings   |  https://github.com/StarTrail-org/LEANN   |
+
+
+## GUI / Web Apps 
+
+| Name | Purpose | URL |
+| --- | --- | --- |
+|  Unsloth   |  Train LLM   |  https://github.com/unslothai/unsloth   |
+|  OpenDesign   |  Figma + Claude Code on your desktop   |   https://github.com/nexu-io/open-design  |
+|  Multica   |  Open-source workspace assigning coding tasks to multiple AI coding agents   |   https://github.com/multica-ai/multica  |
+|  Agent Teams AI   |  Desktop app orchestrating teams of AI coding agents across platforms   |   https://github.com/777genius/agent-teams-ai  |
+|  Docbank   |  Self-sovereign local-first document system of record for you and agents   |  https://github.com/kenn-io/docbank   |
+|  AgentsView   |  Local-first session search, analytics, and token-use stats for coding agents   |  https://github.com/kenn-io/agentsview  |
+|  Camofox Browser   |  Anti-detection headless browser server for AI agents, powered by Camoufox   |   https://github.com/jo-inc/camofox-browser  |
+|  ScrapeGraphAI   |  Python web scraper using LLMs and graph logic to extract data   |   https://github.com/ScrapeGraphAI/Scrapegraph-ai  |
+|  serve-sim   |  The npx serve of Apple Simulators, streamed to a browser   |  https://github.com/EvanBacon/serve-sim   |
+|  ErrorTracker   |  Elixir built-in error reporting and tracking with dashboard   |  https://github.com/elixir-error-tracker/error-tracker  |
+|  Phoenix   |  Open-source AI observability platform for tracing, evaluation, and troubleshooting   |   https://github.com/Arize-ai/phoenix  |
+|  Conductor   |  Local-first remote access platform to operate your trusted laptop anywhere   |  https://app.conductross.com/sign-in   |
+|  Ideon   |  Self-hosted infinite-canvas workspace mapping notes, files, and to-dos spatially   |   https://github.com/3xpyth0n/ideon  |
+|  Tela   |  Self-hostable markdown team wiki with built-in MCP server for AI agents   |   https://github.com/zcag/tela  |
+|  SystemPrompt Template   |  Self-hosted Rust governance layer authenticating, authorizing, and logging AI interactions   |   https://github.com/systempromptio/systemprompt-template  |
+|  Sim   |  Collaborative workspace for building, deploying, and monitoring AI agents and workflows   |   https://github.com/simstudioai/sim  |
+|  Paperclip   |  Open-source app orchestrating a team of AI agents to run a business   |   https://github.com/paperclipai/paperclip  |
+|  TanStack Query   |  Async state management and data-fetching library for React, Solid, Svelte, Vue   |   https://github.com/TanStack/query  |
+|  Sanity   |  Open-source CMS platform for structured content workspaces   |  https://github.com/sanity-io/sanity   |
+|  LobeHub   |  Chief Agent Operator organizing AI agents into 24/7 team operations   |  https://github.com/lobehub/lobehub   |
+|  Outline   |  Fast, collaborative, realtime knowledge base / wiki for teams   |  https://github.com/outline/outline   |
+|  Replane   |  Dynamic config management for feature flags and rate limits without redeploying   |   https://github.com/replane-dev/replane  |
+|  Maxun   |  Open-source no-code platform turning websites into structured data / APIs   |   https://github.com/getmaxun/maxun  |
+|  tirreno   |  Open-source event tracking, threat detection, and risk scoring framework   |   https://github.com/tirrenotechnologies/tirreno  |
+
+
+
+
+
+## Components 
+
+| Name | Purpose | URL |
+| --- | --- | --- |
+|  Scalekit Developer Docs   |  Docs site for Scalekit's enterprise auth platform (SSO, SCIM, MCP)   |   https://github.com/scalekit-inc/developer-docs  |
+
 
 
 ## MCP 
 
 | Name | Purpose | URL |
 | --- | --- | --- |
-|     |     |     |
+|  docs-mcp-server   |  Open-source grounded documentation MCP server, alternative to Context7   |  https://github.com/arabold/docs-mcp-server   |
+|  markdownify-mcp   |  MCP server for converting almost anything to Markdown   |   https://github.com/zcaceres/markdownify-mcp  |
+|  GitMCP   |  Free remote MCP server exposing any GitHub project to stop code hallucinations   |   https://github.com/idosal/git-mcp  |
 
 
-## Skill Packs (ish) 
+
+## Frameworks
 
 | Name | Purpose | URL |
 | --- | --- | --- |
@@ -640,4 +723,48 @@ See Agents Readme
 |   zcarceres  |  Developer's personal skills   |  https://github.com/zcaceres/skills   |
 |   ECC  |  Everything (and the kitchen sink) skills   |  https://github.com/affaan-m/ECC   |
 |   Matt Pocock's Skills  |  Low overhead ticket based workflow   |  https://github.com/mattpocock/skills   |
+|  Ruflo   |   agent meta-harness  |  https://github.com/ruvnet/ruflo   |
+|   Superpowers  |   An agentic skills framework & software development methodology  |  https://github.com/obra/superpowers   |
+|  GSD   |  Git, Ship, Done development framework   |   https://github.com/open-gsd/gsd-core  |
+|   Han  |   A curated marketplace of Claude Code plugins that embody the principles of ethical and professional software development.  |   https://github.com/TheBushidoCollective/han  |
+|  Beagle   |  Language Specific Coding Skills  |  https://github.com/existential-birds/beagle   |
+|  Claude MPM Skills   |  skills designed for the Claude Multi-Agent Project Manager (MPM) ecosystem   |   https://github.com/bobmatnyc/claude-mpm-skills  |
+|  Unlazy   |  Anti-laziness skill decomposing agent tasks into layers via a Depth Tree method   |  https://github.com/Leonxlnx/unlazy   |
+|  Taste Skill   |  Gives AI good taste, stops it generating boring, generic slop   |   https://github.com/Leonxlnx/taste-skill  |
+|  Trail of Bits Skills   |  Claude Code skills for security research and audit workflows   |  https://github.com/trailofbits/skills   |
+|  Mindrally Skills   |  240+ Claude Code skills converted from Cursor rules for major frameworks   |   https://github.com/Mindrally/skills  |
+|  Codex Skills Alternative   |  Vendor-neutral Agent Skills reimplementing Codex creative/product design workflows   |   https://github.com/DKeken/codex-skills-alternative  |
+|  PM Claude Brief   |  CLAUDE.md templates and brief-writing discipline for product managers   |   https://github.com/MariaVimer/pm-claude-brief  |
+
+
+
+## Bootstrap
+
+| Name | Purpose | URL |
+| --- | --- | --- |
+|  init-project   |  Documentation-driven project initialization skill generating CLAUDE.md and specs   |   https://github.com/sajiner90/init-project  |
+|  repo-onboard   |  Claude Code plugin guiding spec interviews into requirements, design, tasks   |   https://github.com/dannyavrs/repo-onboard  |
+|  AI Code Standards   |  Plugin generating tailored CLAUDE.md standards from stack and team fragments   |   https://github.com/brandonm/ai-code-standards  |
+|  Claude Project Mgmt Playbook   |  Claude Code patterns and prompts for project managers and delivery leads   |   https://github.com/Lwhieldon/claude-project-mgmt-playbook  |
+|  SmythOS SRE   |  Open-source cloud-native runtime for building and running agentic AI   |   https://github.com/SmythOS/sre  |
+|  Claude Code Showcase   |  Example Claude Code project config with hooks, skills, agents, CI workflows   |   https://github.com/ChrisWiles/claude-code-showcase  |
+|  PM Claude Code Setup   |  Ready-to-use CLAUDE.md and starter skill for product managers   |  https://github.com/aakashg/pm-claude-code-setup   |
+
+
+
+## Lang Specific
+
+| Name | Purpose | URL |
+| --- | --- | --- |
+|  Claude Elixir   |  Elixir specific development helper   |   https://github.com/oliver-kriska/claude-elixir-phoenix  |
+|  React Doctor   |  Deterministic scanner catching bad React code your agent writes   |   https://github.com/millionco/react-doctor  |
+
+## Interesting 
+
+| Name | Purpose | URL |
+| --- | --- | --- |
+|  Apohara Context Forge   |  Shared context compiler for multi-agent LLM systems, cuts VRAM 68%   |   https://github.com/SuarezPM/Apohara_Context_Forge  |
+|  Crush   |  Glamourous agentic coding tool for the terminal   |   https://github.com/charmbracelet/crush  |
+|  Claude Code for PMM   |  AI task manager for product marketing managers, organizes backlog dumps   |   https://github.com/chriscooning/claude-code-for-pmm  |
+|  Plasmic   |  Visual builder for React apps, websites, and content   |   https://github.com/plasmicapp/plasmic  |
 

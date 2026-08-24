@@ -1,28 +1,27 @@
+<!-- Mapped from the global CLAUDE.md, 2026-08-23 -->
+
 # Tests and evals: every time, no exceptions
 
-Every feature ships with a test suite, plus an eval suite when latent behavior
-is involved, in the same commit. Every bug fix ships a test that would have
-caught the bug (plus an eval when the bug was in latent behavior), unless the
-change is a trivial one-liner. If they aren't in the diff, the work isn't
-done. "Later" is banned.
-
-A test written by the pass that wrote the code inherits its blind spots; the
-plan's `### Acceptance Criteria` section is the independent yardstick the
-review checks against. Weakening, deleting, or skipping a planned case is a
-spec question to raise, never a silent edit.
-
-Every failure gets codified same day: a gate test, a script, or a skill that
-makes that failure path unreachable.
+- Every feature ships a test suite in the same commit, plus evals when latent
+  behavior is involved. Every bug fix ships a test that would have caught it
+  (plus an eval when the bug was latent). Trivial one-liners need no test. Not
+  in the diff means not done. "Later" is banned.
+- Tests written by the pass that wrote the code inherit its blind spots. The
+  plan's `### Acceptance Criteria` is the independent yardstick review checks
+  against. Weakening, deleting, or skipping a planned case is a spec question
+  to raise, never a silent edit.
+- Every failure gets codified same day: gate test, script, or skill that makes
+  that path unreachable.
 
 ## Two lanes, different budgets
 
 | Lane | Cost | When | Rules |
 |---|---|---|---|
-| Gate tests | free, deterministic, <2s | CI on every push/PR; every commit once bootstrap wires the pre-commit hook | never flaky, always green on main |
+| Gate tests | free, deterministic, <2s | CI on every push/PR; every commit via pre-commit hook once wired | never flaky, always green on main |
 | Periodic evals | paid (LLM calls) | before ship + nightly | may be non-deterministic, must have a pass threshold |
 
 Gate command and eval command live in CLAUDE.md `## Commands`. Each service
-carries its own suites (services/README.md).
+carries its own suites (docs/rules/SERVICES.md).
 
 Non-trivial logic leaves ONE runnable check behind (an assert-based self-check
 or one small test file); trivial one-liners need no test. The one-check rule

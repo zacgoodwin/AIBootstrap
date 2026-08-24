@@ -21,4 +21,4 @@ services/<name>/
 A change in one service must not require running another service's suite to
 validate. Cross-service change = contract change: bump the schema version,
 update both sides, call it out explicitly. This file owns the service
-contract; rules/CODING.md points here.
+contract; docs/rules/CODING.md points here.

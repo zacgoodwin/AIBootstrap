@@ -1,17 +1,25 @@
+<!-- Mapped from the global CLAUDE.md, 2026-08-23 -->
+
 # Principles
 
-Precedence when rules conflict: Safety (rules/SAFETY.md) first, then How to work
-(scope: finish everything asked, with tests and docs), then the lazy-dev ladder
-below (style: the smallest correct diff that covers that scope). The ladder
+Precedence when rules conflict: Safety first (docs/rules/SAFETY.md), then How
+to work (scope: finish everything asked, with tests and docs), then Ponytail
+(style: the smallest correct diff that covers that scope; loaded by the
+ponytail hook and skill — the ladder below is its in-repo copy). Ponytail
 limits code volume, never scope.
 
 ## How to work
 
-The marginal cost of completeness with AI is near zero. Do the whole thing,
-correctly, with tests and documentation. Never offer to table something when the
-permanent solve is within reach. Never present a workaround when the real fix
-exists. The answer to a request is the finished product (tests, evals, docs
-included), not a plan to build it.
+Deliver what was asked, at the scope intended. Make routine judgment calls
+yourself, and check in only when different readings of the request would lead
+to materially different work. If the request seems mistaken or a better
+approach exists, say so in a sentence and continue with the task as asked
+rather than quietly narrowing, widening, or transforming it. Finish the whole
+task, and stop short of actions that are clearly beyond what was asked.
+
+Tests, evals, and docs are in scope by default (docs/rules/TESTING.md). When
+the user asks for something, the answer is the finished product, not a plan to
+build it.
 
 You can outsource the typing. You cannot outsource the understanding. Before
 calling anything DONE, be able to explain why the code is correct and exactly
@@ -19,26 +27,30 @@ where it would break. Tests passing is not understanding.
 
 ## Latent vs deterministic
 
-Every piece of work belongs to one of two spaces. Picking the wrong one is the
-most common way agents produce bad output.
+Picking the wrong space is the most common way agents produce bad output.
 
-- **Latent space (LLM):** judgment, pattern matching, creativity, ambiguous
-  inputs, prose.
-- **Deterministic space (code):** same input must produce the same correct
-  answer. Precise, reproducible, testable, free per run.
+- **Latent (LLM):** judgment, pattern matching, creativity, ambiguous inputs,
+  prose.
+- **Deterministic (code):** same input must produce the same correct answer by
+  definition. Reproducible, testable, free per run.
 
-Arithmetic, date math, file lookups, parsing, JSON transforms, regex, hashes,
-and structured API calls never happen inside a model reply. Stop and write the
-script (it lives in tools/). If a task is both, split it: the deterministic
-piece becomes a script + tests, the latent piece becomes a prompt + eval.
+Arithmetic, date/timezone math, file lookups, CSV parsing, JSON transforms,
+regex matches, hashes, and structured API calls never happen inside a model
+reply. Stop and write the script (it lives in tools/). If a task is both,
+split it: the deterministic piece becomes a script + tests, the latent piece
+becomes a prompt + eval. The script then constrains the model forever after,
+and the old failure path becomes unreachable.
 
-## Measurable outcomes
+## Tie every change to a measurable outcome
 
-Name the outcome before building: the metric, workflow step, or user-visible
-behavior that changes. "It works" is not an outcome. If you can't state what
-gets measurably better and how you'll see it, stop and ask (rules/AUTONOMY.md).
-Wire in the trace: a metric, a log line, an eval score. See
-docs/ai/HEALTH-METRICS.md for this project's metrics.
+- Name the outcome before building: the metric, workflow step, or user-visible
+  behavior that changes. "It works" is not an outcome.
+- Can't state what gets measurably better and how you'll see it? Say so in one
+  sentence and propose the outcome you think it should hit, then continue.
+  Confusion Protocol stop only when the answer would lead to materially
+  different work.
+- Wire in the trace: a metric, a log line, an eval score. Compute that
+  produces no measurable result is theater.
 
 ## The lazy-dev ladder
 
@@ -55,15 +67,31 @@ Lazy means efficient, not careless. Stop at the first rung that holds:
 Understand the problem and trace the real flow first, then climb. Bug fix =
 root cause in the shared function, not a per-caller patch. Mark deliberate
 corner-cuts with a `ponytail:` comment naming the ceiling; if the upgrade
-should ever happen, it also gets a Backlog ticket (rules/WORKFLOW.md). The
-comment marks the spot, the ticket owns the work.
+should ever happen, it also gets a Backlog ticket (docs/rules/WORKFLOW.md).
+The comment marks the spot, the ticket owns the work.
 Never lazy about: understanding the problem, input validation at trust
 boundaries, error handling that prevents data loss, security, accessibility,
 anything explicitly requested.
 
-## Reuse installed skills
+## Skills
 
-When a request matches an installed skill, invoke it (CLAUDE.md routing table;
-full catalog docs/ai/SKILLS.md). Don't re-implement what a skill already does.
-Done twice by hand means the third time is a command: codify it as a script or
-skill (/skillify automates this for scrape flows; write others by hand).
+- Request matches an installed skill? Invoke it via the Skill tool. Don't
+  re-implement what a skill already does well.
+- Skillify repeated success, not just failure. Second time running the same
+  manual flow by hand, codify it: script, skill, or workflow. Twice by hand
+  means the third time is a command.
+- gstack's `/browse` for interactive browser sessions (QA, dogfooding, form
+  flows). WebSearch/WebFetch for reading pages and docs.
+- If `graphify-out/graph.json` exists in the repo, answer codebase questions
+  with `graphify query "<question>"` (also `path`, `explain`) before raw grep,
+  and run `graphify update .` after modifying code. Run it bare, no `cd`
+  prefix (see docs/rules/SAFETY.md).
+
+## Grounding
+
+<investigate_before_answering>
+Never speculate about code you have not opened. If the user references a specific file,
+you MUST read the file before answering. Make sure to investigate and read relevant
+files BEFORE answering questions about the codebase. Never make any claims about code
+before investigating unless you are certain of the correct answer.
+</investigate_before_answering>
