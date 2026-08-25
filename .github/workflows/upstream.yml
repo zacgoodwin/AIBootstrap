@@ -1,0 +1,29 @@
+
+# Weekly "what moved upstream". Separate from the gate on purpose: this one
+# talks to the network, so it is neither free nor deterministic and must never
+# gate a merge. It reports into the run summary rather than failing the build —
+# entries drift upstream constantly, and a permanently red badge stops being a
+# signal. Add --strict below if you would rather it fail on anything that moved.
+name: upstream
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays, 06:17 UTC
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Compare pins against upstream
+        run: |
+          {
+            echo '## Upstream check'
+            echo '```'
+            node tools/skills-update.mjs check
+            echo '```'
+            echo 'Act on it with `/skills-update`.'
+          } | tee -a "$GITHUB_STEP_SUMMARY"

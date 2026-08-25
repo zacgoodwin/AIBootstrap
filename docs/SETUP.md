@@ -92,6 +92,13 @@ marketplace add <repo>`); the plugin rows above install from these.
 | ecc | affaan-m/ECC | ECC pack |
 | codemyspec | Code-My-Spec/plugins | codemyspec plugin |
 
+Plugins installed from a marketplace update through `/plugin`. Anything
+vendored into `.claude/skills/` instead, and every pack catalog in
+docs/frameworks/, is tracked in tools/sources.json:
+`node tools/skills-update.mjs check` says what has moved upstream since, and
+`/skills-update` refreshes it. Vendor a skill by hand and the gate will ask
+for its manifest entry.
+
 ## 6. Plan, approve, execute
 
 Build ONE plan covering: local installs, external services to sign up

@@ -1,6 +1,6 @@
 # zcaceres/skills
 
-Skills from https://github.com/zcaceres/skills sorted by the same sections as Z-TOP-SKILLS.md. Install: `npx skills add zcaceres/skills -s <name>`.
+Skills from https://github.com/zcaceres/skills sorted by the same sections as Z-TOP-SKILLS.md. Install: `npx skills add zcaceres/skills -s <name>`. Upstream not pinned in tools/sources.json; `/skills-update` records the commit on its first full catalog pass.
 
 # Product Process
 ## Starting Direction / Human Helper

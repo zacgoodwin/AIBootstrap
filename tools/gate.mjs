@@ -1,14 +1,19 @@
 #!/usr/bin/env node
 // Gate: every repo path referenced in CLAUDE.md, README.md, CHANGELOG.md,
 // docs/, and .claude/ must exist, .gitignore must keep .claude/credentials.md
-// ignored, and the shipped hooks must pass their self-checks. Free,
+// ignored, tools/sources.json must agree with what is actually on disk, and
+// the shipped hooks and tools must pass their self-checks. Free,
 // deterministic, <2s. The path check exists because the docs rotted against
 // deleted files once (docs/ai/*, rules/*, tools/*); it makes that path
-// unreachable everywhere it scans.
+// unreachable everywhere it scans. The provenance check exists for the same
+// reason one step out: a vendored skill with no recorded source, or a header
+// that disagrees with the manifest, makes "what moved upstream" unanswerable.
+// Nothing here touches the network — that is skills-update's `check`.
 // Run: node tools/gate.mjs  |  self-test: --self-test
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { entryPaths, loadSources, parseProvenance, validateSources } from "./skills-update.mjs";
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 
@@ -64,6 +69,63 @@ export function extractPaths(text, fileDir) {
   });
 }
 
+/**
+ * The manifest and a pack's prose header both state the same pin, so they can
+ * drift. Returns null when they agree, else the disagreement.
+ */
+export function headerMismatch(entry, text) {
+  const p = parseProvenance(text);
+  if (!p) return "no Upstream provenance sentence in the header paragraph";
+  if (entry.pinned == null) {
+    return p.unpinned ? null : `header claims a pin (${p.commit ?? p.version}); manifest has none`;
+  }
+  if (p.unpinned) return `header says unpinned; manifest pins ${entry.pinned.commit?.slice(0, 7) ?? entry.pinned.version}`;
+  if (entry.pinned.commit) {
+    const short = entry.pinned.commit.slice(0, 7);
+    if (!p.commit || !entry.pinned.commit.startsWith(p.commit)) {
+      return `header commit ${p.commit ?? "(none)"} != manifest ${short}`;
+    }
+  } else if (p.version !== entry.pinned.version) {
+    return `header version ${p.version ?? "(none)"} != manifest ${entry.pinned.version}`;
+  }
+  if ((p.checked ?? null) !== (entry.checked ?? null)) {
+    return `header checked ${p.checked ?? "(none)"} != manifest ${entry.checked ?? "(none)"}`;
+  }
+  return null;
+}
+
+/** tools/sources.json vs the filesystem and the headers it describes. */
+function checkSources(problems) {
+  const data = loadSources();
+  for (const e of validateSources(data)) problems.push(e);
+
+  const claimed = new Map(); // repo-relative path -> entry id
+  for (const entry of data.entries) {
+    for (const p of entryPaths(entry)) {
+      if (!existsSync(join(ROOT, p))) problems.push(`sources.json[${entry.id}] -> ${p} (does not exist)`);
+      if (claimed.has(p)) problems.push(`sources.json: ${p} claimed by both ${claimed.get(p)} and ${entry.id}`);
+      claimed.set(p, entry.id);
+    }
+    if (entry.kind === "pack" && existsSync(join(ROOT, entry.doc))) {
+      const bad = headerMismatch(entry, readFileSync(join(ROOT, entry.doc), "utf8"));
+      if (bad) problems.push(`${entry.doc} -> ${bad}`);
+    }
+  }
+  // Nothing vendored or catalogued may go untracked: an unrecorded source
+  // cannot be checked for updates, and silently reads as up to date.
+  for (const d of readdirSync(join(ROOT, ".claude/skills"))) {
+    const p = `.claude/skills/${d}`;
+    if (statSync(join(ROOT, p)).isDirectory() && !claimed.has(p)) {
+      problems.push(`${p} -> no tools/sources.json entry (where did it come from?)`);
+    }
+  }
+  for (const f of readdirSync(join(ROOT, "docs/frameworks"))) {
+    const p = `docs/frameworks/${f}`;
+    if (f === "Z-TOP-SKILLS.md") continue; // derived from the others; no single upstream
+    if (f.toLowerCase().endsWith(".md") && !claimed.has(p)) problems.push(`${p} -> no tools/sources.json entry`);
+  }
+}
+
 function run() {
   const missing = [];
   let checked = 0;
@@ -89,12 +151,24 @@ function run() {
     for (const m of missing) console.error(`  ${m}`);
     process.exit(1);
   }
+  const provenance = [];
+  checkSources(provenance);
+  if (provenance.length) {
+    console.error(`gate: ${provenance.length} provenance problem(s):`);
+    for (const m of provenance) console.error(`  ${m}`);
+    process.exit(1);
+  }
   const hook = spawnSync(process.execPath, [join(ROOT, ".claude/hooks/filter-test-output.mjs"), "--check"], { stdio: "inherit" });
   if (hook.status !== 0) {
     console.error("gate: hook self-check failed");
     process.exit(1);
   }
-  console.log(`gate: OK (${checked} path references resolve, credentials ignored, hooks self-check)`);
+  const updater = spawnSync(process.execPath, [join(ROOT, "tools/skills-update.mjs"), "--self-test"], { stdio: "inherit" });
+  if (updater.status !== 0) {
+    console.error("gate: skills-update self-test failed");
+    process.exit(1);
+  }
+  console.log(`gate: OK (${checked} path references resolve, credentials ignored, provenance recorded, hooks self-check)`);
 }
 
 function selfTest() {
@@ -110,6 +184,21 @@ function selfTest() {
   assert(!got.some((r) => r.includes("<name>")), "placeholders must be skipped");
   assert(!got.some((r) => r.startsWith(".claude/workflows")), "SKIP list must apply");
   assert(!existsSync(join(ROOT, "docs/nope-missing.md")), "fixture bad path must not exist");
+
+  // headerMismatch: the manifest and the pack's prose must not drift apart.
+  const doc = (line) => `# P\n\nAll [x](https://e/r) skills. ${line}\n`;
+  const pin = { pinned: { commit: "05a71303f0" }, checked: "2026-08-23" };
+  assert(headerMismatch(pin, doc("Upstream commit 05a7130 checked 2026-08-23.")) === null, "short header sha matches a long manifest pin");
+  assert(headerMismatch(pin, doc("Upstream commit 9999999 checked 2026-08-23.")), "a different sha must fail");
+  assert(headerMismatch(pin, doc("Upstream commit 05a7130 checked 2026-08-01.")), "a stale checked date must fail");
+  assert(headerMismatch(pin, doc("Upstream not pinned in tools/sources.json; ok.")), "unpinned header under a pinned entry must fail");
+  assert(headerMismatch(pin, "# P\n\nNo provenance sentence.\n"), "a header with no provenance must fail");
+  const unpinned = { pinned: null, checked: null };
+  assert(headerMismatch(unpinned, doc("Upstream not pinned in tools/sources.json; ok.")) === null, "sentinel satisfies an unpinned entry");
+  assert(headerMismatch(unpinned, doc("Upstream commit 05a7130 checked 2026-08-23.")), "a header pin under an unpinned entry must fail");
+  const versioned = { pinned: { version: "1.68.3.0" }, checked: "2026-08-23" };
+  assert(headerMismatch(versioned, doc("Upstream 1.68.3.0 checked 2026-08-23.")) === null, "version-only pins compare by version");
+  assert(headerMismatch(versioned, doc("Upstream 1.69.0.0 checked 2026-08-23.")), "a moved version must fail");
   console.log("gate --self-test: OK");
 }
 
