@@ -523,7 +523,7 @@ it as preference, not as engineering.
 | Per monthly active user | Most flag vendors | Uncorrelated with agent output. Safe. |
 | Per event or error | Sentry (~$26 Team, ~5k free) | Mostly production traffic. Watch it, but fine. |
 | Per snapshot, trace, score, or scan | Chromatic ($179/35k snapshots, $0.008 over), Percy (from $599), Braintrust ($2.50/1k scores), LangSmith ($2.50/1k traces) | **Dangerous.** Agents open more PRs, so more snapshots, traces, and evals. Model your bill at 5x current PR volume before signing. |
-| Per compute minute or GB | GitHub Actions minutes, Browserbase (~$0.10-0.12/browser hour) | **Dangerous and now unavoidable.** GitHub began charging $0.002/minute for self-hosted runner usage in private repos on 1 March 2026, so the old escape hatch is metered too. |
+| Per compute minute or GB | GitHub Actions minutes, Browserbase (~$0.10-0.12/browser hour) | **Dangerous.** GitHub announced a $0.002/minute platform fee on self-hosted runners in private repos for 1 March 2026, then shelved it before the effective date after community pushback, with no new date set. Self-hosted runners in private repos stay free for now, but GitHub has said the charge could return in some form, so don't architect around "free forever." |
 
 The practical rule: buy the per-seat services, and put the per-activity ones
 where the meter cannot reach you. That lands on exactly the categories where
@@ -535,7 +535,7 @@ browsers, and observability ingest.
 | Need | Pick | Note |
 | --- | --- | --- |
 | Move execution off laptops | The **Claude Code GitHub Action**, plus **self-hosted environments** if compliance requires | The Action runs Claude Code inside a workflow, interactive on `@claude` or automated on any event including cron. `plugin_marketplaces` installs your private marketplace into the CI run, so the same skills run server-side as locally. OIDC removes long-lived secrets. Self-hosted environments run cloud sessions on runners inside your network; checkouts and secrets stay on your machines, the control plane stays Anthropic-hosted, and inference cannot route through Bedrock, Vertex, Foundry, or a gateway. |
-| Faster CI | Blacksmith, Namespace, or Depot managed runners | Roughly 2-3x GitHub's speed at about a third less cost. Depot if Docker builds are the bottleneck. The free-self-hosted argument evaporated in March 2026. |
+| Faster CI | Blacksmith, Namespace, or Depot managed runners | Roughly 2-3x GitHub's speed at about a third less cost. Depot if Docker builds are the bottleneck. The self-hosted-runner platform fee announced for March 2026 was shelved before taking effect, so self-hosting stays a live free option, but a paused decision, not a permanent one. |
 | Static analysis as a PR gate | **OpenGrep** free in CI as the floor; add **Qodana** (~$6/contributor) or **Codacy** (~$15/user) for a managed dashboard | SonarQube Community Build analyzes only the main branch: no branch analysis, no PR decoration. Since the entire argument is gating the PR, the free tier does not deliver it. That is Developer Edition, ~$2,500/year at 100K LOC. Buy it only if AI Code Assurance specifically is the requirement. |
 | Secrets | gitleaks in CI **and** GitGuardian (free under 25 developers) | Day one. Adding it over a polluted history makes CI permanently red. |
 | Dependencies | **Dependency-Track** | Ingests an SBOM per build and re-analyzes daily against NVD and GitHub Advisories, so a package that turns vulnerable next month surfaces without a new build. The justification: an agent installs whatever dependency it decides it needs, by whatever method it thinks of. |
@@ -546,7 +546,7 @@ browsers, and observability ingest.
 | A URL to QA against | Preview environments (Vercel, Render, Coolify, Argo CD PR generator) | The single highest-value purchase for a product with a UI: `/qa` runs in CI against a real URL instead of one person's localhost, and DAST gets a target. |
 | A browser that is not on a laptop | Browserbase, Hyperbrowser, or Steel; Browserless self-hosted | Unlocks five skills at once: `/browse`, `/qa`, `/scrape`, `/canary`, `/benchmark` all need Chrome. All expose a Playwright-compatible WebSocket, so migration is a connection string. |
 | Keep the gate credible | Trunk Flaky Tests | Tracks pass/fail history per commit and quarantines automatically. Agent-written tests raise absolute flake count even at a constant rate. |
-| Keep main green | GitHub's native merge queue first (free); Graphite or Aviator at volume | Graphite is the closest server-side counterpart to stax. |
+| Keep main green | GitHub's native merge queue on public repos, free on any plan; on **private** repos it requires Enterprise Cloud ($21/user); Graphite, Mergify, or Aviator work on Team without the upgrade | Graphite is the closest server-side counterpart to stax. On private repos, the merge queue and SSO/SCIM are the same purchase, so price them together. |
 | Contracts that break the build | Pact Broker or PactFlow | The machine form of service boundaries, and the only thing here that actually stops a breaking cross-service change. `can-i-deploy` gates the deploy. |
 | Agent containment | Coder or devcontainers; an MCP gateway such as MCPJungle | `/guard` and `/freeze` are requests to a cooperative agent. A container is a boundary. Pair the gateway with the managed-settings allowlist so it is the only route and it holds the credentials. |
 | Identity | One provider in front of everything | **The tax nobody budgets.** Twelve services means twelve auth systems unless one IdP fronts them. Install it around step six, not after the twelfth service. A mostly-SaaS stack gets this free from an existing Google or Okta tenant, which is one more quiet point for SaaS. |
@@ -854,9 +854,10 @@ short-lived worktree.
 
 Part 4 lists flags under Deliver as "ship dark, enable later," a stack B
 nicety. Under trunk-based they are how incomplete work reaches trunk at all,
-which promotes them to day one in **every** stack including D. GrowthBook Cloud
-free (3 users, unlimited flags) and Statsig free (1M events) cover it at $0, and
-PostHog already includes flags if it is in the stack.
+which promotes them to day one in **every** stack including D. Statsig free
+(no seat cap, 2M events/mo) covers a 5-10 person team at $0; GrowthBook Cloud's
+free tier caps at 3 users, so past that use self-hosted GrowthBook (OSS, no
+caps) rather than Cloud. PostHog already includes flags if it is in the stack.
 
 For work too large to hide behind a boolean, the answer is branch-by-abstraction,
 not a long branch: introduce the seam, land it, migrate callers incrementally,
@@ -890,8 +891,11 @@ pass green against the trunk they branched from, and break each other after
 landing. Agent volume makes that a daily event instead of a monthly one.
 
 A merge queue tests each PR against the actual post-merge state of trunk before
-letting it in. GitHub's native one is free, so this lands in stack A, not stack
-C. Graphite or Aviator only when volume genuinely outgrows it.
+letting it in. GitHub's native one is free on public repos on any plan; on
+**private** repos it requires Enterprise Cloud ($21/user), which also buys
+SSO/SCIM, so price it as one decision rather than a stack-A freebie. Below
+that tier, Graphite, Mergify, or Aviator deliver the same queue on Team.
+Either way this is a week-three, not a 9+-people, priority under trunk-based.
 
 ## 5. Adversarial review gets risk-tiered instead of universal
 
@@ -923,13 +927,14 @@ Three rows move up, and all three are free or near-free.
 
 | Item | Branch-based default | Trunk-based |
 | --- | --- | --- |
-| Feature flags | Stack B, Deliver stage | **Stack A and D, day one.** GrowthBook Cloud or Statsig free tier. |
-| Merge queue | Step 8, or 9+ people | **Week 3, stack A.** GitHub native, free. |
+| Feature flags | Stack B, Deliver stage | **Stack A and D, day one.** Statsig's free tier has no seat cap (2M events/mo) and fits a 5-10 person team outright; GrowthBook Cloud's free tier caps at 3 users, so past that size use self-hosted GrowthBook (fully OSS, no caps) instead of Cloud. |
+| Merge queue | Step 8, or 9+ people | **Week 3, stack A on public repos** (GitHub native, free); on private repos it needs Enterprise Cloud ($21/user) or a third-party queue (Graphite, Mergify) on Team. |
 | Managed runners | Stack B, a cost play | **Stack A, structural.** ~$50-150/mo usage. |
 | Preview environments | Per PR | Per PR **and** a permanent trunk-tracking staging environment, because post-merge detection now carries real weight. |
 | Progressive rollout | Stack C (Argo Rollouts, LaunchDarkly) | Worth pulling into B: automated metric-driven rollback is the safety net that pre-merge review used to be. The PaaS instant-rollback button is the cheap version. |
 
-Net effect on stack A: roughly $50-150 a month for runners, and nothing else.
+Net effect on stack A: roughly $50-150 a month for runners, plus the merge
+queue's Enterprise-or-third-party fork on private repos above.
 
 ## Two new anti-patterns and one new owner
 
