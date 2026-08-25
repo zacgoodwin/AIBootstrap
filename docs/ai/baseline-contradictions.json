@@ -13,30 +13,12 @@
     "docs/process": 7
   },
   "counts": {
-    "total": 30,
+    "total": 27,
     "mechanical": 0,
-    "semantic": 30,
-    "p1": 3
+    "semantic": 27,
+    "p1": 2
   },
   "findings": [
-    {
-      "id": "review-810990841a",
-      "check": "review",
-      "class": "SEMANTIC",
-      "severity": "P1",
-      "file": "docs/frameworks/Z-TOP-SKILLS.md",
-      "line": 3,
-      "message": "Only 5 of the 19 packs contribute a skill row to the stage tables; the other 14 appear only as a URL row in the Frameworks table. README.md:65 repeats the 'every pack' claim. Reviewer tallied the Source column across 34 tables / 435 rows.",
-      "evidence": {
-        "subject": "review:The cross-pack pick list: the best skill per job, drawn from every source in",
-        "quote": "The cross-pack pick list: the best skill per job, drawn from every source in",
-        "conflicts_with": "README.md:65"
-      },
-      "fix": null,
-      "suggested_fix": "Reword both claims to say the pick list draws from the packs installed here and points at the sibling files for the rest, or promote representative skills from the 14 uncovered packs.",
-      "first_seen": "2026-08-25",
-      "status": "open"
-    },
     {
       "id": "review-d445bb0360",
       "check": "review",
@@ -106,24 +88,6 @@
       },
       "fix": null,
       "suggested_fix": "Change to 'spec -> test -> code -> BDD -> QA' to match the file's own table and the README summary.",
-      "first_seen": "2026-08-25",
-      "status": "open"
-    },
-    {
-      "id": "review-f52f37f98e",
-      "check": "review",
-      "class": "SEMANTIC",
-      "severity": "P2",
-      "file": "docs/process/PROCESS-TEAM-SERVER.md",
-      "line": 122,
-      "message": "Names stage 19 as unmapped, but the mapping table nine lines earlier maps the 'Product Health' heading to stages 18 and 19; only stage 5 looks genuinely absent. Reclassified from the reviewer's MECHANICAL: confirming which stages are unmapped needs the table read in full, which this pass did not do.",
-      "evidence": {
-        "subject": "review:Two PROCESS.md stages have no Z-TOP-SKILLS heading above them, which is itself",
-        "quote": "Two PROCESS.md stages have no Z-TOP-SKILLS heading above them, which is itself",
-        "conflicts_with": "docs/process/PROCESS-TEAM-SERVER.md:117"
-      },
-      "fix": null,
-      "suggested_fix": "If the table read confirms it: reduce the claim to stage 5 and drop the trailing 'and Product Health'.",
       "first_seen": "2026-08-25",
       "status": "open"
     },
@@ -376,24 +340,6 @@
       },
       "fix": null,
       "suggested_fix": "Add a Map row for contracts/ or schemas/.",
-      "first_seen": "2026-08-25",
-      "status": "open"
-    },
-    {
-      "id": "review-9d05f0f544",
-      "check": "review",
-      "class": "SEMANTIC",
-      "severity": "P3",
-      "file": "CLAUDE.md",
-      "line": 62,
-      "message": "Routes readers wanting the 'full' catalog to the curated pick list; CLAUDE.md:24 and README.md:68 both describe Z-TOP-SKILLS.md as a pick list with the per-pack files being the full inventories.",
-      "evidence": {
-        "subject": "review:| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |",
-        "quote": "| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |",
-        "conflicts_with": "README.md:68"
-      },
-      "fix": null,
-      "suggested_fix": "Relabel to 'Skill catalog (pick list; per-pack inventories in docs/frameworks/)'.",
       "first_seen": "2026-08-25",
       "status": "open"
     },
