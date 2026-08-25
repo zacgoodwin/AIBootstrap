@@ -4,22 +4,7 @@
 
 ## Tickets
 
-Tickets live on the GitHub ProjectV2 board (/z-setup creates it; /z-plan fills
-it; /z-loop drains it). Every ticket body carries three sections — **Context**
-(including origin: "Deferred from <ticket/PR> on <date>" when applicable),
-**Acceptance Criteria**, and **Out of scope** — and the zstack lint enforces
-the shape.
-
-**Deferred work is a ticket, never a TODO file or code comment.** When work is
-consciously deferred, file it immediately:
-
-```
-gh issue create --title "<short imperative>" --body-file <ticket-body.md>
-```
-
-into Backlog. z-plan's backlog gate schema-checks it later.
-
-UX-changing tickets update docs/user-guide/ pages in the same PR.
+TODO(bootstrap): What ticketing system will be used based on input and what ticket template the user would like. If none provided then default to rules/TICKET_TEMPLATE.md
 
 ## Shipping
 
@@ -97,3 +82,5 @@ answer.
 plus the specific gap and fix (no vague "could be improved"); a table of
 concrete before/after examples per category; a full before/after CSV with its
 exact path printed. All of it under the job's temp dir.
+
+
