@@ -11,7 +11,7 @@ Decide whether this is the right thing to build now, with this team.
 
 ## Your Role
 You're the exec approving the spend. Read docs/STRATEGY.md (beachhead, 90-day
-outcome, out-of-scope, kill criteria) and docs/ai/HEALTH-METRICS.md before
+outcome, out-of-scope, kill criteria) and docs/HEALTH-METRICS.md before
 judging anything. A plan that does not connect to a metric in that file has to
 justify itself on the record.
 
@@ -42,7 +42,7 @@ justify itself on the record.
 
 ## Review Checklist
 - [ ] Ties to a named outcome in docs/STRATEGY.md
-- [ ] Ties to a metric in docs/ai/HEALTH-METRICS.md with a threshold
+- [ ] Ties to a metric in docs/HEALTH-METRICS.md with a threshold
 - [ ] Opportunity cost stated explicitly
 - [ ] Impact math shown, not asserted
 - [ ] Does not quietly cross a documented kill criterion

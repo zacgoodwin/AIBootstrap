@@ -9,7 +9,7 @@ reasoning and lists alternates so you can swap by taste or stack.
 
 ## What it is
 
-Four phases. Setup runs once per repo. Define runs once per product or major
+Five phases. Setup runs once per repo. Define runs once per product or major
 initiative. Build is the loop you live in, once per ticket. Ship runs per
 release, and Maintain runs on a weekly and monthly cadence forever.
 
@@ -469,7 +469,7 @@ The agent-ops layer: keeps long projects coherent and the token bill sane.
 Alternates: `/setup-gbrain` + `/sync-gbrain` (gstack, code-index memory),
 `/skill-stocktake` (ECC, skill quality audit), `/optimize-skill-activation`
 (zcaceres, right-size which skills eager-load), `/cost-tracking` (ECC), RTK
-(already wired via hook) and Token Saver for output compression, Caveman
+(wired at docs/SETUP.md step 5) and Token Saver for output compression, Caveman
 plugin (ultra-compressed output mode, the prose counterpart to ponytail), cco
 / claude-context-optimizer (cache-aware context audits via `/cco-overhead`,
 auto .contextignore), `/strategic-compact` (ECC).
@@ -554,8 +554,8 @@ shelf until a real need shows up.
 | --- | --- | --- |
 | Stax | Stacked PRs; the branch mechanics behind `/stack-ship`. | Build loop |
 | RoboRev | Automated review on every commit; the other half of the merge gate. Pair with Stax. | Build loop, merge gate |
-| RTK | Token-optimized CLI proxy, 60-90% output reduction. Already wired via the PreToolUse hook. | Every stage |
-| Graphify | Codebase as a queryable knowledge graph; answers architecture questions without grep. Already referenced by the harness rules (`graphify query` before raw search). | Tech design, debugging, harness hygiene |
+| RTK | Token-optimized CLI proxy, 60-90% output reduction. Wired as a PreToolUse hook at docs/SETUP.md step 5. | Every stage |
+| Graphify | Codebase as a queryable knowledge graph; answers architecture questions without grep. docs/SETUP.md step 7 adds the `graphify query` harness rule when this pack is installed. | Tech design, debugging, harness hygiene |
 | Kata | Local-first issue tracking with CLI and TUI, built for agent loops. The tracker `/to-tickets` publishes to when you do not want Linear or GitHub Projects. Local-first fits the no-machine-deps starter-kit goal. | Decomposition, Build loop |
 | Git Credential Manager | Secure cross-platform git auth. Cheap, one-time, removes a whole class of credential friction. | Setup |
 | ccusage | Local token usage and cost analytics across sessions. Feeds the monthly `/context-budget` and `/cost-tracking` pass with real numbers. | Harness hygiene cadence |
@@ -619,4 +619,4 @@ shelf until a real need shows up.
 | taste-skill / Mindrally / Han / claude-mpm / ruflo | Visual taste, stack patterns, validation hooks, stacked-PR patterns, meta-harness | Reference shelf |
 
 Install per source via the files in docs/frameworks/; the skill catalog by
-workflow stage lives in README.md.
+workflow stage lives in docs/frameworks/Z-TOP-SKILLS.md.

@@ -8,7 +8,8 @@
   changes need no new test; every commit still passes the standing gate. Not
   in the diff means not done. "Later" is banned.
 - Tests written by the pass that wrote the code inherit its blind spots. The
-  plan's `### Acceptance Criteria` is the independent yardstick review checks
+  plan's `## Acceptance criteria` (docs/rules/TICKET_TEMPLATE.md) is the
+  independent yardstick review checks
   against. Weakening, deleting, or skipping a planned case is a spec question
   to raise, never a silent edit.
 - Every failure gets codified same day: gate test, script, or skill that makes

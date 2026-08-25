@@ -1,6 +1,6 @@
 # Superpowers skills
 
-All [obra/superpowers](https://github.com/obra/superpowers) skills, sorted by the same sections as README.md. Upstream v6.3.0 (b36e082) checked 2026-08-23.
+All [obra/superpowers](https://github.com/obra/superpowers) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream v6.3.0 (b36e082) checked 2026-08-23.
 
 # Development Process
 ## Loop
@@ -10,7 +10,7 @@ All [obra/superpowers](https://github.com/obra/superpowers) skills, sorted by th
 | `/executing-plans` | Use when you have a written implementation plan to execute in a separate session with review checkpoints. |
 | `/subagent-driven-development` | Use when executing implementation plans with independent tasks in the current session. |
 
-## Dev Tooling
+# Dev Tooling
 | Execution | What it does |
 | --- | --- |
 | `/using-git-worktrees` | Use when starting feature work that needs isolation from current workspace or before executing implementation plans — ensures an isolated workspace exists via native tools or git worktree fallback. |

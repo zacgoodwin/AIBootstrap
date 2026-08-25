@@ -232,6 +232,7 @@ changes where being wrong is expensive.
 | `/canary <url>` | gstack | After. Ten minutes of watching against the baseline. You have no on-call rotation, so this is the rotation. |
 | `/benchmark <url>` | gstack | Performance versus baseline when the change touched anything user-facing. |
 | `/monitoring` | rsc-harness | Once, early: uptime and alerts, so you learn it is down before a user emails you. |
+| `/document-release` | gstack | After the deploy sticks: fold what shipped back into the docs while it is still fresh. |
 
 ### 10. Tell someone it exists
 
@@ -252,7 +253,8 @@ you will actually sustain.
 
 ## Movement 4: Keep, the maintenance you will actually do
 
-A team runs six recurring passes. You will run two. Pick the two that pay.
+A team runs six recurring passes. Solo, they collapse into two cadences: the
+weekly check and the monthly hour.
 
 ### 11. Session and week
 
@@ -323,7 +325,7 @@ remote), so checking the overnight loop does not require a laptop.
 
 **Watch the bill.** `ccusage` for local token and cost analytics across
 sessions. `/cost-tracking` (ECC) if you want it inside Claude Code. RTK is
-already wired via the PreToolUse hook and cuts command output 60 to 90
+installed at docs/SETUP.md step 5 as a PreToolUse hook; it cuts command output 60 to 90
 percent; `rtk gain` shows what it saved.
 
 **Protect the sessions.** `/guard` and `/freeze` (gstack) scope destructive
@@ -384,7 +386,7 @@ Everything in this list exists to coordinate people. You have no people.
 | Stax | Small stacked PRs instead of one branch that grows for three weeks because nobody is waiting on it. |
 | RoboRev | Automated review on every commit. The reviewer headcount you do not have. |
 | Kata | Local-first issue tracking, CLI and TUI, no account, no sync. The tracker `/to-tickets` writes to. |
-| RTK | Already wired. Cuts command output 60 to 90 percent, directly your token bill. |
+| RTK | Installed at setup (docs/SETUP.md step 5). Cuts command output 60 to 90 percent, directly your token bill. |
 | ccusage | Local token and cost analytics. You are the one paying. |
 | Git Credential Manager | One-time setup, removes a recurring class of auth friction. |
 | docs-mcp-server or GitMCP | Library and API answers from real docs instead of training data. Alone, a hallucinated API costs you the whole debugging session. |

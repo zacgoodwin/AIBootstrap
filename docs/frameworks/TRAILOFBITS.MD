@@ -1,6 +1,6 @@
 # Trail of Bits skills
 
-All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted by the same sections as README.md. Upstream commit 293fb74 (2026-08-21) checked 2026-08-23. 42 plugins: 80 skills, 8 commands, 31 agents, 4 hook sets, 2 MCP server configs.
+All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit 311a784 (2026-08-24) checked 2026-08-24. 42 plugins: 80 skills, 8 commands, 29 agents, 4 hook sets, 2 MCP server configs. Agent roster detail: docs/agents/TRAILOFBITS.MD.
 
 # Product Process
 
@@ -26,7 +26,7 @@ All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted b
 | `/modern-python` | Configures Python projects with modern tooling (uv, ruff, ty); use when creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black |
 | `/writing-lean-proofs` | Writes and reviews structured Lean 4 proofs and designs Lean libraries following Mathlib conventions |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|
@@ -181,8 +181,6 @@ All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted b
 |---|---|
 | audit-context-building: function-analyzer | Analyzes one function in depth for audit context (invariants, assumptions, callee guarantees); writes prose to disk, returns a compact record |
 | c-review: c-review-worker | Runs one assigned c-review cluster task and writes finding files; spawned by the c-review orchestrator |
-| c-review: c-review-dedup-judge | Merges duplicate c-review findings deterministically by location and bug class, then LLM passes over same-function candidates |
-| c-review: c-review-fp-judge | Second-stage judge: decides fp_verdict, then severity/attack_vector/exploitability for survivors |
 | differential-review: adversarial-modeler | Models attacker perspectives and builds exploit scenarios for HIGH RISK code changes |
 | dimensional-analysis: arithmetic-scanner | Scans repo for files with dimensional arithmetic to scope discovery |
 | dimensional-analysis: dimension-discoverer | Discovers dimensional vocabulary from naming conventions and protocol patterns |

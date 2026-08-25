@@ -1,6 +1,6 @@
 # Taste Skill skills
 
-All [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) skills, sorted by the same sections as README.md. Upstream v2 experimental, commit 72e2995 checked 2026-08-23.
+All [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream v2 experimental, commit 72e2995 checked 2026-08-23.
 
 # Product Process
 
@@ -15,7 +15,7 @@ All [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) skills, sort
 
 # Development Process
 
-## Designer Implmentation
+## Designer Implementation
 
 | Execution | What it does |
 |---|---|

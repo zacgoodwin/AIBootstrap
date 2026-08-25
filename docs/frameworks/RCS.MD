@@ -1,6 +1,6 @@
 # rsc-harness skills
 
-Skills from https://github.com/ericrisco/rsc-harness, sorted into the same sections as README.md.
+Skills from https://github.com/ericrisco/rsc-harness, sorted into the same sections as Z-TOP-SKILLS.md.
 
 # Product Process
 ## Pack Setup
@@ -127,7 +127,7 @@ Skills from https://github.com/ericrisco/rsc-harness, sorted into the same secti
 | --- | --- | --- |
 | `/sdd` | ericrisco/rsc-harness | Use when you want a disciplined, spec-driven path from a feature idea to shipped, verified software — the SDD dispatcher and front door, in any language. States the method, reads t |
 
-## Designer Implmentation
+## Designer Implementation
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
 | `/animate` | ericrisco/rsc-harness | Build a web animation: whether it should animate at all, the purpose, the tool, the properties, the easing curve, the duration, interruption and exit. Writes the CSS or Motion code |

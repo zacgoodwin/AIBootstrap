@@ -77,12 +77,9 @@ anything explicitly requested.
 - Skillify repeated success, not just failure. Second time running the same
   manual flow by hand, codify it: script, skill, or workflow. Twice by hand
   means the third time is a command.
-- gstack's `/browse` for interactive browser sessions (QA, dogfooding, form
-  flows). WebSearch/WebFetch for reading pages and docs.
-- If `graphify-out/graph.json` exists in the repo, answer codebase questions
-  with `graphify query "<question>"` (also `path`, `explain`) before raw grep,
-  and run `graphify update .` after modifying code. Run it bare, no `cd`
-  prefix (see docs/rules/SAFETY.md).
+- Pack-specific bullets (browser sessions, codebase graphs, ...) are added
+  here at bootstrap time for the packs actually installed (docs/SETUP.md
+  step 7 carries the canonical text).
 
 ## Grounding
 

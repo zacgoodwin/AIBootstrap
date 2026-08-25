@@ -15,11 +15,15 @@ docs/SETUP.md and complete it with the user before any other work.**
 - services/ — product code, one service per directory (docs/rules/SERVICES.md)
 - docs/rules/ — how to work here; load per the table below
 - docs/plans/ — plans archive · docs/architecture/ — subsystem maps + docs/architecture/STACK.MD (stack, exact versions)
-- docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy
+- docs/process/ — lifecycle + tool-stack reports (PROCESS*.md, STACK-*.md), the basis for setup's recommendations
+- docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy · docs/HEALTH-METRICS.md — metric definitions and thresholds
+- docs/user-guide/ — end-user docs
 - tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
-- README.md — skill catalog by workflow stage; per-source install files in
-  docs/frameworks/ · docs/agents/ — per-pack agent rosters +
-  docs/agents/IN-REPO-AGENTS.md (repo-wide subagent inventory)
+- README.md — front door: quickstart, repo map, pack index
+- docs/frameworks/ — skill catalog; docs/frameworks/Z-TOP-SKILLS.md is the
+  cross-pack pick list by workflow stage, the rest are per-pack inventories
+- docs/agents/ — per-pack agent rosters + docs/agents/IN-REPO-AGENTS.md
+  (machine-wide roster; 14 of its rows ship here)
 
 ## Commands
 
@@ -46,13 +50,14 @@ docs/SETUP.md and complete it with the user before any other work.**
 | Eng review | /plan-eng-review, /review |
 | Bugs / errors | /investigate |
 | QA site behavior | /qa, /qa-only |
-| Ship / deploy | /ship, /land-and-deploy |
+| Ship a branch | /stack-ship (see Commands); /land-and-deploy for the deploy step |
 | Security | /cso |
 | Codebase questions | /graphify, then docs/architecture/ |
 | Learnings | /learn (export to docs/LEARNINGS.md) |
 | Plans archive | docs/plans/ |
 | Marketing / launch / sales / support / product / data | matching agent in .claude/agents/ |
-| Full skill catalog | README.md |
+| Cataloging from a source | docs/rules/WORKFLOW.md Catalog and doc generation |
+| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |
 
 Skills above come from the packs docs/SETUP.md installs; until a pack is
 installed, its rows are inert.
@@ -73,8 +78,9 @@ Load the file when the situation matches:
 
 ## Estimation
 
-TODO(bootstrap): per-ticket Model + Model Effort defaults for this project.
-Until then, the docs/rules/DELEGATION.md table governs.
+TODO(bootstrap): set at docs/SETUP.md step 7. Tracker board with Model +
+Model Effort fields -> per-ticket fields win (docs/rules/DELEGATION.md
+Ticket execution). No board -> the docs/rules/DELEGATION.md table governs.
 
 ## Landmines
 

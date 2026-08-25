@@ -432,7 +432,7 @@ recall.
 | ponytail | Over-engineering review and audit, debt ledger | Already a mode; the audit is a team cadence item |
 
 Install per source via the files in docs/frameworks/; the full skill catalog by
-workflow stage lives in README.md.
+workflow stage lives in docs/frameworks/Z-TOP-SKILLS.md.
 
 ---
 

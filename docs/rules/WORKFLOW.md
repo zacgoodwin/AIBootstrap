@@ -4,12 +4,25 @@
 
 ## Tickets
 
-TODO(bootstrap): What ticketing system will be used based on input and what ticket template the user would like. If none provided then default to rules/TICKET_TEMPLATE.md
+TODO(bootstrap): the tracker and ticket template chosen in docs/SETUP.md
+step 7. Default template: docs/rules/TICKET_TEMPLATE.md.
+
+Whatever the tracker: deferred work is filed as a ticket, never left as a
+code comment or a promise in chat. Filing one is an act-without-asking
+move (docs/rules/AUTONOMY.md).
 
 ## Shipping
 
+TODO(bootstrap): the pipeline below (stax + roborev + adversarial review)
+is the kit's recommended default; docs/SETUP.md step 7 confirms it or
+replaces it with the chosen ship pipeline. Team setups add a
+merge-discipline addendum here: human review before `st merge`, branch
+protection on trunk, who runs /stack-ship.
+
 Branch work rides the stax + roborev + adversarial-review pipeline. Review is
-the bottleneck, not code generation — so review happens at three layers:
+the bottleneck, not code generation — so it happens at three layers:
+per-commit roborev, a branch-level roborev gate, and blinded adversarial
+review of the PR. The branch lifecycle those sit inside:
 
 1. **Branch:** `st create <name>` (stacked on trunk). Parallel agent work uses
    worktree lanes: `st wt c <name>` or `st lane <name> --agent claude`
@@ -49,6 +62,22 @@ End every task with exactly one of:
 
 "Partially done" is not a status. Honesty about incompleteness beats
 pretending.
+
+Before claiming DONE, re-read the written artifact and confirm it against
+the source list or spec. State the verification you ran.
+
+## Catalog and doc generation
+
+When cataloging items from a source (a repo, a README table, a docs
+folder):
+
+- Enumerate the source programmatically FIRST (ls/glob/API) and state the
+  expected count before writing. After writing, verify the file's row
+  count matches it.
+- Default to the FULL catalog, not the delta. If a diff is wanted,
+  produce both `<Name>.md` (full) and `<Name>-Missing.md` (delta).
+- "Source"/"origin" columns mean original upstream provenance, not the
+  local repo path.
 
 ## Confusion protocol
 

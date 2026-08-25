@@ -100,7 +100,7 @@ regression, evals, browsers, and observability ingest.
 
 Three vocabularies, one map.
 
-| RECSKILLS heading | SDLC stage | PROCESS.md |
+| Z-TOP-SKILLS heading | SDLC stage | PROCESS.md |
 | --- | --- | --- |
 | Pack Setup, Harness Development, Harness Setup, Token Savings, Context/Memory | HAR harness | 1, 24 |
 | Starting Direction, PRD, Research, Business, Marketing | PM product | 2, 3, 4, 5, 18 |
@@ -366,7 +366,7 @@ volume changes what breaks.
 
 ## Code Review
 
-Five distinct servers live here, which is why treating SonarQube as the whole
+Four distinct servers live here, which is why treating SonarQube as the whole
 answer under-covers even this one category.
 
 ### Static analysis
@@ -628,7 +628,7 @@ building.
 # The three you will forget to budget
 
 1. **Identity.** Twelve self-hosted services means twelve login systems.
-   Install it third, not twelfth. Mostly-SaaS stacks get this free from an
+   Install it early - step 6 in the adoption order below, well before the twelfth service. Mostly-SaaS stacks get this free from an
    existing Google or Okta tenant.
 2. **The forge.** GitHub is the default and everything integrates with it.
    GitLab CE bundles CI, registry, and issues in one self-hosted install but
@@ -652,7 +652,7 @@ useful part.
 - Another concludes that for a typical small-to-medium team, **SaaS is 3-15x
   more expensive over five years** than self-hosting, even valuing engineering
   time at full market rates.
-- Concrete numbers where sources agree: a self-hosted install runs roughly
+- Concrete hour estimates, which still spread 2-4x: a self-hosted install runs roughly
   40 hours of experienced DevOps time to stand up, plus 20-30 hours a year
   maintaining. Other estimates put it at 50-100 hours initial and 5-10 hours
   monthly. A single self-hosted knowledge base is estimated at $4,500-13,000 a
@@ -736,7 +736,7 @@ at step 9 because it is the most interesting.
 
 ## Where no server is warranted
 
-| RECSKILLS heading | Why it stays local |
+| Z-TOP-SKILLS heading | Why it stays local |
 | --- | --- |
 | Starting Direction / Human Helper | Interview loops between one human and one agent. Nothing to enforce, nothing to aggregate. |
 | Technical Stack Specific | Stack knowledge is context, not enforcement. The package registry constrains it indirectly. |

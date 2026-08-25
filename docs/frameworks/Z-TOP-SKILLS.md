@@ -1,3 +1,9 @@
+# Top skills catalog
+
+The cross-pack pick list: the best skill per job, drawn from every source in
+docs/frameworks/ plus sources with no pack file of their own (the Source
+column names the origin in all cases). Per-pack inventories live in the
+sibling files; agent rosters live in docs/agents/.
 
 # Product Process
 ## Pack Setup 
@@ -161,7 +167,7 @@ You have the idea now you need to firm up what the product will look like
 
 
 
-## Designer Implmentation
+## Designer Implementation
 
 Take that PRD and turn it into a demo so you can continue to iterate
 
@@ -411,7 +417,7 @@ RoboRev is it's own specific thing that automates PRs
 | `/document-generate` | garrytan/gstack | Generate missing documentation from scratch for a feature, module, or entire project. |
 | `/quality-docs-update` | zcaceres/skills | Audit project documentation against the current state of the codebase and produce a revision plan. |
 | `/writing-for-agents` | mattpocock/skills | Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md. |
-| `/book_to_skill` |  virgiliojr94/book-to-skill | Turn PDF and docs folder into a reference skill |
+| `/book_to_skill` | virgiliojr94/book-to-skill | Turn PDF and docs folder into a reference skill |
 
 Graphify is it's own specific thing
 | Execution | Source (origin) | What it does |
@@ -505,7 +511,7 @@ Graphify is it's own specific thing
 
 ## Agents and Personas 
 
-See Agents Readme
+See [docs/agents/README.md](../agents/README.md) for the per-pack agent rosters.
 
 ## Harness Development 
 
@@ -533,7 +539,7 @@ See Agents Readme
 | --- | --- | --- |
 | `/optimize-permissions` | zcaceres/skills | Scan recent conversation transcripts for safe commands that could be auto-allowed by your CLI agent (Claude Code, Codex, Cursor, …), preview the proposed allowlist changes, then wr |
 | `/optimize-skill-activation` | zcaceres/skills | Audit installed skills and right-size each one's activation mode — slash-only, model-invocable (name+description in context), or eager-loaded (full body up front). |
-| `/skill-library` | affaan-m/ECC | Router into the parked skill/agent library (.claude/skill-library/, .claude/agent-library/). |
+| `/skill-library` | affaan-m/ECC | Router into a parked skill/agent library. Not carried in docs/frameworks/ECC.md; this kit promotes parked agents by copying the file instead. |
 | `/skill-scout` | affaan-m/ECC | Search existing local, marketplace, GitHub, and web skill sources before creating a new skill. |
 | `/skill-stocktake` | affaan-m/ECC | Use when auditing Claude skills and commands for quality. Supports Quick Scan (changed skills only) and Full Stocktake modes with sequential subagent batch evaluation. |
 
@@ -603,7 +609,6 @@ See Agents Readme
 | `/skill-comply` | affaan-m/ECC | Visualize whether skills, rules, and agent definitions are actually followed — auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, |
 | `/team-builder` | affaan-m/ECC | Interactive agent picker for composing and dispatching parallel teams |
 | `/continuous-learning-v2` | affaan-m/ECC | Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents. |
-| `/everything-claude-code` | affaan-m/ECC (auto-generated) | Development conventions and patterns for everything-claude-code. JavaScript project with conventional commits. |
 | `/everything-claude-code-conventions` | affaan-m/ECC (auto-generated) | Auto-generated conventions skill for the everything-claude-code repo (JavaScript, hybrid module organization, separate test location) with conventional-commit rules distilled from 500 commits. No separate /everything-claude-code command exists on disk. |
 | `/find-skills` | vercel-labs/skills | Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending c |
 | `/rules-distill` | affaan-m/ECC | Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files |

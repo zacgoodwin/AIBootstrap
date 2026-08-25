@@ -1,6 +1,6 @@
 # Claude MPM skills
 
-All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills) skills, sorted by the same sections as README.md. Upstream manifest v1.0.9, commit 718070a (2026-07-18) checked 2026-08-23. 176 skills (no hooks, agents, or commands); skills for the Claude MPM multi-agent orchestration framework, usable standalone in Claude Code.
+All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream manifest v1.0.9, commit 718070a (2026-07-18) checked 2026-08-23. 176 skills (no hooks, agents, or commands); skills for the Claude MPM multi-agent orchestration framework, usable standalone in Claude Code.
 
 # Product Process
 
@@ -30,7 +30,7 @@ All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills
 |---|---|
 | `/code-production-process` | Six-stage quality-gate pipeline for any code implementation task |
 
-## Designer Implmentation
+## Designer Implementation
 
 | Execution | What it does |
 |---|---|
@@ -133,14 +133,14 @@ All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills
 | `/feature-engineering` | Feature engineering techniques: create or transform features to improve model performance |
 | `/ml-pipeline-development` | Reproducible, maintainable ML pipelines using scikit-learn Pipeline and model development best practices |
 
-## Code Architecture
+# Code Architecture
 
 | Execution | What it does |
 |---|---|
 | `/software-patterns` | Compares trade-offs and recommends architectural patterns: DI, SOA, repository, domain events, circuit breaker, anti-corruption layer |
 | `/api-design-patterns` | API design patterns covering REST, GraphQL, gRPC, versioning, authentication, and modern best practices |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|

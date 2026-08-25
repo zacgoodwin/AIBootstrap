@@ -1,6 +1,6 @@
 # CodeMySpec skills
 
-All [Code-My-Spec/plugins](https://github.com/Code-My-Spec/plugins) skills (https://codemyspec.com/), sorted by the same sections as README.md. Upstream 2b6a897 (2026-08-21) checked 2026-08-24.
+All [Code-My-Spec/plugins](https://github.com/Code-My-Spec/plugins) skills (https://codemyspec.com/), sorted by the same sections as Z-TOP-SKILLS.md. Upstream 2b6a897 (2026-08-21) checked 2026-08-24.
 
 Spec-driven development for Phoenix/Elixir: the marketplace ships two Claude Code plugins — `codemyspec` (8 skills spanning 12 command modes, 5 agents, 7 hook events, 3 MCP servers) and `market-my-spec` (4 marketing skills) — plus Codex and Google Antigravity ports of codemyspec. The runtime is a remote-server model: a local `cms` background service (localhost:4003) is the single MCP gateway and hooks endpoint, with story/PM writes proxied upstream to the codemyspec.com REST API (local DB is a synced read cache) and a cloud MCP at codemyspec.com/mcp/harness; auth is OAuth via `cms login` / `/codemyspec:init auth`. The workflow turns user stories into working Phoenix code: design architecture, write specs, generate tests, then implement, with a requirement graph auto-sequencing spec -> test -> code -> review -> BDD.
 
@@ -35,7 +35,7 @@ Spec-driven development for Phoenix/Elixir: the marketplace ships two Claude Cod
 
 # Development Process
 
-## Designer Implmentation
+## Designer Implementation
 
 | Execution | What it does |
 | --- | --- |

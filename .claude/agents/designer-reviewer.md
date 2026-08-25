@@ -45,7 +45,7 @@ deviates needs an explicit reason. Flag anything that contradicts it.
 - [ ] Empty / loading / error states defined
 - [ ] Matches DESIGN.md (or deviation justified)
 - [ ] Keyboard + contrast + focus covered
-- [ ] Copy is plain language (rules/VOICE.md)
+- [ ] Copy is plain language (docs/rules/VOICE.md)
 
 ## Output
 - ✅ Strong UX decisions

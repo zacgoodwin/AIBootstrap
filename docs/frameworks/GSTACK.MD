@@ -1,6 +1,6 @@
 # gstack skills
 
-All [garrytan/gstack](https://github.com/garrytan/gstack) skills, sorted by the same sections as README.md. Upstream 1.68.3.0 checked 2026-08-23: no skills added since 1.62.0.0.
+All [garrytan/gstack](https://github.com/garrytan/gstack) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 1.68.3.0 checked 2026-08-23: no skills added since 1.62.0.0.
 
 # Product Process
 ## Pack Setup 
@@ -42,7 +42,7 @@ All [garrytan/gstack](https://github.com/garrytan/gstack) skills, sorted by the 
 | `/retro` | Weekly engineering retrospective. |
 
 # Development Process
-## Designer Implmentation
+## Designer Implementation
 | Execution | What it does |
 | --- | --- |
 | `/design-consultation` | Design consultation: understands your product, researches the landscape, proposes a complete design system (aesthetic, typography, color, layout, spacing, motion), and generates fo |

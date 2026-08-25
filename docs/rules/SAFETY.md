@@ -15,8 +15,6 @@ Highest precedence. Overrides every other rule.
   cloud storage with a pointer.
 - Before any action touching production, state what you're about to do and
   wait for confirmation.
-- On Windows the Bash tool is Git Bash (POSIX sh): unquoted backslashes
-  escape, so a `C:\...` path gets eaten and the command fails. Never pass
-  one, and never `cd` to the project root (Bash starts there). Need a
-  directory change? POSIX form (`cd /c/Users/...`), a quoted forward-slash
-  path, or the PowerShell tool.
+
+Windows-specific shell safety lives in docs/rules/WINDOWS.md, which setup
+copies into CLAUDE.md on Windows machines.

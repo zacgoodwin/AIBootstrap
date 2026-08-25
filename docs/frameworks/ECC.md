@@ -1,6 +1,6 @@
 # ECC skill pack
 
-All skills from [affaan-m/ECC](https://github.com/affaan-m/ECC), sorted under the README headings.
+All skills from [affaan-m/ECC](https://github.com/affaan-m/ECC), sorted under the same headings as Z-TOP-SKILLS.md.
 
 # Product Process
 
@@ -131,7 +131,7 @@ All skills from [affaan-m/ECC](https://github.com/affaan-m/ECC), sorted under th
 | `/continuous-learning` | affaan-m/ECC | [DEPRECATED - use continuous-learning-v2] Legacy v1 stop-hook skill extractor. v2 is a strict superset with instinct-based, project-scoped, hook-reliable learning. Do not |
 | `/mle-workflow` | affaan-m/ECC | Production machine-learning engineering workflow for data contracts, reproducible training, model evaluation, deployment, monitoring, and rollback. Use when building, rev |
 
-## Designer Implmentation
+## Designer Implementation
 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |

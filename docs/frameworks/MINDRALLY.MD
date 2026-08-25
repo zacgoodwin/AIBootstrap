@@ -1,6 +1,6 @@
 # Mindrally skills
 
-All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by the same sections as README.md. Upstream commit 05a7130 checked 2026-08-23.
+All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit 05a7130 checked 2026-08-23.
 
 # Product Process
 
@@ -18,7 +18,7 @@ All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by th
 
 # Development Process
 
-## Designer Implmentation
+## Designer Implementation
 
 | Execution | What it does |
 |---|---|
@@ -216,14 +216,14 @@ All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by th
 | `/zod-schema-validation` | Best practices for Zod schema validation and type inference in TypeScript applications. |
 | `/zustand-state-management` | Best practices for Zustand state management in React and Next.js applications with TypeScript. |
 
-## Code Architecture
+# Code Architecture
 
 | Execution | What it does |
 |---|---|
 | `/clean-architecture` | Guidelines for implementing Clean Architecture patterns in Flutter and Go applications, with emphasis on separation of concerns, dependen... |
 | `/microservices` | Guidelines for building production-grade microservices with FastAPI/Python and Go, covering serverless patterns, clean architecture, obse... |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|
