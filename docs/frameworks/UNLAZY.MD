@@ -1,6 +1,6 @@
 # Unlazy skills
 
-All [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit 754d9a6 (post-2.0.0, targeting 2.1.0) checked 2026-08-23.
+All [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream commit 754d9a6 (post-2.0.0, targeting 2.1.0) checked 2026-08-23.
 
 # Scaffolding and Harness
 

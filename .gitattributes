@@ -1,0 +1,9 @@
+# Shell scripts and git hooks must check out with LF, always.
+#
+# This repo is developed on Windows, where core.autocrlf rewrites text files to
+# CRLF on checkout. A shell script that lands with CRLF has "#!/bin/sh\r" as its
+# shebang, and Linux and macOS answer that with "bad interpreter: No such file
+# or directory". The scripts below are the ones an adopter installs and CI runs,
+# so they are the ones that must not carry a carriage return.
+*.sh text eol=lf
+.githooks/* text eol=lf

@@ -1,6 +1,6 @@
 # Beagle skills
 
-All [existential-birds/beagle](https://github.com/existential-birds/beagle) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit d1a7489 (2026-08-09, post-v4.4.0) checked 2026-08-23. 11 plugins, 139 unique skills (145 shipped; `review-verification-protocol` is bundled into 7 plugins). No hooks, agents, commands, or MCP servers.
+All [existential-birds/beagle](https://github.com/existential-birds/beagle) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream commit d1a7489 (2026-08-09, post-v4.4.0) checked 2026-08-23. 11 plugins, 139 unique skills (145 shipped; `review-verification-protocol` is bundled into 7 plugins). No hooks, agents, commands, or MCP servers.
 
 # Product Process
 

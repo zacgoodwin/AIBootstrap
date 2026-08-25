@@ -1,6 +1,6 @@
 # Claude MPM skills
 
-All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream manifest v1.0.9, commit 718070a (2026-07-18) checked 2026-08-23. 176 skills (no hooks, agents, or commands); skills for the Claude MPM multi-agent orchestration framework, usable standalone in Claude Code.
+All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream manifest v1.0.9, commit 718070a (2026-07-18) checked 2026-08-23. 176 skills (no hooks, agents, or commands); skills for the Claude MPM multi-agent orchestration framework, usable standalone in Claude Code.
 
 # Product Process
 

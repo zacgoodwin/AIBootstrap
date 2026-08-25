@@ -1,6 +1,6 @@
 # gstack skills
 
-All [garrytan/gstack](https://github.com/garrytan/gstack) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 1.68.3.0 (85fd9db, 2026-08-21) checked 2026-08-23: no skills added since 1.62.0.0.
+All [garrytan/gstack](https://github.com/garrytan/gstack) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream 1.68.3.0 (85fd9db, 2026-08-21) checked 2026-08-23: no skills added since 1.62.0.0.
 
 # Product Process
 ## Pack Setup 

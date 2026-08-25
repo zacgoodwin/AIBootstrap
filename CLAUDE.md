@@ -19,9 +19,13 @@ docs/SETUP.md and complete it with the user before any other work.**
 - docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy · docs/HEALTH-METRICS.md — metric definitions and thresholds
 - docs/user-guide/ — end-user docs
 - tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
+- docs/ai/ — machine-written records; baseline-contradictions.json is the known-drift baseline the docs watchdog tracks against
 - README.md — front door: quickstart, repo map, pack index
-- docs/frameworks/ — skill catalog; docs/frameworks/Z-TOP-SKILLS.md is the
-  cross-pack pick list by workflow stage, the rest are per-pack inventories
+- docs/frameworks/ — skill catalog by workflow stage: one file per upstream
+  pack, plus NON-PACK-SKILLS.md for the skills no pack file carries. Each
+  skill appears in exactly one file
+- docs/dev-tooling/ — the tools shelf: CLI apps, frameworks, MCP servers,
+  language-specific helpers
 - docs/agents/ — per-pack agent rosters + docs/agents/IN-REPO-AGENTS.md
   (machine-wide roster; 14 of its rows ship here)
 
@@ -29,6 +33,7 @@ docs/SETUP.md and complete it with the user before any other work.**
 
 - Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (kit checks: doc paths, credentials ignore line, upstream provenance, hook and tool self-checks; the runner is kit infrastructure, not a stack choice) + `TODO(bootstrap)` (project tests, any language, chained with `&&`)
 - What moved upstream (network, so not in the gate): `node tools/skills-update.mjs check`; act on it with `/skills-update`
+- Docs drift (free, deterministic): `node tools/docs-check.mjs` finds dead links, wrong counts and cross-file disagreement; `--fix` repairs the mechanical ones; `--check` is the CI gate and fails only on a new P1 SEMANTIC finding. Regenerate the baseline with `--baseline`.
 - Ship a branch: `/stack-ship` (roborev gate -> squash-submit PR -> adversarial review; see docs/rules/WORKFLOW.md Shipping)
 - Evals (paid, periodic, before ship + nightly): `TODO(bootstrap)`
 
@@ -59,7 +64,8 @@ docs/SETUP.md and complete it with the user before any other work.**
 | Marketing / launch / sales / support / product / data | matching agent in .claude/agents/ |
 | Cataloging from a source | docs/rules/WORKFLOW.md Catalog and doc generation |
 | Skills or catalogs behind upstream | /skills-update (provenance: tools/sources.json) |
-| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |
+| Full skill catalog | docs/frameworks/ (pack files + NON-PACK-SKILLS.md) |
+| Tools, apps, MCP servers | docs/dev-tooling/ |
 
 Skills above come from the packs docs/SETUP.md installs; until a pack is
 installed, its rows are inert.

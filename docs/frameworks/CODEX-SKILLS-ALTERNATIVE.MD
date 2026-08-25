@@ -1,6 +1,6 @@
 # Codex Skills Alternative skills
 
-All [DKeken/codex-skills-alternative](https://github.com/DKeken/codex-skills-alternative) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 68c441a (2026-06-02) checked 2026-08-24.
+All [DKeken/codex-skills-alternative](https://github.com/DKeken/codex-skills-alternative) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream 68c441a (2026-06-02) checked 2026-08-24.
 
 An open, vendor-neutral reimplementation of the Codex-only Creative Production and Product Design plugins as 19 Agent Skills: 17 task skills plus 2 orchestrators (`creative-production`, `product-design`) that route to them. Every skill is tool-agnostic, referencing generic image-generation, browser-automation, and web-fetch capabilities so it runs on Claude Code, opencode, Cursor, Gemini CLI, or Copilot. No agents or hooks; extras are an install script and Codex plugin manifests.
 

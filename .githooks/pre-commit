@@ -1,0 +1,32 @@
+#!/bin/sh
+# The gate plus reference integrity, on every commit. Together they take about
+# six tenths of a second, which is the whole reason this can run here instead
+# of only in CI. A dead cross-reference is cheap to catch now and expensive to
+# find later, when a reader hits the 404.
+#
+# Install (per clone; .git/hooks is not versioned):
+#   cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#
+# Deliberately NOT wired via core.hooksPath: that would shadow .git/hooks
+# entirely and silently disable the roborev post-commit hook already there.
+#
+# Bypassing this with --no-verify is not a fix; the reference is still dead.
+set -eu
+ROOT=$(git rev-parse --show-toplevel)
+
+# The gate first, because it self-tests docs-check, which is the tool the
+# reference check below then depends on. A checker whose own logic regressed
+# reports a clean tree just as convincingly as a genuinely clean one.
+if ! node "$ROOT/tools/gate.mjs"; then
+  echo ""
+  echo "pre-commit: the gate is red. Fix the problems above, or run"
+  echo "  node tools/docs-check.mjs --fix   (retargets moved files and stale counts)"
+  exit 1
+fi
+
+if ! "$ROOT/scripts/check-references.sh"; then
+  echo ""
+  echo "pre-commit: broken doc references above. Fix them, or run"
+  echo "  node tools/docs-check.mjs --fix   (retargets moved files and stale counts)"
+  exit 1
+fi

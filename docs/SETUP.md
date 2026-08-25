@@ -74,7 +74,8 @@ nothing in docs/rules/ goes stale.
 | stax (`st`) + roborev | Stacked branches + per-commit background review (docs/rules/WORKFLOW.md Shipping) | their READMEs; roborev config is already in `.roborev.toml` | `st doctor`; `roborev show HEAD` |
 | gh | Tickets and PRs | cli.github.com | `gh auth status` |
 | graphify | Codebase as a queryable knowledge graph; CLAUDE.md routes codebase questions here | github.com/safishamsi/graphify | `graphify --version` |
-| skill packs | The catalog in docs/frameworks/Z-TOP-SKILLS.md | the marketplace table below covers the plugin sources; other packs are documented in docs/frameworks/, which names the upstream repo and carries an install line where upstream publishes one | invoked skills appear in the session skill list |
+| skill packs | The catalog in docs/frameworks/ | the marketplace table below covers the plugin sources; other packs are documented in docs/frameworks/, which names the upstream repo and carries an install line where upstream publishes one | invoked skills appear in the session skill list |
+| everything else on the shelf | CLI apps, frameworks, MCP servers, and language-specific helpers considered but not baseline | docs/dev-tooling/ names each one and its upstream | per tool |
 
 ### Plugin marketplaces
 
@@ -142,17 +143,22 @@ With the answers in hand, fill every choice point:
 
 ## 8. Close out
 
-- **Repo only:** wire the gate pre-commit hook:
+- **Repo only:** install the pre-commit hook the kit ships. Do not hand-write
+  one: .githooks/pre-commit runs the gate *and* scripts/check-references.sh,
+  and a hand-rolled hook that calls only the gate skips the reference check.
 
   ```sh
   # Git Bash, not PowerShell. Refuses to clobber an existing hook.
   [ -e .git/hooks/pre-commit ] \
-    && echo 'pre-commit exists — add "node tools/gate.mjs" to it by hand' \
-    || { printf '#!/bin/sh\nnode tools/gate.mjs\n' > .git/hooks/pre-commit; chmod +x .git/hooks/pre-commit; }
+    && echo 'pre-commit exists — merge .githooks/pre-commit into it by hand' \
+    || { cp .githooks/pre-commit .git/hooks/pre-commit; chmod +x .git/hooks/pre-commit; }
   ```
 
+  Copied rather than wired through `core.hooksPath`, which would shadow
+  .git/hooks entirely and disable any other hook already installed there.
+
   Then extend tools/gate.mjs (or add a runner next to it) with the
-  project's own tests as they appear.
+  project's own tests as they appear; the hook picks them up for free.
 - **Repo only:** docs/STRATEGY.md — interview the user section by
   section. docs/DESIGN.md — run /design-consultation, or mark
   "Deferred: no UI yet."

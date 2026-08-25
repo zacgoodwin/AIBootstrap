@@ -460,7 +460,11 @@ Everything in this list exists to coordinate people. You have no people.
 
 Skip: Worktrunk (until two parallel sessions are routine), Temporal, Vault,
 Tela, AgentsView, Replane, multi-agent desktops. Every one of them solves a
-coordination or scale problem you do not have yet.
+coordination or scale problem you do not have yet. When three or more
+concurrent sessions do become routine, the substitute is a hook, not a
+desktop: `PostToolUse` writes one status line per session (timestamp, tool,
+first line of input, overwritten not appended) to a temp-dir file, and a
+loop reads the last line of each. About twenty lines.
 
 ---
 

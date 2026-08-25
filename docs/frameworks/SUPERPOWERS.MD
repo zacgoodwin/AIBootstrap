@@ -1,6 +1,6 @@
 # Superpowers skills
 
-All [obra/superpowers](https://github.com/obra/superpowers) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream v6.3.0 (b36e082) checked 2026-08-23.
+All [obra/superpowers](https://github.com/obra/superpowers) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream v6.3.0 (b36e082) checked 2026-08-23.
 
 # Development Process
 ## Loop
