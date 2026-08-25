@@ -1,0 +1,563 @@
+{
+  "//": "Known documentation contradictions. Ids are stable across runs: they key on the file and the claim, never on a line number, so a finding survives a reflow. Regenerate with `node tools/docs-check.mjs --baseline`. CI compares against this and fails only on a NEW P1 SEMANTIC finding.",
+  "//status": "open = still true. accepted = true but deliberately left (say why in note). fixed = repaired; kept so the id is not reissued.",
+  "measured": {
+    ".claude/agents": 14,
+    ".claude/agent-library": 33,
+    ".claude/skills": 15,
+    "docs/frameworks": 20,
+    "docs/frameworks (packs)": 19,
+    "docs/agents": 7,
+    "docs/agents (packs)": 5,
+    "docs/rules": 11,
+    "docs/process": 7
+  },
+  "counts": {
+    "total": 30,
+    "mechanical": 0,
+    "semantic": 30,
+    "p1": 3
+  },
+  "findings": [
+    {
+      "id": "review-810990841a",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P1",
+      "file": "docs/frameworks/Z-TOP-SKILLS.md",
+      "line": 3,
+      "message": "Only 5 of the 19 packs contribute a skill row to the stage tables; the other 14 appear only as a URL row in the Frameworks table. README.md:65 repeats the 'every pack' claim. Reviewer tallied the Source column across 34 tables / 435 rows.",
+      "evidence": {
+        "subject": "review:The cross-pack pick list: the best skill per job, drawn from every source in",
+        "quote": "The cross-pack pick list: the best skill per job, drawn from every source in",
+        "conflicts_with": "README.md:65"
+      },
+      "fix": null,
+      "suggested_fix": "Reword both claims to say the pick list draws from the packs installed here and points at the sibling files for the rest, or promote representative skills from the 14 uncovered packs.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-d445bb0360",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P1",
+      "file": "docs/process/PROCESS-TEAM-TRUNK.md",
+      "line": 163,
+      "message": "One file gives three answers on when a trunk team needs a merge queue: not optional (163), 'can wait' for 2-3 people (708), and an anti-pattern once more than one person merges per day (772). Line 179 makes this a budget line item, so the disagreement costs money or a broken main. Verified: all three lines read as quoted.",
+      "evidence": {
+        "subject": "review:### The merge queue is not optional here",
+        "quote": "### The merge queue is not optional here",
+        "conflicts_with": "docs/process/PROCESS-TEAM-TRUNK.md:708, :772"
+      },
+      "fix": null,
+      "suggested_fix": null,
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-ad78dd72c1",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P1",
+      "file": "docs/process/PROCESS-TEAM.md",
+      "line": 255,
+      "message": "PROCESS-TEAM.md demotes required status checks to a backstop behind the agent pipeline; its declared companion for the same stacked-PR route makes required status checks the enforcement point and calls local hooks an echo.",
+      "evidence": {
+        "subject": "review:**Branch protection is the backstop, not the gate.** Require the gate tests,",
+        "quote": "**Branch protection is the backstop, not the gate.** Require the gate tests,",
+        "conflicts_with": "docs/process/PROCESS-TEAM-SERVER.md:882"
+      },
+      "fix": null,
+      "suggested_fix": null,
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-0645c93b83",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "CHANGELOG.md",
+      "line": 5,
+      "message": "Names /ship as the command managing VERSION, but this kit's documented ship path is /stack-ship; /ship is a different pipeline that skips the roborev gate and adversarial review. Reclassified from MECHANICAL: which command is intended is a decision, not a derivable fact.",
+      "evidence": {
+        "subject": "review:versioning per the VERSION file (managed by /ship).",
+        "quote": "versioning per the VERSION file (managed by /ship).",
+        "conflicts_with": "CLAUDE.md:32"
+      },
+      "fix": null,
+      "suggested_fix": "Change to '(patch-bumped by /stack-ship)' to match CLAUDE.md Commands and WORKFLOW.md Shipping.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-e74d8068c9",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/agents/CODEMYSPEC.MD",
+      "line": 14,
+      "message": "Names a five-stage walk ending 'review -> BDD', but the pipeline-ordered table below runs spec-writer, test-writer, code-writer, bdd-spec-writer, qa, and no agent named 'review' exists among the five rows.",
+      "evidence": {
+        "subject": "review:spec -> test -> code -> review -> BDD. All five are pinned to Sonnet upstream.",
+        "quote": "spec -> test -> code -> review -> BDD. All five are pinned to Sonnet upstream.",
+        "conflicts_with": "docs/agents/README.md:26"
+      },
+      "fix": null,
+      "suggested_fix": "Change to 'spec -> test -> code -> BDD -> QA' to match the file's own table and the README summary.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-f52f37f98e",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/process/PROCESS-TEAM-SERVER.md",
+      "line": 122,
+      "message": "Names stage 19 as unmapped, but the mapping table nine lines earlier maps the 'Product Health' heading to stages 18 and 19; only stage 5 looks genuinely absent. Reclassified from the reviewer's MECHANICAL: confirming which stages are unmapped needs the table read in full, which this pass did not do.",
+      "evidence": {
+        "subject": "review:Two PROCESS.md stages have no Z-TOP-SKILLS heading above them, which is itself",
+        "quote": "Two PROCESS.md stages have no Z-TOP-SKILLS heading above them, which is itself",
+        "conflicts_with": "docs/process/PROCESS-TEAM-SERVER.md:117"
+      },
+      "fix": null,
+      "suggested_fix": "If the table read confirms it: reduce the claim to stage 5 and drop the trailing 'and Product Health'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-9207caf7df",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/process/PROCESS-TEAM.md",
+      "line": 450,
+      "message": "Presents AgentsView and ccusage as the Layer 7 evidence base with no caveat, while its declared companion states Claude Code OpenTelemetry plus the analytics dashboard replace them as the source of truth. Layer 7 never mentions the telemetry export.",
+      "evidence": {
+        "subject": "review:**Learning.** `/retro` (gstack) weekly, with AgentsView data behind it rather",
+        "quote": "**Learning.** `/retro` (gstack) weekly, with AgentsView data behind it rather",
+        "conflicts_with": "docs/process/PROCESS-TEAM-SERVER.md:885"
+      },
+      "fix": null,
+      "suggested_fix": null,
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-12c4325290",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/process/PROCESS-TEAM.md",
+      "line": 499,
+      "message": "The adoption table says branch protection requires RoboRev, /code-review and /stack-ship; Layer 4 of the same document says it requires gate tests, RoboRev green and one approving review. Two required-check lists for one setting in one file.",
+      "evidence": {
+        "subject": "review:| 3 | The merge gate: RoboRev on every commit, `/code-review`, `/stack-ship` with `/z-adversarial-review`, branch protec",
+        "quote": "| 3 | The merge gate: RoboRev on every commit, `/code-review`, `/stack-ship` with `/z-adversarial-review`, branch protec",
+        "conflicts_with": "docs/process/PROCESS-TEAM.md:255"
+      },
+      "fix": null,
+      "suggested_fix": null,
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-725541003e",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/rules/AUTONOMY.md",
+      "line": 19,
+      "message": "AUTONOMY.md requires stopping for plan approval above ~5 files / ~200 lines or for any rule-file edit, while PRINCIPLES.md states the answer is the finished product and not a plan to build it. Neither cross-references the other, so a large in-scope request gets opposite instructions.",
+      "evidence": {
+        "subject": "review:Present a plan first and wait for approval when a change is large on any",
+        "quote": "Present a plan first and wait for approval when a change is large on any",
+        "conflicts_with": "docs/rules/PRINCIPLES.md:20"
+      },
+      "fix": null,
+      "suggested_fix": "Add the size/impact carve-out to PRINCIPLES.md pointing at AUTONOMY.md, so the finished-product rule is scoped to changes below that threshold.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-b24cd01c4b",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/rules/CODING.md",
+      "line": 65,
+      "message": "CODING.md routes every mistake to docs/MISTAKES.md; CLAUDE.md's Landmines section routes them to CLAUDE.md or the owning docs/rules/ file and never mentions docs/MISTAKES.md, while the routing table's only learnings row points at docs/LEARNINGS.md via /learn. Three destinations for one action.",
+      "evidence": {
+        "subject": "review:- Log mistakes in docs/MISTAKES.md (what happened, root cause, prevention).",
+        "quote": "- Log mistakes in docs/MISTAKES.md (what happened, root cause, prevention).",
+        "conflicts_with": "CLAUDE.md:89"
+      },
+      "fix": null,
+      "suggested_fix": null,
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-4c6b574fbf",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/rules/DELEGATION.md",
+      "line": 24,
+      "message": "Presents docs/agents/IN-REPO-AGENTS.md alongside .claude/agents/ as a roster of spawnable agents, but that file describes one mature machine and is explicitly not a description of this repo; only 14 of its rows ship here. An agent following this will try to spawn subagent types that do not exist.",
+      "evidence": {
+        "subject": "review:Before spawning a generic subagent, check .claude/agents/ and",
+        "quote": "Before spawning a generic subagent, check .claude/agents/ and",
+        "conflicts_with": "README.md:112"
+      },
+      "fix": null,
+      "suggested_fix": "Split the sentence: check .claude/agents/ for installed agents; treat IN-REPO-AGENTS.md and the pack rosters as the not-installed catalog needing an install step.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-508528d879",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/SETUP.md",
+      "line": 21,
+      "message": "The interview routes to three process docs and never surfaces docs/process/PROCESS-TEAM-TRUNK.md, even though step 7 makes the adopter decide stacked-PRs vs trunk, which is what that doc researches. Reclassified from MECHANICAL: this is an addition to the interview, not a repair.",
+      "evidence": {
+        "subject": "review:Sets which process doc backs every later recommendation: docs/process/PROCESS-SOLO.md or docs/process/PROCESS-TEAM.md. R",
+        "quote": "Sets which process doc backs every later recommendation: docs/process/PROCESS-SOLO.md or docs/process/PROCESS-TEAM.md. R",
+        "conflicts_with": "README.md:35"
+      },
+      "fix": null,
+      "suggested_fix": "Add a team branch in step 2 pointing at PROCESS-TEAM-TRUNK.md before step 7's Shipping rewrite.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-0a4ad72eca",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/SETUP.md",
+      "line": 66,
+      "message": "Skill packs are classed as optional convenience, but SETUP step 8 tells the adopter to run /design-consultation (a gstack skill) and CLAUDE.md's routing table sends design, QA, investigate and ship traffic to gstack commands. Skipping the packs does break the rules as written.",
+      "evidence": {
+        "subject": "review:The rest are convenience — skip one and nothing in docs/rules/ goes stale.",
+        "quote": "The rest are convenience — skip one and nothing in docs/rules/ goes stale.",
+        "conflicts_with": "docs/SETUP.md:157, README.md:75"
+      },
+      "fix": null,
+      "suggested_fix": "Name gstack as load-bearing alongside stax+roborev, or mark the gstack routing rows as pack-dependent.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-1114ba8907",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "docs/SETUP.md",
+      "line": 90,
+      "message": "SETUP offers a skill pack with no docs/frameworks/ catalog (measured: 19 pack files, none of them context-engineering), while SETUP's own skill-packs row says packs are documented in docs/frameworks/.",
+      "evidence": {
+        "subject": "review:| context-engineering-marketplace | muratcankoylan/Agent-Skills-for-Context-Engineering | context-engineering skill pack",
+        "quote": "| context-engineering-marketplace | muratcankoylan/Agent-Skills-for-Context-Engineering | context-engineering skill pack",
+        "conflicts_with": "docs/SETUP.md:77, README.md:36"
+      },
+      "fix": null,
+      "suggested_fix": "Add a docs/frameworks/ catalog and a README pack-table row for it, or drop the marketplace row.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-e8a5ee8a94",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "README.md",
+      "line": 41,
+      "message": "README says the gate checks every doc path; gate.mjs deliberately skips docs/plans/, and docs/plans/2026-08-25-process-gap-decisions.md:10 does reference a nonexistent docs/plans/2026-08-25-sdlc-vs-greenfield-comparison.md without failing. Verified: that target does not exist and gate.mjs:35 excludes plans.",
+      "evidence": {
+        "subject": "review:The gate: every doc path resolves, credentials stay ignored, provenance is recorded, hooks self-check",
+        "quote": "The gate: every doc path resolves, credentials stay ignored, provenance is recorded, hooks self-check",
+        "conflicts_with": "docs/plans/README.md:11"
+      },
+      "fix": null,
+      "suggested_fix": "Qualify both gate claims as 'every repo path outside docs/plans/', matching the carve-out docs/plans/README.md already states.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-85dc62db4a",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "README.md",
+      "line": 74,
+      "message": "'every skill paired with an agent' conflicts with the pack file, which pairs every skill with a command but ships roughly half as many agents as skills (71 skills, 35 agents).",
+      "evidence": {
+        "subject": "review:| [GSD](docs/frameworks/GSD.MD) | open-gsd/gsd-core | Planning-artifact pipeline: every skill paired with a `/gsd:*` com",
+        "quote": "| [GSD](docs/frameworks/GSD.MD) | open-gsd/gsd-core | Planning-artifact pipeline: every skill paired with a `/gsd:*` com",
+        "conflicts_with": "docs/frameworks/GSD.MD:5"
+      },
+      "fix": null,
+      "suggested_fix": "Reword to 'every skill paired with a `/gsd:*` command, plus pipeline agents that write named planning docs'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-b5bd2307bf",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "README.md",
+      "line": 76,
+      "message": "Only rust-review ships judge agents; the pack file lists c-review-worker alone for C, and the zeroization roster is an 11-stage pipeline with no judge.",
+      "evidence": {
+        "subject": "review:| [Trail of Bits](docs/frameworks/TRAILOFBITS.MD) | trailofbits/skills | Security audit pipelines: multi-stage worker an",
+        "quote": "| [Trail of Bits](docs/frameworks/TRAILOFBITS.MD) | trailofbits/skills | Security audit pipelines: multi-stage worker an",
+        "conflicts_with": "docs/frameworks/TRAILOFBITS.MD:183"
+      },
+      "fix": null,
+      "suggested_fix": "Change to 'multi-stage worker clusters for C, Rust and zeroization; Rust adds dedup and false-positive judges'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-d0faf4f8f3",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "README.md",
+      "line": 84,
+      "message": "The catalog describes the same pack as a workflow pack: MATT.MD's 36 skill rows are organised by workflow stage with no language section, and only 2 of 36 mention TypeScript.",
+      "evidence": {
+        "subject": "review:| [Matt Pocock](docs/frameworks/MATT.MD) | mattpocock/skills | TypeScript-focused. Skills only |",
+        "quote": "| [Matt Pocock](docs/frameworks/MATT.MD) | mattpocock/skills | TypeScript-focused. Skills only |",
+        "conflicts_with": "docs/frameworks/Z-TOP-SKILLS.md:752"
+      },
+      "fix": null,
+      "suggested_fix": "Align README to the catalog: 'Low-overhead ticket-based workflow, TypeScript leanings. Skills only'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-58b59bd00c",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P2",
+      "file": "README.md",
+      "line": 123,
+      "message": "Same overstated scope in the longer gate description; contradicts the documented docs/plans/ exclusion.",
+      "evidence": {
+        "subject": "review:free, and finishes in under two seconds: every repo path referenced in the",
+        "quote": "free, and finishes in under two seconds: every repo path referenced in the",
+        "conflicts_with": "docs/plans/README.md:11"
+      },
+      "fix": null,
+      "suggested_fix": "Add the docs/plans/ exclusion, or state why plans are exempt.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-db2469ccf6",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "CLAUDE.md",
+      "line": 15,
+      "message": "The Map omits contracts/ and schemas/, which SERVICES.md requires at the repo root for every cross-service typed interface, so an agent placing a new contract has no mapped destination. Reclassified from MECHANICAL: this is an addition, not a repair.",
+      "evidence": {
+        "subject": "review:- services/ — product code, one service per directory (docs/rules/SERVICES.md)",
+        "quote": "- services/ — product code, one service per directory (docs/rules/SERVICES.md)",
+        "conflicts_with": "docs/rules/SERVICES.md:7"
+      },
+      "fix": null,
+      "suggested_fix": "Add a Map row for contracts/ or schemas/.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-9d05f0f544",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "CLAUDE.md",
+      "line": 62,
+      "message": "Routes readers wanting the 'full' catalog to the curated pick list; CLAUDE.md:24 and README.md:68 both describe Z-TOP-SKILLS.md as a pick list with the per-pack files being the full inventories.",
+      "evidence": {
+        "subject": "review:| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |",
+        "quote": "| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |",
+        "conflicts_with": "README.md:68"
+      },
+      "fix": null,
+      "suggested_fix": "Relabel to 'Skill catalog (pick list; per-pack inventories in docs/frameworks/)'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-06727f9e8d",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/agents/README.md",
+      "line": 55,
+      "message": "Calls all 34 locally-present ECC agents 'parked', but measured: 33 are parked in .claude/agent-library/ and the 34th (typescript-reviewer) is live in .claude/agents/, marked active in ECC.md. Reclassified from MECHANICAL: changing 34 to 33 would make it more wrong, since 34 is the correct local total. The wording must change, not the number.",
+      "evidence": {
+        "subject": "review:The earlier file documented only the 34 agents parked locally; upstream ships 73.",
+        "quote": "The earlier file documented only the 34 agents parked locally; upstream ships 73.",
+        "conflicts_with": "README.md:115, docs/agents/ECC.md:9-11"
+      },
+      "fix": null,
+      "suggested_fix": "Reword to 'the 34 agents present locally (33 parked, 1 active)'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-13863f0d5b",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/agents/README.md",
+      "line": 83,
+      "message": "Names product as a business persona, but IN-REPO-AGENTS.md files product under 'Product & Review Panel' and puts marketing-agent (ECC, not shipped here) under Business Personas, so the two six-item sets differ.",
+      "evidence": {
+        "subject": "review:- **This repo** authors 6 business personas (product, data, launch, marketing,",
+        "quote": "- **This repo** authors 6 business personas (product, data, launch, marketing,",
+        "conflicts_with": "docs/agents/IN-REPO-AGENTS.md:97, :107"
+      },
+      "fix": null,
+      "suggested_fix": "State the six by name and note that product is filed under Product & Review Panel in IN-REPO-AGENTS.md.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-030e8a4837",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/process/PROCESS.md",
+      "line": 747,
+      "message": "PROCESS.md puts /config-gc on the monthly cadence; PROCESS-TEAM.md:316, PROCESS-TEAM-TRUNK.md:454 and :700, and PROCESS-SOLO.md:336 all say quarterly. Verified by grep: 4 files say quarterly, this one says monthly. Reclassified from MECHANICAL: moving an entry between table rows is a structural edit and PROCESS.md may differ deliberately as the general lifecycle doc.",
+      "evidence": {
+        "subject": "review:| Monthly | `/ponytail-audit`, `/review-llm-artifacts` chain, `/cso --comprehensive`, `/quality-docs-update`, `/config-g",
+        "quote": "| Monthly | `/ponytail-audit`, `/review-llm-artifacts` chain, `/cso --comprehensive`, `/quality-docs-update`, `/config-g",
+        "conflicts_with": "docs/process/PROCESS-TEAM.md:316"
+      },
+      "fix": null,
+      "suggested_fix": "Move /config-gc from the Monthly row to the Quarterly row, matching the other four.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-3ed6618f81",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/process/STACK-SOLO.md",
+      "line": 7,
+      "message": "Reviewer read this as a wrong count (5 PROCESS files exist). Verified and DOWNGRADED: the sentence enumerates exactly four (PROCESS-SOLO, PROCESS, PROCESS-TEAM, PROCESS-TEAM-SERVER), so 'four' matches its own list. The real question is whether PROCESS-TEAM-TRUNK.md, added later, should now inform the stack docs. Auto-fixing four->five would have contradicted the enumeration.",
+      "evidence": {
+        "subject": "review:Built on the four PROCESS reports: docs/process/PROCESS-SOLO.md supplies the",
+        "quote": "Built on the four PROCESS reports: docs/process/PROCESS-SOLO.md supplies the",
+        "conflicts_with": "docs/process/STACK-TEAM.md:7"
+      },
+      "fix": null,
+      "suggested_fix": "Decide whether the stack docs should account for PROCESS-TEAM-TRUNK.md; if yes, add it and say five.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-c83750d511",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/process/STACK-TEAM.md",
+      "line": 57,
+      "message": "'$stripe-ish one-time' is a garbled placeholder standing in for a price in a costed pricing table, and the same row in STACK-SOLO names a different free pick (Beekeeper Studio CE) for the same case. Reclassified from MECHANICAL: the real price cannot be derived from this repo.",
+      "evidence": {
+        "subject": "review:| Database | DBeaver CE (many databases, free) or TablePlus ($stripe-ish one-time) for the native-feel single-database c",
+        "quote": "| Database | DBeaver CE (many databases, free) or TablePlus ($stripe-ish one-time) for the native-feel single-database c",
+        "conflicts_with": "docs/process/STACK-SOLO.md:59"
+      },
+      "fix": null,
+      "suggested_fix": "Replace the placeholder with a verified list price or drop the parenthetical; reconcile the single-database pick with STACK-SOLO.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-1fcc128d3e",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/rules/CODING.md",
+      "line": 18,
+      "message": "CODING.md:10 declares that SERVICES.md owns those rules and they are not restated here, then eight lines later restates a service-layout rule SERVICES.md already carries. The file contradicts its own delegation statement and duplicates a rule that can now drift.",
+      "evidence": {
+        "subject": "review:- A service MAY ship `services/<name>/CLAUDE.md` holding ONLY its local",
+        "quote": "- A service MAY ship `services/<name>/CLAUDE.md` holding ONLY its local",
+        "conflicts_with": "docs/rules/SERVICES.md:15"
+      },
+      "fix": null,
+      "suggested_fix": "Delete the bullet from CODING.md and move the detail into SERVICES.md.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-c981355f4a",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "docs/SETUP.md",
+      "line": 105,
+      "message": "The instruction to reuse a tier's rollup carries no headcount caveat, but STACK-TEAM's rollups are priced for exactly five people, so a two- or nine-person team copying them gets a wrong number.",
+      "evidence": {
+        "subject": "review:estimated cost (each STACK file ends with per-tier cost rollups — use the chosen tier's)",
+        "quote": "estimated cost (each STACK file ends with per-tier cost rollups — use the chosen tier's)",
+        "conflicts_with": "docs/process/STACK-TEAM.md:235"
+      },
+      "fix": null,
+      "suggested_fix": "Append: STACK-TEAM's rollups are priced for five people; rescale per-seat lines to actual headcount.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-91c674775b",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "README.md",
+      "line": 38,
+      "message": "Groups all of docs/architecture/ as setup-interview-filled, but only STACK.MD carries a TODO(bootstrap); architecture/README.md says its subsystem maps stay empty until the first service lands, which is not a setup step.",
+      "evidence": {
+        "subject": "review:| [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Pro",
+        "quote": "| [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Pro",
+        "conflicts_with": "docs/architecture/README.md:8"
+      },
+      "fix": null,
+      "suggested_fix": "Split the row: STACK.MD, DESIGN.md and STRATEGY.md are setup-filled; subsystem maps are written as services land.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    },
+    {
+      "id": "review-f8059c80e6",
+      "check": "review",
+      "class": "SEMANTIC",
+      "severity": "P3",
+      "file": "README.md",
+      "line": 92,
+      "message": "The blanket claim is falsified four lines later in the same paragraph, which names five files that never recorded a commit.",
+      "evidence": {
+        "subject": "review:Each file records the upstream commit it was checked against, so you can tell",
+        "quote": "Each file records the upstream commit it was checked against, so you can tell",
+        "conflicts_with": "README.md:96"
+      },
+      "fix": null,
+      "suggested_fix": "Rewrite as 'Each file records the upstream commit it was checked against, where one exists'.",
+      "first_seen": "2026-08-25",
+      "status": "open"
+    }
+  ]
+}

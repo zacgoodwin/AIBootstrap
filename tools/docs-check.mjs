@@ -304,6 +304,62 @@ function packAliases() {
   });
 }
 
+/** Levenshtein, capped: only used to tell a typo from a different word. */
+function editDistance(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 99;
+  let prev = [...Array(b.length + 1).keys()];
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    for (let j = 1; j <= b.length; j++) {
+      row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = row;
+  }
+  return prev[b.length];
+}
+
+/**
+ * A pack named next to its own upstream URL must be spelled the way
+ * tools/sources.json spells it. Only a near-miss counts: "zcarceres" beside
+ * github.com/zcaceres is a typo with one right answer, while a genuinely
+ * different display name ("Matt Pocock's Skills" for id "matt") is not.
+ */
+function checkPackNames(files, findings) {
+  const packs = packAliases();
+  for (const f of files) {
+    const text = readFileSync(join(ROOT, f), "utf8");
+    for (const line of text.split("\n")) {
+      const url = line.match(/github\.com\/([\w.-]+\/[\w.-]+)/i);
+      if (!url) continue;
+      const pack = packs.find((p) => p.aliases.includes(url[1].toLowerCase()));
+      if (!pack) continue;
+      const slug = url[1].toLowerCase();
+      for (const m of line.matchAll(/[A-Za-z][\w-]{3,}/g)) {
+        const word = m[0].toLowerCase();
+        if (pack.aliases.includes(word) || word === pack.id) continue;
+        // The upstream org name is spelled however upstream spells it: if the
+        // word is inside the URL it is correct by definition, not a typo.
+        if (slug.includes(word)) continue;
+        // A typo keeps the first letter. Without this, any short English word
+        // lands within two edits of a short id ("that" vs "han").
+        if (word[0] !== pack.id[0]) continue;
+        const d = editDistance(word, pack.id);
+        if (d === 0 || d > 2) continue;
+        const at = text.indexOf(line) + m.index;
+        findings.push(finding({
+          check: "packname",
+          file: f,
+          line: lineAt(text, at),
+          severity: "P3",
+          message: `spells the pack "${m[0]}" beside github.com/${url[1]}; tools/sources.json calls it "${pack.id}"`,
+          evidence: { subject: `packname:${pack.id}:${word}`, claimed: m[0], canonical: pack.id, source: "tools/sources.json" },
+          fix: { offset: at, length: m[0].length, from: m[0], to: pack.id },
+        }));
+      }
+    }
+  }
+}
+
 function checkAgreement(findings) {
   const packs = packAliases();
   const scope = [...new Set([
@@ -359,6 +415,7 @@ export function scan() {
   checkLinks(files, tracked, findings);
   checkMeasured(files, dirs, findings);
   checkRosters(findings);
+  checkPackNames(files, findings);
   checkAgreement(findings);
   const seen = new Set();
   const deduped = findings.filter((f) => (seen.has(f.id) ? false : seen.add(f.id)));
@@ -474,6 +531,20 @@ function selfTest() {
   const src = "There are 9 agents in .claude/agents/ here.";
   const f = claims(src)[0];
   assert(src.slice(f.index, f.index + f.raw.length) === "9", "fix offsets address the number itself");
+
+  // A typo beside the upstream URL is fixable; a different display name is not.
+  assert(editDistance("zcarceres", "zcaceres") === 1, "a one-letter slip is a typo");
+  assert(editDistance("matt", "mattpocockskills") === 99, "a different name is not a typo");
+  assert(editDistance("gsd", "han") > 2, "unrelated ids do not collide");
+  // Regressions from the first packname run, which fired on three non-typos.
+  {
+    const fp = [];
+    checkPackNames(["docs/frameworks/CODEMYSPEC.MD"], fp);
+    assert(!fp.length, "an org name that appears in its own URL is not a typo");
+    const tp = [];
+    checkPackNames(["docs/frameworks/Z-TOP-SKILLS.md"], tp);
+    assert(!tp.some((x) => x.evidence.claimed.toLowerCase() === "that"), "an English word two edits from a short id is not a typo");
+  }
 
   // A dead link is retargeted only when exactly one file answers to that name.
   const tr = trackedFiles();

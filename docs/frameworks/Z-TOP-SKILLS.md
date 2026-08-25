@@ -745,8 +745,8 @@ stages as the packs above and were missing from the catalog.
 |  Oldhand   |  Ticket Based Development Workflow   |  https://berwinsingh.github.io/oldhand/#top   |
 |   CodeMySpec  |   Phoenix / Elixir workflow  |  https://codemyspec.com/   |
 |   gStack  |   Y Combinator CEO's workflow to develop product businesses  |   https://github.com/garrytan/gstack  |
-| rcs-harness    |   Wizard builds a harness based on project  |  https://github.com/ericrisco/rsc-harness   |
-|   zcarceres  |  Developer's personal skills   |  https://github.com/zcaceres/skills   |
+| rsc-harness    |   Wizard builds a harness based on project  |  https://github.com/ericrisco/rsc-harness   |
+|   zcaceres  |  Developer's personal skills   |  https://github.com/zcaceres/skills   |
 |   ECC  |  Everything (and the kitchen sink) skills   |  https://github.com/affaan-m/ECC   |
 |   Matt Pocock's Skills  |  Low overhead ticket based workflow   |  https://github.com/mattpocock/skills   |
 |  Ruflo   |   agent meta-harness  |  https://github.com/ruvnet/ruflo   |
