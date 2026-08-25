@@ -1,8 +1,9 @@
 # The Ultimate Development Process
 
 An opinionated path through the skill catalog: one lifecycle, 24 stages, each
-stage backed by the best skills found across docs/RECSKILLS.md and the 19
-framework packs in docs/frameworks/. RECSKILLS.md is the full catalog; this
+stage backed by the best skills found across docs/frameworks/Z-TOP-SKILLS.md
+and the 19 framework packs in docs/frameworks/. Z-TOP-SKILLS.md is the full
+catalog; this
 document is the route through it. Each stage names a primary pick with
 reasoning and lists alternates so you can swap by taste or stack.
 
@@ -543,7 +544,7 @@ a live session.
 
 ## Recommended tools
 
-Curated from the tools shelf in docs/RECSKILLS.md. Tier 1 is part of the
+Curated from the tools shelf in docs/frameworks/Z-TOP-SKILLS.md. Tier 1 is part of the
 process itself; Tier 2 installs when its trigger fires; the rest stays on the
 shelf until a real need shows up.
 

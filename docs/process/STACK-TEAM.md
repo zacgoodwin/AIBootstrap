@@ -4,10 +4,10 @@ Four complete tool stacks for a team of two to nine developers running an
 AI-enabled workflow, covering the product lifecycle end to end: ideation,
 research, specification, design, development, test, deliver, maintain.
 
-Built on the four PROCESS reports: docs/PROCESS.md supplies the lifecycle,
-docs/PROCESS-TEAM.md the eight coordination layers, docs/PROCESS-TEAM-SERVER.md
+Built on the four PROCESS reports: docs/process/PROCESS.md supplies the lifecycle,
+docs/process/PROCESS-TEAM.md the eight coordination layers, docs/process/PROCESS-TEAM-SERVER.md
 the hosted-tool research and the per-seat versus per-activity pricing lens, and
-docs/PROCESS-SOLO.md the contrast case. Prices are list prices from secondary
+docs/process/PROCESS-SOLO.md the contrast case. Prices are list prices from secondary
 sources as of August 2026; re-check before committing.
 
 Every stage has two halves:
@@ -31,7 +31,7 @@ A and D are not the same axis: A minimizes attention and vendors, D minimizes
 dollars, and D pays for the difference in enforcement, parity, and someone's
 evenings. Every D row below states what it gives up.
 
-The pricing rule from docs/PROCESS-TEAM-SERVER.md governs stack B: an
+The pricing rule from docs/process/PROCESS-TEAM-SERVER.md governs stack B: an
 AI-enabled team is few humans with enormous activity per human, so per-seat
 tools stay cheap while throughput grows, and per-activity tools (per snapshot,
 per trace, per score, per browser-hour) bill you for exactly the thing agents
@@ -44,7 +44,7 @@ collector. Stack C ignores the rule on purpose and accepts the meters.
 ## The constant: on the development machine
 
 Identical across all four stacks except where noted. This is the layer
-docs/PROCESS-TEAM.md commits into the repo so five laptops behave as one.
+docs/process/PROCESS-TEAM.md commits into the repo so five laptops behave as one.
 
 | Layer | Tools | Lifecycle stages touched |
 | --- | --- | --- |
@@ -276,7 +276,7 @@ What going this route gives up, in order of how much it hurts:
 
 1. **Enforcement.** GitHub Free has no branch protection on private repos, so
    every gate in the Test stage is voluntary. This contradicts the core rule
-   of docs/PROCESS-TEAM.md ("every gate is a machine"). The first $20 this
+   of docs/process/PROCESS-TEAM.md ("every gate is a machine"). The first $20 this
    team ever spends should be GitHub Team to buy it back, or go public and
    get it free.
 2. **Parity and visibility.** Individual Pro accounts mean no managed
@@ -306,7 +306,7 @@ not D, is the real floor for a team that intends to stay one.
 5. Add Promptfoo as a required check on prompt/skill changes - the eval rule
    this repo already has, finally enforced.
 
-Sources: consolidated in docs/PROCESS-TEAM-SERVER.md, plus this report's
+Sources: consolidated in docs/process/PROCESS-TEAM-SERVER.md, plus this report's
 inline links for ideation ([Miro/FigJam/Excalidraw](https://codepic.cc/blog/miro-vs-figjam)),
 research ([Dovetail alternatives](https://cleverx.com/blog/best-dovetail-alternatives-in-2026-10-tools-for-research-synthesis/),
 [Tally vs Typeform](https://tally.so/help/compare)), plans and seats

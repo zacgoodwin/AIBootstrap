@@ -1,11 +1,11 @@
 # The Solo Builder's Process
 
 One person, one product, agents doing most of the typing. A second route
-through the same catalog as docs/PROCESS.md, cut for the case where there is
+through the same catalog as docs/process/PROCESS.md, cut for the case where there is
 no one else: no reviewer, no PM, no designer, no QA, and nobody who notices
 if you skip a step.
 
-Read docs/PROCESS.md for the full-lifecycle route with every alternate named.
+Read docs/process/PROCESS.md for the full-lifecycle route with every alternate named.
 This document assumes you cannot afford that route's ceremony and keeps what
 survives contact with a one-person schedule.
 
@@ -85,7 +85,7 @@ at once.
 
 ## Movement 1: Decide, one or two sessions, not a week
 
-The Define phase in docs/PROCESS.md has eight stages. Alone, most of that is
+The Define phase in docs/process/PROCESS.md has eight stages. Alone, most of that is
 documentation for readers who do not exist. Four stages survive, each because
 it prevents an expensive mistake.
 
@@ -397,7 +397,7 @@ coordination or scale problem you do not have yet.
 
 ---
 
-Where this route and the full one differ: docs/PROCESS.md keeps every stage
+Where this route and the full one differ: docs/process/PROCESS.md keeps every stage
 because a team can staff them. This one keeps twelve, and the four it defends
 hardest are the ones replacing a missing human: the review panel, the blinded
 adversarial gate, real-app QA, and the ponytail ladder.

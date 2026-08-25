@@ -1,11 +1,11 @@
 # Team Tooling for an AI-Enabled Codebase
 
 Several developers, one repo, every one of them running agents. A third route
-through the same catalog as docs/PROCESS.md, organized by the shared tooling
+through the same catalog as docs/process/PROCESS.md, organized by the shared tooling
 layer rather than by lifecycle stage, because on a team the lifecycle is not
 the hard part. Coordination is.
 
-docs/PROCESS.md is the lifecycle. docs/PROCESS-SOLO.md is the one-person cut.
+docs/process/PROCESS.md is the lifecycle. docs/process/PROCESS-SOLO.md is the one-person cut.
 This document answers a narrower question: what has to be installed, versioned,
 and enforced so that five people running agents on one codebase produce one
 codebase.
@@ -383,7 +383,7 @@ purpose.
 
 ## Team tool tier
 
-Where a team's shelf differs from the solo shelf in docs/PROCESS-SOLO.md.
+Where a team's shelf differs from the solo shelf in docs/process/PROCESS-SOLO.md.
 
 **Install with the team:**
 

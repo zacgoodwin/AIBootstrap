@@ -1,11 +1,11 @@
 # Server-Side Tooling Across the SDLC
 
-A companion to docs/PROCESS-TEAM.md, which describes an AI-enabled team's
+A companion to docs/process/PROCESS-TEAM.md, which describes an AI-enabled team's
 process almost entirely as things running on laptops: hooks, skills, CLIs, and
 a committed `.claude/` directory. This report asks what belongs on a server,
 who should run that server, and what each choice costs.
 
-Organized by the section headings in docs/RECSKILLS.md, so every category in
+Organized by the section headings in docs/frameworks/Z-TOP-SKILLS.md, so every category in
 the skill catalog gets an answer, including the categories whose answer is
 "nothing, keep this local." Knowing where not to spend is half the value.
 
@@ -352,7 +352,7 @@ itself. Only works if the tracker has an API an agent can reach.
 
 ## Testing
 
-The category docs/PROCESS-TEAM.md under-covers most, and the one where agent
+The category docs/process/PROCESS-TEAM.md under-covers most, and the one where agent
 volume changes what breaks.
 
 | Need | Self-hosted | Hosted | Pick |
@@ -769,7 +769,7 @@ at step 9 because it is the most interesting.
 
 ---
 
-## What this changes in docs/PROCESS-TEAM.md
+## What this changes in docs/process/PROCESS-TEAM.md
 
 | Section | Change |
 | --- | --- |

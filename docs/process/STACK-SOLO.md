@@ -4,10 +4,10 @@ Five complete tool stacks for one person shipping a product with agents doing
 most of the typing, covering the lifecycle end to end: ideation, research,
 specification, design, development, test, deliver, maintain.
 
-Built on the four PROCESS reports: docs/PROCESS-SOLO.md supplies the
+Built on the four PROCESS reports: docs/process/PROCESS-SOLO.md supplies the
 constraints (you are every role, attention is scarcer than tokens, nothing
 forces you to write anything down, scope creep has no predator, QA goes first),
-docs/PROCESS.md the lifecycle, and docs/PROCESS-TEAM-SERVER.md the hosted-tool
+docs/process/PROCESS.md the lifecycle, and docs/process/PROCESS-TEAM-SERVER.md the hosted-tool
 research and pricing. Prices are list prices from secondary sources as of
 August 2026.
 
@@ -31,14 +31,14 @@ The five stacks:
 | **A. Least overhead** | Free tiers, local files, one bill you already pay | ~$30-60 |
 | **B. Best in class** | The strongest tool per stage that one person can run without it running them | ~$300-380 |
 | **C. Cost no object** | Buying back every hour money can buy back | ~$700-1,000 |
-| **D. Self-host homelab** | Everything on the machine or on hardware at home; SaaS only where self-hosting genuinely cannot do the job | ~$210-230 + one-time hardware |
-| **E. Cheapest** | The minimum dollar figure that still ships, with every give-up named | ~$17-25 |
+| **D. Cheapest** | The minimum dollar figure that still ships, with every give-up named | ~$17-25 |
+| **E. Self-host homelab** | Everything on the machine or on hardware at home; SaaS only where self-hosting genuinely cannot do the job | ~$210-230 + one-time hardware |
 
 The biggest line item in every stack past A is not a tool, it is the agent:
 Claude Max 20x at $200/month is the single purchase that most changes what one
-person can ship. Stacks B, C, and D are all built around it - D included,
+person can ship. Stacks B, C, and E are all built around it - E included,
 because Claude-class inference is the first entry on the list of things a
-homelab cannot replace. Stack E is the exception: it runs on Claude Pro, and
+homelab cannot replace. Stack D is the exception: it runs on Claude Pro, and
 its per-stage rows say what that and every other cut costs.
 
 ---
@@ -47,7 +47,7 @@ its per-stage rows say what that and every other cut costs.
 
 | Layer | Tools | Stages touched |
 | --- | --- | --- |
-| The agent | [Claude Code](https://www.finout.io/blog/claude-code-pricing-2026): Pro $17-20 (stack A), Max 5x $100 or **Max 20x $200** (B, C, D) | All eight |
+| The agent | [Claude Code](https://www.finout.io/blog/claude-code-pricing-2026): Pro $17-20 (stacks A, D), Max 5x $100 or **Max 20x $200** (B, C, E) | All eight |
 | Editor | VS Code free, or [Zed](https://zed.dev/compare/cursor) free - native speed and Claude Code as an external agent via ACP; Cursor Pro $20 in stack C as a second surface | Development |
 | Skill packs | The PROCESS-SOLO minimum install: gstack + mattpocock spine, PM OS subset, zcaceres subset, ponytail as a mode, RoboRev + stax + zg-skills as the gate | All eight |
 | Notes and thinking | [Obsidian](https://nexasphere.io/blog/best-note-taking-apps-developers-2026) - local-first markdown, 1,500+ plugins, the most future-proof personal knowledge base; your vault is also agent-readable context | Ideation, research, specification |
@@ -98,8 +98,8 @@ Obsidian for the thinking, Excalidraw for the sketch.
 | A | Nothing | A whiteboard SaaS for one person is a subscription for meetings you do not have. |
 | B | [Excalidraw+](https://storyflow.so/blog/best-excalidraw-alternatives-2026) free, or FigJam free (3 files) | Only for sharing a sketch with an outside collaborator; local files otherwise. |
 | C | FigJam via the Figma seat (see Design) + [v0](https://uibakery.io/blog/bolt-vs-lovable-vs-v0) $25/mo | v0 as an ideation tool: the fastest way from "what if the page worked like this" to a rendered answer. Multi-stage: v0 also serves Design. |
-| D | Nothing hosted; Excalidraw's collaboration server on the homelab if a sketch ever needs a share link | Same verdict as A: this stage lives on the machine. Excalidraw self-hosts in one container when sharing matters. |
-| E | Nothing | Identical to A. Already free. |
+| D | Nothing | Identical to A. Already free. |
+| E | Nothing hosted; Excalidraw's collaboration server on the homelab if a sketch ever needs a share link | Same verdict as A: this stage lives on the machine. Excalidraw self-hosts in one container when sharing matters. |
 
 ## Research
 
@@ -116,8 +116,8 @@ or GitMCP.
 | A | [Tally free](https://tally.so/help/compare) | Genuinely unlimited forms and responses free, with logic, file uploads, and Stripe payments - where Typeform free caps at 10 responses/month. The entire user-feedback intake for $0. |
 | B | Tally free + SearXNG on the box + [PostHog Cloud free](https://www.buildmvpfast.com/api-costs/analytics) surveys | SearXNG removes the per-query bill on agent research. PostHog surveys ride the analytics you already have. Synthesis stays on-machine - the Dovetail-class repository is a team coordination tool; solo, your Obsidian vault plus `/user-research-synthesis` *is* the repository. |
 | C | Stack B + an AI-moderated interview service ([User Intuition class](https://cleverx.com/blog/best-dovetail-alternatives-in-2026-10-tools-for-research-synthesis/), ~$25/interview, 24-hour turnaround) + [Maze](https://www.koji.so/blog/maze-alternatives-2026) from $25/mo for prototype tests | The one research capability money genuinely adds solo: other people, recruited, interviewed, and summarized while you build. |
-| D | [Formbricks](https://formbricks.com/blog/best-open-source-survey-software) on the box (AGPLv3, unlimited responses self-hosted: link, email, and in-app surveys via a 7KB SDK) + SearXNG + Firecrawl or fastCRW on the box | Formbricks replaces Tally at home; the search and crawl layer already lived there in stack B. Cannot self-host: recruited participants; see the Stack D exceptions list. |
-| E | Tally free + GitMCP free | Gives up: the SearXNG and crawl layer; do less agent web research at volume, or eat occasional per-query API pricing when it matters. |
+| D | Tally free + GitMCP free | Gives up: the SearXNG and crawl layer; do less agent web research at volume, or eat occasional per-query API pricing when it matters. |
+| E | [Formbricks](https://formbricks.com/blog/best-open-source-survey-software) on the box (AGPLv3, unlimited responses self-hosted: link, email, and in-app surveys via a 7KB SDK) + SearXNG + Firecrawl or fastCRW on the box | Formbricks replaces Tally at home; the search and crawl layer already lived there in stack B. Cannot self-host: recruited participants; see the Stack E exceptions list. |
 
 ## Specification
 
@@ -135,8 +135,8 @@ highest-leverage skill in the catalog for a solo builder) → `/spec` →
 | A | GitHub Free: repo + Issues if you want the queue visible | Kata is local; GitHub Issues only if the project is public and outsiders file things. Specs are markdown in the repo. |
 | B | GitHub Free + [Linear free](https://costbench.com/software/developer-tools/linear/) (free until 250 issues) *if* you want a hosted board | Optional. The honest default stays Kata + repo markdown: a hosted tracker for one person is mostly a nicer TV. |
 | C | Linear Basic $10/mo + Notion Plus $10/mo | Bought for polish and mobile access, not necessity. Multi-stage: Notion then also holds research notes and public docs drafts. |
-| D | Forgejo Issues on the box + Kata local; Docmost on the box only if a wiki earns its keep | The tracker rides the forge that moves home under Development. Specs stay markdown in the repo, same as every stack. |
-| E | Kata + repo markdown + GitHub Free | Nothing real to give up solo; this stage was already free in stack A. |
+| D | Kata + repo markdown + GitHub Free | Nothing real to give up solo; this stage was already free in stack A. |
+| E | Forgejo Issues on the box + Kata local; Docmost on the box only if a wiki earns its keep | The tracker rides the forge that moves home under Development. Specs stay markdown in the repo, same as every stack. |
 
 ## Design
 
@@ -154,8 +154,8 @@ Storybook in-repo when there are components worth cataloging.
 | A | [Figma free Starter](https://www.usecarly.com/blog/figma-pricing/) | Free tier covers one person's file needs; the system lives in DESIGN.md, not the tool. The Figma MCP server is already wired into this harness. |
 | B | Figma free + [v0](https://uibakery.io/blog/bolt-vs-lovable-vs-v0) $25/mo | v0 generates the cleanest production-ready React/shadcn UI of the AI builders; for a solo builder it is a design department that answers in sixty seconds. [Penpot](https://hedrick.io/post/penpot-vs-figma) self-hosted is the own-your-files lane and fits the box, but only if that ownership matters to you. |
 | C | Figma Professional $16 + v0 $25 + [Lovable](https://blog.tooljet.com/lovable-vs-bolt-vs-v0/) ~$25 | Lovable for full-app throwaways with backend and auth included - the fastest "is this product idea real" loop that exists. |
-| D | [Penpot](https://hedrick.io/post/penpot-vs-figma) on the box + Storybook in-repo | The stack where Penpot is primary, not a lane: self-hosted, SVG-native, design tokens, free dev handoff, air-gappable. Cannot self-host: v0-class AI prototyping; the local substitute is the harness itself with `/taste-skill` and `/prototype`, or keep v0 as a named SaaS exception. |
-| E | Figma Starter free + Excalidraw | Gives up: v0. Prototypes come from `/prototype` and `/taste-skill`, slower but free. |
+| D | Figma Starter free + Excalidraw | Gives up: v0. Prototypes come from `/prototype` and `/taste-skill`, slower but free. |
+| E | [Penpot](https://hedrick.io/post/penpot-vs-figma) on the box + Storybook in-repo | The stack where Penpot is primary, not a lane: self-hosted, SVG-native, design tokens, free dev handoff, air-gappable. Cannot self-host: v0-class AI prototyping; the local substitute is the harness itself with `/taste-skill` and `/prototype`, or keep v0 as a named SaaS exception. |
 
 ## Development
 
@@ -174,8 +174,8 @@ actually running two sessions.
 | A | **GitHub Free**: private repos, 2,000 Actions minutes, Dependabot, secret scanning on public repos | The multi-stage backbone at $0. 2,000 minutes covers a solo project's CI comfortably if the gate stays under two minutes - which docs/rules/TESTING.md already requires. |
 | B | GitHub Free or Pro $4 + [Supabase](https://layerbase.com/blog/neon-vs-supabase) free → Pro $25 (database + auth + storage + realtime + functions, MCP server already in this harness) or [Neon](https://designrevision.com/blog/supabase-vs-neon) free (scale-to-zero, ~100 free projects - the side-project database) | Supabase when the product uses the platform, Neon when databases sit idle. Multi-stage: Supabase spans development + deliver + maintain (logs and advisors queryable from the harness). |
 | C | GitHub Pro + Supabase Pro + [Blacksmith or Depot](https://tenki.cloud/blog/github-actions-runner-showdown-2026) runners (~$20-50 usage) + [Browserbase Developer](https://apiscout.dev/guides/browserbase-vs-steel-vs-hyperbrowser-browser-infrastructure-2026) $20 + [Amp](https://sourcegraph.com/pricing?product=codeIntelligence) or Copilot Pro $10 as a second agent | Faster CI, a cloud browser so `/qa` and `/canary` run in CI instead of on your laptop, and a second-vendor agent for the diversity `/z-adversarial-review` skeptic seats want. |
-| D | [Forgejo](https://www.techverdict.io/articles/self-hosted-git-2026) on the box: repo + Actions-compatible runners + native container registry, a single binary under 100MB idling at 40-80MB RAM + self-hosted Supabase (its Docker Compose stack) or plain Postgres via Coolify | The whole forge at home, with CI minutes that cost electricity. GitHub Free stays as an optional public mirror for open-source visibility; that network effect does not self-host. |
-| E | Claude Pro $17 + GitHub Free + [Neon free](https://designrevision.com/blog/supabase-vs-neon) (scale-to-zero, ~100 free projects; Supabase free pauses after 7 idle days) | The real cost of the whole stack sits here: Pro's usage limits cap the agent, and the agent is the staff. Also gives up branch protection on private repos (a paid GitHub feature): go public, pay GitHub Pro $4, or lean on pre-commit alone and accept that it is skippable. |
+| D | Claude Pro $17 + GitHub Free + [Neon free](https://designrevision.com/blog/supabase-vs-neon) (scale-to-zero, ~100 free projects; Supabase free pauses after 7 idle days) | The real cost of the whole stack sits here: Pro's usage limits cap the agent, and the agent is the staff. Also gives up branch protection on private repos (a paid GitHub feature): go public, pay GitHub Pro $4, or lean on pre-commit alone and accept that it is skippable. |
+| E | [Forgejo](https://www.techverdict.io/articles/self-hosted-git-2026) on the box: repo + Actions-compatible runners + native container registry, a single binary under 100MB idling at 40-80MB RAM + self-hosted Supabase (its Docker Compose stack) or plain Postgres via Coolify | The whole forge at home, with CI minutes that cost electricity. GitHub Free stays as an optional public mirror for open-source visibility; that network effect does not self-host. |
 
 ## Test
 
@@ -192,8 +192,8 @@ solo builders cut and the last thing this stack will let you cut.
 | A | GitHub required checks: gate tests + gitleaks + [OpenGrep](https://www.opengrep.dev/) | Three free machine gates. Solo, the required check matters *more* than on a team: it is the only reviewer who never gets tired of you. |
 | B | Stack A + [Promptfoo](https://qaskills.sh/blog/promptfoo-complete-guide-2026) in CI (evals as a required check - the repo's own rule, enforced) + [Lighthouse CI](https://unlighthouse.dev/learn-lighthouse/lighthouse-ci/server) assertions in CI (a11y + perf budgets; the server can live on the box or just assert in-workflow) + BackstopJS for visual regression when there is UI worth pinning | All free, all in CI, no meters. This is the full machine substitute bench. |
 | C | Stack B + [Chromatic free tier → Starter](https://argos-ci.com/blog/percy-vs-chromatic-vs-argos) (5k snapshots free; $179 for 35k) + [CodeRabbit](https://wetheflywheel.com/en/guides/best-ai-code-review-tools-2026/) or Greptile (~$12-30/mo solo) as a hosted PR reviewer on top of RoboRev + [Langfuse Cloud](https://www.morphllm.com/comparisons/braintrust-vs-langsmith) $29 for eval history | The hosted reviewer reviews PRs you open from anywhere, including the phone. Watch Chromatic's snapshot meter - agents multiply it. |
-| D | Stack B's free gate set on Forgejo runners + [Browserless or Steel](https://sliplane.io/blog/5-awesome-browserless-alternatives) on the box (Playwright-compatible WebSocket, so scripts just change a connection string) + ZAP against Coolify preview deployments + Langfuse self-hosted for eval history | The homelab's strongest stage: every gate, the browser, DAST, and eval history all self-host well, and every one of them is a meter somewhere else. |
-| E | The free gate set inside 2,000 free Actions minutes; Playwright local | Gives up: the cloud browser, visual regression, and eval history dashboards; QA is laptop-bound, and enforcement is soft on a private repo (see Development). |
+| D | The free gate set inside 2,000 free Actions minutes; Playwright local | Gives up: the cloud browser, visual regression, and eval history dashboards; QA is laptop-bound, and enforcement is soft on a private repo (see Development). |
+| E | Stack B's free gate set on Forgejo runners + [Browserless or Steel](https://sliplane.io/blog/5-awesome-browserless-alternatives) on the box (Playwright-compatible WebSocket, so scripts just change a connection string) + ZAP against Coolify preview deployments + Langfuse self-hosted for eval history | The homelab's strongest stage: every gate, the browser, DAST, and eval history all self-host well, and every one of them is a meter somewhere else. |
 
 ## Deliver
 
@@ -210,8 +210,8 @@ than broken.
 | A | [Railway Hobby](https://devtoolpicks.com/blog/railway-vs-render-vs-fly-io-solo-developers-2026) ($5 incl. $5 usage; realistically $6-13/mo) or Vercel Hobby (free, but a bot spike can blow past the 100k invocation cap - a documented failure mode) | Railway wins solo on price and predictability. Avoid Fly.io's trial-only entry unless global edge is the product. |
 | B | Railway (~$10-20) or Render Starter $7 + GrowthBook Cloud free (3 users, unlimited flags) + Listmonk on the box + [Postiz](https://teqvolt.com/open-source/postiz-29-6k-star-open-source-social-scheduler-buffer-alternative) self-hosted (AGPL, 30+ platforms) if a publishing cadence is real | Flags free, newsletter owned, social scheduling owned. [Coolify on the box](https://ceaksan.com/en/hetzner-coolify-self-hosting-reality) is also a fine primary deploy target - real projects report ~$17/mo total versus $64-100 managed. |
 | C | Vercel Pro $20 + Railway + GrowthBook + Buffer or Postiz Cloud $29 + a domain-and-email polish pass | Paying for the deploy platform's polish and preview URLs rather than operating them. |
-| D | Coolify on the box: deploys, per-branch previews, managed Postgres backups + GrowthBook self-hosted (MIT) + Listmonk + Postiz self-hosted; ingress via Cloudflare Tunnel (free) or [Pangolin](https://www.serverspan.com/en/blog/pangolin-on-a-vps-replace-cloudflare-tunnels-and-tailscale-with-one-self-hosted-tool) on a ~$5 VPS | The two places delivery genuinely fights the homelab are public ingress and outbound email; both are on the exceptions list below with options. Production with a real SLA is the third; the hybrid answer is serving the app from the edge VPS while the homelab runs everything else. |
-| E | Cloudflare Pages and Workers free + Neon free; a *.pages.dev subdomain until a ~$10/yr domain feels earned | Gives up: a real backend PaaS. Long-running servers do not fit the free edge, so the architecture bends to the free tier, which is a genuine design tax. Vercel Hobby is non-commercial. No SMTP budget means no newsletter; skip it or use a free-tier sender. |
+| D | Cloudflare Pages and Workers free + Neon free; a *.pages.dev subdomain until a ~$10/yr domain feels earned | Gives up: a real backend PaaS. Long-running servers do not fit the free edge, so the architecture bends to the free tier, which is a genuine design tax. Vercel Hobby is non-commercial. No SMTP budget means no newsletter; skip it or use a free-tier sender. |
+| E | Coolify on the box: deploys, per-branch previews, managed Postgres backups + GrowthBook self-hosted (MIT) + Listmonk + Postiz self-hosted; ingress via Cloudflare Tunnel (free) or [Pangolin](https://www.serverspan.com/en/blog/pangolin-on-a-vps-replace-cloudflare-tunnels-and-tailscale-with-one-self-hosted-tool) on a ~$5 VPS | The two places delivery genuinely fights the homelab are public ingress and outbound email; both are on the exceptions list below with options. Production with a real SLA is the third; the hybrid answer is serving the app from the edge VPS while the homelab runs everything else. |
 
 ## Maintain
 
@@ -229,17 +229,44 @@ not depend on memory.
 | A | [Sentry free](https://gaxonline.com/vs/sentry-vs-datadog/) (~5k errors/mo) + [PostHog Cloud free](https://www.buildmvpfast.com/api-costs/analytics) (1M events, 5k replays) + UptimeRobot free or Uptime Kuma if any box exists | Errors, analytics, replay, and uptime for $0. For one person this tier honestly covers a long way. |
 | B | Sentry Team $26 + PostHog Cloud free tier + the box (Umami, Uptime Kuma, GlitchTip in reserve) + Claude Code OTel telemetry → [Grafana Cloud free](https://devsecops.ae/observability-platforms-2026/) | The telemetry pipe gives `/context-budget` real numbers: which skills cost what, which are never invoked. Spend follows evidence, monthly, in the hour already budgeted. |
 | C | Sentry Team + [Better Stack](https://devsecops.ae/observability-platforms-2026/) (~$25-50; uptime + status page + on-call + logs in one bill - the multi-stage maintain product) + PostHog paid + [Aikido free tier → ~$300/mo](https://weavai.app/blog/en/2026/05/01/2026-aikido-security-review-is-all-in-one-appsec-worth-300/) consolidating SAST + SCA + secrets when the product handles user data | The "I am asleep and it still pages me" tier. incident.io-class platforms stay team-priced; Better Stack is the solo-shaped version. |
-| D | GlitchTip (errors) + Umami (analytics) + OpenReplay (session replay) + Uptime Kuma + Metabase (BI) + Dependency-Track (SBOM) on the box; Claude Code OTel telemetry into SigNoz on the box, which a 32GB machine runs comfortably | The near-complete maintain suite at home. Cannot self-host the outside vantage: a monitor on the homelab cannot tell you the homelab is down. Options on the exceptions list. |
-| E | Sentry free (~5k errors) + PostHog free + UptimeRobot free | Gives up: retention, replay volume, and alert routing. Honestly adequate until real users arrive. |
+| D | Sentry free (~5k errors) + PostHog free + UptimeRobot free | Gives up: retention, replay volume, and alert routing. Honestly adequate until real users arrive. |
+| E | GlitchTip (errors) + Umami (analytics) + OpenReplay (session replay) + Uptime Kuma + Metabase (BI) + Dependency-Track (SBOM) on the box; Claude Code OTel telemetry into SigNoz on the box, which a 32GB machine runs comfortably | The near-complete maintain suite at home. Cannot self-host the outside vantage: a monitor on the homelab cannot tell you the homelab is down. Options on the exceptions list. |
 
 Support intake, all stacks: Tally form + an email alias into the tracker.
 A helpdesk for one person is a queue with extra steps; revisit at the first
-hire (docs/PROCESS-TEAM.md takes over there). Stack D swaps Tally for
+hire (docs/process/PROCESS-TEAM.md takes over there). Stack E swaps Tally for
 Formbricks on the box.
 
 ---
 
-## Stack D in full: the self-host homelab
+## Stack D in full: cheapest, and what it costs
+
+Claude Pro $17/mo annual and nothing else with a bill. Every per-stage D row
+above names its local give-up; these are the three structural ones:
+
+1. **Agent capacity.** Pro's usage limits are the ceiling on everything, and
+   the agent is the staff. Per PROCESS-SOLO, when the limits bind, the honest
+   fix is the Max upgrade, not more tools. This is the give-up that caps
+   output rather than comfort.
+2. **Soft enforcement on private repos.** Branch protection is a paid GitHub
+   feature, so the required checks that substitute for a reviewer become
+   requests. The free escapes: make the repo public (checks free, plus free
+   Actions minutes), or GitHub Pro at $4.
+3. **The architecture bends to the free tier.** Free edge hosting means no
+   long-running servers; free databases pause or scale to zero; no SMTP budget
+   means no email. Each is fine alone, but design decisions made to stay at
+   $0 are still design decisions, and they outlive the budget that forced
+   them.
+
+The upgrade ladder out, in order: Max when Pro binds (~+$83-183) · GitHub Pro
+$4 or go public (the gate) · Railway $5 (a real backend) · a $10/yr domain ·
+Sentry stays free far longer than the rest. Spending the first three converts
+D into A, which is why A, not D, is this report's recommended floor: the $13-40
+difference buys back the three give-ups above.
+
+---
+
+## Stack E in full: the self-host homelab
 
 The premise: keep Claude Max 20x, and for everything else favor the
 development machine or hardware at home. This is stack B's philosophy taken to
@@ -267,7 +294,7 @@ Coolify the deploy stage already uses.
 
 ### The roster
 
-Everything from the stack B box, plus the D additions, one machine:
+Everything from the stack B box, plus the E additions, one machine:
 
 | Service | Stage | Replaces |
 | --- | --- | --- |
@@ -324,46 +351,19 @@ The list the stack is honest about. Each row: the gap, why, and the options.
 | Claude cloud sessions on your own runners | Self-hosted environments are Team and Enterprise only | [Remote Control](https://code.claude.com/docs/en/self-hosted-environments), which IS available on Max: run Claude Code on the always-on homelab box and drive it from your phone or laptop. The homelab-native answer, and arguably better than the thing it substitutes for |
 | GitHub's network effects | Stars, discovery, and drive-by contributors live on github.com | Mirror public repos from Forgejo to GitHub; develop at home, be found in public |
 
-### Stack D, rolled up
+### Stack E, rolled up
 
 **Claude Max 20x $200** · domain ~$1 · SMTP relay ~$1-5 · offsite backup
 ~$1-5 · Pangolin/edge VPS ~$5 · electricity ~$1 · everything else $0 after
-~$250-300 one-time hardware. Roughly **$210-230/month**, the cheapest stack
-after A, with more raw capability than B and C combined and the ops load to
-match. Two-thirds of the budget is still the agent, which is still the correct
+~$250-300 one-time hardware. Roughly **$210-230/month**, the cheapest of the
+Max-based stacks, with more raw capability than B and C combined and the ops
+load to match. Two-thirds of the budget is still the agent, which is still the correct
 shape.
 
 Build order: hardware + Coolify + Forgejo the first weekend; move the CI gates
 onto Forgejo runners the second; ingress, Authelia, and offsite backups before
 anything is public; the observability roster last, one container at a time as
 each earns its keep.
-
----
-
-## Stack E in full: cheapest, and what it costs
-
-Claude Pro $17/mo annual and nothing else with a bill. Every per-stage E row
-above names its local give-up; these are the three structural ones:
-
-1. **Agent capacity.** Pro's usage limits are the ceiling on everything, and
-   the agent is the staff. Per PROCESS-SOLO, when the limits bind, the honest
-   fix is the Max upgrade, not more tools. This is the give-up that caps
-   output rather than comfort.
-2. **Soft enforcement on private repos.** Branch protection is a paid GitHub
-   feature, so the required checks that substitute for a reviewer become
-   requests. The free escapes: make the repo public (checks free, plus free
-   Actions minutes), or GitHub Pro at $4.
-3. **The architecture bends to the free tier.** Free edge hosting means no
-   long-running servers; free databases pause or scale to zero; no SMTP budget
-   means no email. Each is fine alone, but design decisions made to stay at
-   $0 are still design decisions, and they outlive the budget that forced
-   them.
-
-The upgrade ladder out, in order: Max when Pro binds (~+$83-183) · GitHub Pro
-$4 or go public (the gate) · Railway $5 (a real backend) · a $10/yr domain ·
-Sentry stays free far longer than the rest. Spending the first three converts
-E into A, which is why A, not E, is this report's recommended floor: the $13-40
-difference buys back the three give-ups above.
 
 ---
 
@@ -381,8 +381,8 @@ difference buys back the three give-ups above.
 | Sentry | Test (release health), deliver, maintain | All |
 | Better Stack | Maintain, four ways at once | C |
 | Kata | Specification, development | All |
-| Forgejo | Specification, development, test, deliver in one sub-100MB binary | D |
-| The homelab box | Every hosted stage at once; the exceptions list is what it cannot absorb | D |
+| Forgejo | Specification, development, test, deliver in one sub-100MB binary | E |
+| The homelab box | Every hosted stage at once; the exceptions list is what it cannot absorb | E |
 
 ---
 
@@ -418,21 +418,21 @@ overflow + second vendor), other people's opinions (interviews, hosted PR
 review), a cloud browser so QA runs without your laptop, and being paged
 properly. The rest is polish.
 
-### Stack D: self-host homelab (~$210-230/mo + ~$250-300 one-time)
-
-Claude Max 20x $200 plus single-digit dollars of unavoidable SaaS (domain,
-SMTP relay, offsite backup, edge VPS, electricity) on top of a ~$250-300 mini
-PC. Full breakdown, roster, ingress options, and the cannot-self-host list in
-the Stack D section above. Most capable per dollar, and the only stack whose
-real currency is evenings.
-
-### Stack E: cheapest (~$17-25/mo)
+### Stack D: cheapest (~$17-25/mo)
 
 Claude Pro $17 and free tiers all the way down: GitHub Free, Cloudflare Pages,
 Neon, Figma Starter, Tally, PostHog, Sentry, UptimeRobot. One bill. The three
 structural give-ups (agent capacity, soft enforcement on private repos, an
 architecture bent to fit free tiers) and the upgrade ladder out are in the
-Stack E section above.
+Stack D section above.
+
+### Stack E: self-host homelab (~$210-230/mo + ~$250-300 one-time)
+
+Claude Max 20x $200 plus single-digit dollars of unavoidable SaaS (domain,
+SMTP relay, offsite backup, edge VPS, electricity) on top of a ~$250-300 mini
+PC. Full breakdown, roster, ingress options, and the cannot-self-host list in
+the Stack E section above. Most capable per dollar, and the only stack whose
+real currency is evenings.
 
 ---
 
@@ -446,11 +446,11 @@ Stack E section above.
 4. `/setup-deploy` + Railway so `/land-and-deploy` works, then Sentry free.
 5. Stack B and up: the Hetzner + Coolify box in one afternoon, then Promptfoo
    and Lighthouse into CI.
-6. Stack D: hardware + Coolify + Forgejo the first weekend; gates onto Forgejo
+6. Stack E: hardware + Coolify + Forgejo the first weekend; gates onto Forgejo
    runners the second; ingress, Authelia, and offsite backups before anything
    goes public.
 
-Sources: consolidated in docs/PROCESS-TEAM-SERVER.md plus inline -
+Sources: consolidated in docs/process/PROCESS-TEAM-SERVER.md plus inline -
 [Claude Code plans](https://www.finout.io/blog/claude-code-pricing-2026),
 [notes apps](https://nexasphere.io/blog/best-note-taking-apps-developers-2026),
 [Tally vs Typeform](https://tally.so/help/compare),
@@ -465,7 +465,7 @@ Sources: consolidated in docs/PROCESS-TEAM-SERVER.md plus inline -
 [visual testing](https://argos-ci.com/blog/percy-vs-chromatic-vs-argos),
 [managed runners](https://tenki.cloud/blog/github-actions-runner-showdown-2026),
 [cloud browsers](https://apiscout.dev/guides/browserbase-vs-steel-vs-hyperbrowser-browser-infrastructure-2026),
-and for stack D:
+and for stack E:
 [Formbricks](https://formbricks.com/blog/best-open-source-survey-software),
 [homelab mini PCs](https://botmonster.com/self-hosting/best-mini-pcs-home-lab-2026/),
 [Pangolin and tunnel options](https://www.serverspan.com/en/blog/pangolin-on-a-vps-replace-cloudflare-tunnels-and-tailscale-with-one-self-hosted-tool),

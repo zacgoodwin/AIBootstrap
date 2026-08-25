@@ -759,6 +759,7 @@ stages as the packs above and were missing from the catalog.
 |  Ponytail   |  Lazy-senior-dev mode: YAGNI ladder, over-engineering review/audit, debt ledger   |  https://github.com/DietrichGebert/ponytail  |
 |  Caveman   |  Ultra-compressed output mode, ~65% fewer output tokens with full technical accuracy; pairs with Ponytail   |  https://github.com/JuliusBrussee/caveman  |
 |  cco (claude-context-optimizer)   |  Cache-aware context optimization: session overhead audit (/cco-overhead), auto .contextignore, delegation advisor   |  https://github.com/egorfedorov/claude-context-optimizer  |
+| zg-skills | AIBootstrap Repo Author's personal skills | https://github.com/zacgoodwin/zg-skills/ | 
 
 
 
