@@ -169,6 +169,11 @@ function run() {
     console.error("gate: skills-update self-test failed");
     process.exit(1);
   }
+  const docs = spawnSync(process.execPath, [join(ROOT, "tools/docs-check.mjs"), "--self-test"], { stdio: "inherit" });
+  if (docs.status !== 0) {
+    console.error("gate: docs-check self-test failed");
+    process.exit(1);
+  }
   console.log(`gate: OK (${checked} path references resolve, credentials ignored, provenance recorded, hooks self-check)`);
 }
 

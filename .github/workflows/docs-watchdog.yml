@@ -1,0 +1,64 @@
+name: docs-watchdog
+
+# Documentation drift, on every push to main and every pull request.
+#
+# This runs the DETERMINISTIC half only: links, anchors, measured counts,
+# roster tables, cross-file agreement, pack-name spelling. It calls no model
+# and reaches no network, so it is free and cannot flake. The latent half
+# (contradictory guidance) runs locally via a reviewer pass and lands in
+# docs/ai/baseline-contradictions.json, which this job reads as the record of
+# what is already known.
+#
+# The build fails ONLY on a new P1 SEMANTIC finding. That split is deliberate:
+# a MECHANICAL finding is one `node tools/docs-check.mjs --fix` away and
+# blocking on it would just teach people to skip the check, while a SEMANTIC
+# one needs a person to decide which of two documents is right.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # the PR comment, and nothing else
+    steps:
+      # Pinned by commit SHA, not tag, matching .github/workflows/gate.yml: a
+      # tag moves, and a moved tag is a supply-chain incident holding a token.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+
+      # The checker checks itself first. A watchdog whose own logic regressed
+      # reports a clean tree just as convincingly as a genuinely clean one.
+      - name: Self-test
+        run: node tools/docs-check.mjs --self-test
+
+      - name: Render the diff against the baseline
+        run: |
+          node tools/docs-check.mjs --diff > watchdog.md
+          cat watchdog.md >> "$GITHUB_STEP_SUMMARY"
+
+      # Posted before the gate below, so a failing run still explains itself on
+      # the PR instead of leaving a red X and a log to go digging through.
+      - name: Comment on the pull request
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Through env, never interpolated into the script: a run block that
+          # inlines event data is a template-injection sink (zizmor flags it).
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr comment "$PR" --body-file watchdog.md --edit-last \
+            || gh pr comment "$PR" --body-file watchdog.md
+
+      - name: Fail on new P1 semantic findings
+        run: node tools/docs-check.mjs --check

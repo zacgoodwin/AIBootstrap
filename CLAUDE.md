@@ -19,6 +19,7 @@ docs/SETUP.md and complete it with the user before any other work.**
 - docs/DESIGN.md — visual decisions · docs/STRATEGY.md — product strategy · docs/HEALTH-METRICS.md — metric definitions and thresholds
 - docs/user-guide/ — end-user docs
 - tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
+- docs/ai/ — machine-written records; baseline-contradictions.json is the known-drift baseline the docs watchdog tracks against
 - README.md — front door: quickstart, repo map, pack index
 - docs/frameworks/ — skill catalog by workflow stage: one file per upstream
   pack, plus NON-PACK-SKILLS.md for the skills no pack file carries. Each
@@ -32,6 +33,7 @@ docs/SETUP.md and complete it with the user before any other work.**
 
 - Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (kit checks: doc paths, credentials ignore line, upstream provenance, hook and tool self-checks; the runner is kit infrastructure, not a stack choice) + `TODO(bootstrap)` (project tests, any language, chained with `&&`)
 - What moved upstream (network, so not in the gate): `node tools/skills-update.mjs check`; act on it with `/skills-update`
+- Docs drift (free, deterministic): `node tools/docs-check.mjs` finds dead links, wrong counts and cross-file disagreement; `--fix` repairs the mechanical ones; `--check` is the CI gate and fails only on a new P1 SEMANTIC finding. Regenerate the baseline with `--baseline`.
 - Ship a branch: `/stack-ship` (roborev gate -> squash-submit PR -> adversarial review; see docs/rules/WORKFLOW.md Shipping)
 - Evals (paid, periodic, before ship + nightly): `TODO(bootstrap)`
 

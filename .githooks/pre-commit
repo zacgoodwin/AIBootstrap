@@ -1,0 +1,20 @@
+#!/bin/sh
+# Reference integrity, on every commit. A dead cross-reference is cheap to
+# catch here and expensive to find later, when a reader hits the 404.
+#
+# Install (per clone; .git/hooks is not versioned):
+#   cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#
+# Deliberately NOT wired via core.hooksPath: that would shadow .git/hooks
+# entirely and silently disable the roborev post-commit hook already there.
+#
+# Bypassing this with --no-verify is not a fix; the reference is still dead.
+set -eu
+ROOT=$(git rev-parse --show-toplevel)
+
+if ! "$ROOT/scripts/check-references.sh"; then
+  echo ""
+  echo "pre-commit: broken doc references above. Fix them, or run"
+  echo "  node tools/docs-check.mjs --fix   (retargets moved files and stale counts)"
+  exit 1
+fi
