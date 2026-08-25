@@ -1,6 +1,6 @@
 # Matt Pocock Skills
 
-All skills from [mattpocock/skills](https://github.com/mattpocock/skills), sorted by the same sections as Z-TOP-SKILLS.md. Skills not yet in the upstream README are marked **new**; in-progress skills are tagged (in-progress).
+All skills from [mattpocock/skills](https://github.com/mattpocock/skills), sorted by the same sections as Z-TOP-SKILLS.md. Skills not yet in the upstream README are marked **new**; in-progress skills are tagged (in-progress). Upstream not pinned in tools/sources.json; `/skills-update` records the commit on its first full catalog pass.
 
 # Product Process
 ## Pack Setup

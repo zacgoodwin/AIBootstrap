@@ -1,0 +1,338 @@
+{
+  "//": "Provenance for everything in this repo that is vendored from, or catalogs, an upstream source. tools/skills-update.mjs reads it to answer 'what moved upstream'; tools/gate.mjs checks it against the filesystem and against the prose headers in docs/frameworks/. One entry per tracked item; ids are unique.",
+  "//kinds": "skill = a vendored copy under .claude/skills/. skill-group = several skills from one source that ships them together. pack = a catalog file under docs/frameworks/ describing an upstream repo we do not vendor.",
+  "//pinned": "The upstream state this repo was last verified against. null means no provenance was ever recorded: the first full /skills-update pass establishes it. A pinned entry carries a commit, a version, or both.",
+  "entries": [
+    {
+      "id": "agent-sort",
+      "kind": "skill",
+      "path": ".claude/skills/agent-sort",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/affaan-m/ECC",
+        "subpath": "skills/agent-sort"
+      },
+      "pinned": {
+        "commit": "d8409a4b0813771235555e32e3d8046a73988bfa",
+        "date": "2026-08-19"
+      },
+      "checked": "2026-08-25"
+    },
+    {
+      "id": "wizard",
+      "kind": "skill",
+      "path": ".claude/skills/wizard",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/mattpocock/skills",
+        "subpath": "skills/engineering/wizard"
+      },
+      "pinned": {
+        "commit": "cb7db0eeb6270b5534128dafcc1a59e3e7ab0472",
+        "date": "2026-08-06"
+      },
+      "checked": "2026-08-25"
+    },
+    {
+      "id": "writing-for-agents",
+      "kind": "skill",
+      "path": ".claude/skills/writing-for-agents",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/mattpocock/skills",
+        "subpath": "skills/productivity/writing-for-agents"
+      },
+      "pinned": {
+        "commit": "4aaccb58d40559d7e3c59a029b2290ae5ba538de",
+        "date": "2026-08-05"
+      },
+      "checked": "2026-08-25"
+    },
+    {
+      "id": "skills-update",
+      "kind": "skill",
+      "path": ".claude/skills/skills-update",
+      "upstream": {
+        "type": "local",
+        "note": "Written here. Nothing upstream to track."
+      },
+      "pinned": null,
+      "checked": "2026-08-25"
+    },
+    {
+      "id": "pm-os",
+      "kind": "skill-group",
+      "paths": [
+        ".claude/skills/activation-analysis",
+        ".claude/skills/competitor-analysis",
+        ".claude/skills/decision-doc",
+        ".claude/skills/define-north-star",
+        ".claude/skills/expansion-strategy",
+        ".claude/skills/feature-metrics",
+        ".claude/skills/launch-checklist",
+        ".claude/skills/prd-review-panel",
+        ".claude/skills/retention-analysis",
+        ".claude/skills/user-research-synthesis",
+        ".claude/skills/write-prod-strategy"
+      ],
+      "upstream": {
+        "type": "manual",
+        "name": "Aakash Gupta PM OS",
+        "note": "Distributed as a product, not a public repo. No sha to compare: a human has to check the source for a newer release and re-vendor by hand."
+      },
+      "pinned": null,
+      "checked": "2026-08-25"
+    },
+    {
+      "id": "beagle",
+      "kind": "pack",
+      "doc": "docs/frameworks/BEAGLE.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/existential-birds/beagle"
+      },
+      "pinned": {
+        "commit": "d1a7489",
+        "date": "2026-08-09"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "claude-mpm",
+      "kind": "pack",
+      "doc": "docs/frameworks/CLAUDE-MPM.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/bobmatnyc/claude-mpm-skills"
+      },
+      "pinned": {
+        "commit": "718070a",
+        "version": "v1.0.9",
+        "date": "2026-07-18"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "codemyspec",
+      "kind": "pack",
+      "doc": "docs/frameworks/CODEMYSPEC.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/Code-My-Spec/plugins"
+      },
+      "pinned": {
+        "commit": "2b6a897",
+        "date": "2026-08-21"
+      },
+      "checked": "2026-08-24"
+    },
+    {
+      "id": "codex-skills-alternative",
+      "kind": "pack",
+      "doc": "docs/frameworks/CODEX-SKILLS-ALTERNATIVE.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/DKeken/codex-skills-alternative"
+      },
+      "pinned": {
+        "commit": "68c441a",
+        "date": "2026-06-02"
+      },
+      "checked": "2026-08-24"
+    },
+    {
+      "id": "gsd",
+      "kind": "pack",
+      "doc": "docs/frameworks/GSD.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/open-gsd/gsd-core"
+      },
+      "pinned": {
+        "commit": "8442d98",
+        "date": "2026-08-24"
+      },
+      "checked": "2026-08-24"
+    },
+    {
+      "id": "gstack",
+      "kind": "pack",
+      "doc": "docs/frameworks/GSTACK.MD",
+      "//": "gstack publishes no git tags: 1.68.3.0 is its VERSION file, which reads 1.68.3.0 at exactly this commit.",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/garrytan/gstack"
+      },
+      "pinned": {
+        "commit": "85fd9db554ae4aaaa6d356d2daf873121ee85bdd",
+        "version": "1.68.3.0",
+        "date": "2026-08-21"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "han",
+      "kind": "pack",
+      "doc": "docs/frameworks/HAN.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/TheBushidoCollective/han"
+      },
+      "pinned": {
+        "commit": "29a19d3",
+        "date": "2026-08-19"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "matt",
+      "kind": "pack",
+      "doc": "docs/frameworks/MATT.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/mattpocock/skills"
+      },
+      "pinned": null,
+      "checked": null
+    },
+    {
+      "id": "mindrally",
+      "kind": "pack",
+      "doc": "docs/frameworks/MINDRALLY.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/Mindrally/skills"
+      },
+      "pinned": {
+        "commit": "05a7130"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "oldhand",
+      "kind": "pack",
+      "doc": "docs/frameworks/OLDHAND.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/berwinsingh/oldhand"
+      },
+      "pinned": {
+        "commit": "56029eb",
+        "date": "2026-08-03"
+      },
+      "checked": "2026-08-24"
+    },
+    {
+      "id": "pm-claude-brief",
+      "kind": "pack",
+      "doc": "docs/frameworks/PM-CLAUDE-BRIEF.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/MariaVimer/pm-claude-brief"
+      },
+      "pinned": {
+        "commit": "3321dad",
+        "date": "2026-05-03"
+      },
+      "checked": "2026-08-24"
+    },
+    {
+      "id": "rsc-harness",
+      "kind": "pack",
+      "doc": "docs/frameworks/RCS.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/ericrisco/rsc-harness"
+      },
+      "pinned": null,
+      "checked": null
+    },
+    {
+      "id": "ruflo",
+      "kind": "pack",
+      "doc": "docs/frameworks/RUFLO.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/ruvnet/ruflo"
+      },
+      "pinned": null,
+      "checked": null
+    },
+    {
+      "id": "superpowers",
+      "kind": "pack",
+      "doc": "docs/frameworks/SUPERPOWERS.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/obra/superpowers"
+      },
+      "pinned": {
+        "commit": "b36e082",
+        "version": "v6.3.0"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "taste-skill",
+      "kind": "pack",
+      "doc": "docs/frameworks/TASTE-SKILL.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/Leonxlnx/taste-skill"
+      },
+      "pinned": {
+        "commit": "72e2995"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "trailofbits",
+      "kind": "pack",
+      "doc": "docs/frameworks/TRAILOFBITS.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/trailofbits/skills"
+      },
+      "pinned": {
+        "commit": "311a784",
+        "date": "2026-08-24"
+      },
+      "checked": "2026-08-24"
+    },
+    {
+      "id": "unlazy",
+      "kind": "pack",
+      "doc": "docs/frameworks/UNLAZY.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/Leonxlnx/unlazy"
+      },
+      "pinned": {
+        "commit": "754d9a6"
+      },
+      "checked": "2026-08-23"
+    },
+    {
+      "id": "zcaceres",
+      "kind": "pack",
+      "doc": "docs/frameworks/ZCARES.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/zcaceres/skills"
+      },
+      "pinned": null,
+      "checked": null
+    },
+    {
+      "id": "ecc",
+      "kind": "pack",
+      "doc": "docs/frameworks/ECC.md",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/affaan-m/ECC"
+      },
+      "pinned": null,
+      "checked": null
+    }
+  ]
+}

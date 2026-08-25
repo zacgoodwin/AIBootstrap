@@ -27,7 +27,8 @@ docs/SETUP.md and complete it with the user before any other work.**
 
 ## Commands
 
-- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (kit checks: doc paths, credentials ignore line, hook self-check; the runner is kit infrastructure, not a stack choice) + `TODO(bootstrap)` (project tests, any language, chained with `&&`)
+- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (kit checks: doc paths, credentials ignore line, upstream provenance, hook and tool self-checks; the runner is kit infrastructure, not a stack choice) + `TODO(bootstrap)` (project tests, any language, chained with `&&`)
+- What moved upstream (network, so not in the gate): `node tools/skills-update.mjs check`; act on it with `/skills-update`
 - Ship a branch: `/stack-ship` (roborev gate -> squash-submit PR -> adversarial review; see docs/rules/WORKFLOW.md Shipping)
 - Evals (paid, periodic, before ship + nightly): `TODO(bootstrap)`
 
@@ -57,6 +58,7 @@ docs/SETUP.md and complete it with the user before any other work.**
 | Plans archive | docs/plans/ |
 | Marketing / launch / sales / support / product / data | matching agent in .claude/agents/ |
 | Cataloging from a source | docs/rules/WORKFLOW.md Catalog and doc generation |
+| Skills or catalogs behind upstream | /skills-update (provenance: tools/sources.json) |
 | Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |
 
 Skills above come from the packs docs/SETUP.md installs; until a pack is

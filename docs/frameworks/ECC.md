@@ -1,6 +1,6 @@
 # ECC skill pack
 
-All skills from [affaan-m/ECC](https://github.com/affaan-m/ECC), sorted under the same headings as Z-TOP-SKILLS.md.
+All skills from [affaan-m/ECC](https://github.com/affaan-m/ECC), sorted under the same headings as Z-TOP-SKILLS.md. Upstream not pinned in tools/sources.json; `/skills-update` records the commit on its first full catalog pass.
 
 # Product Process
 

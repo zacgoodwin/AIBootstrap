@@ -35,7 +35,8 @@ start normally.
 | [docs/agents/](docs/agents/) | Subagent rosters, per pack and deduplicated |
 | [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Project docs the setup interview fills in |
 | [.claude/](.claude/) | Shipped agents, skills, hooks, and settings |
-| [tools/gate.mjs](tools/gate.mjs) | The gate: every doc path resolves, credentials stay ignored, hooks self-check |
+| [tools/gate.mjs](tools/gate.mjs) | The gate: every doc path resolves, credentials stay ignored, provenance is recorded, hooks self-check |
+| [tools/sources.json](tools/sources.json), [tools/skills-update.mjs](tools/skills-update.mjs) | Where each vendored skill and pack catalog came from, and what has moved since |
 
 ## The rules pack
 
@@ -114,3 +115,24 @@ gitignored, and the shipped hooks must pass their self-checks. Run
 `node tools/gate.mjs --self-test` to check the gate itself.
 
 The setup interview extends it with your project's own tests.
+
+## Keeping it current
+
+Upstream moves. [tools/sources.json](tools/sources.json) records where every
+vendored skill and every pack catalog came from and at which commit, and
+`node tools/skills-update.mjs check` says which of them have moved since —
+over `git ls-remote`, so it needs no token and no API quota. The gate holds
+the manifest honest offline: a skill vendored with no recorded source, or a
+pack header whose pin disagrees with the manifest, fails it.
+
+`check` reports a state per entry, and two of them are deliberately not
+verdicts. `moved` means the upstream *repo* head moved, which for a skill
+vendored from a monorepo often means nothing changed in our copy —
+`skills-update.mjs diff <id>` scopes it to the files we actually took.
+`manual` covers sources with no public repo to compare, which no automated
+check can ever call current; a human has to look.
+
+From there `/skills-update` is the judgment layer: read the diff, decide
+whether the change is wanted, `pull` a skill or re-run the catalog pass for a
+pack, then restamp. `pull` refuses to overwrite a working copy that was edited
+locally, so a local adaptation is never lost to an update.
