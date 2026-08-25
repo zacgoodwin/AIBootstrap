@@ -11,6 +11,10 @@ One document, four questions answered in order:
 4. **What does it cost?** Four complete stacks at $95, $250, $1,200, and $5,000
    a month for five people, with the give-ups named per stage.
 
+Part 6 answers a fifth: **what if we run trunk-based development?** It states
+the six deltas against everything above, since the default assumed here is
+short-lived branches with stacked PRs.
+
 Written for a team of two to nine developers where agents generate most of the
 implementation output. Prices are list prices from public sources as of August
 2026; re-check before committing.
@@ -819,6 +823,146 @@ purpose.
   service, not after.
 - **A server nobody owns.** Worse than the laptop tool it replaced, because
   people now trust it.
+
+---
+
+# Part 6: The trunk-based variant
+
+Everything above assumes branches: a worktree per ticket, a stack of dependent
+PRs, and a heavyweight blinded review at the door. That is a default, not a
+requirement. Trunk-based development works with this process, and for an
+agent-heavy team it fits better than it first looks, because agents are bad at
+exactly the thing long-lived branches produce: a week of divergence they cannot
+see, reasoned about from a context window that never held both sides.
+
+Six things change. Two of them are load-bearing and free, so this is not an
+expensive variant. It is a differently-shaped one.
+
+## 1. Stacks become a queue, not a tree
+
+Stax in Part 1 is a review-sizing device: split one large agent diff into three
+reviewable ones. That stays correct under trunk-based **only if every branch in
+the stack merges the day it opens.** A six-deep stack sitting for a week is
+long-lived branching wearing a stax hat.
+
+Two rules make it work: cap stack depth at roughly three, and flatten anything
+that cannot land within 24 hours into a single change behind a flag. Worktrees
+are unaffected and get more correct, not less: a short-lived branch is a
+short-lived worktree.
+
+## 2. Feature flags stop being optional
+
+Part 4 lists flags under Deliver as "ship dark, enable later," a stack B
+nicety. Under trunk-based they are how incomplete work reaches trunk at all,
+which promotes them to day one in **every** stack including D. GrowthBook Cloud
+free (3 users, unlimited flags) and Statsig free (1M events) cover it at $0, and
+PostHog already includes flags if it is in the stack.
+
+For work too large to hide behind a boolean, the answer is branch-by-abstraction,
+not a long branch: introduce the seam, land it, migrate callers incrementally,
+delete the old path. `/design-an-interface` and `/contract-first` from stage 6
+are what make that seam exist in the first place.
+
+## 3. The gate gets tiered, because it cannot all be blocking
+
+This is the change teams skip and then blame trunk-based for. The binding
+constraint under trunk-based is **merge latency**. A 25-minute blocking gate
+means nobody merges five times a day, and a gate people route around is
+decoration. Split it three ways.
+
+| Tier | What runs | Budget | Failure means |
+| --- | --- | --- | --- |
+| **Local** | Gate tests, gitleaks, format, typecheck | Under 2s | Commit blocked |
+| **Per-PR, required checks** | Changed-package tests, OpenGrep, secret scan, Lighthouse budgets on changed routes, sampled Promptfoo suite, RoboRev, `/code-review` on both axes | Under 10 min | Merge blocked |
+| **Post-merge on trunk** | Full E2E, visual regression, ZAP against the preview, the full eval suite, `/z-adversarial-review` on flagged paths, `/cso` | Nightly or per merge batch | **Revert**, then fix forward |
+
+That last row carries a discipline the branch-based version does not need:
+**on trunk, revert first and diagnose second.** Agents produce a clean revert
+commit reliably and attempt heroic forward fixes on a red trunk unreliably.
+Write the revert rule into `docs/rules/WORKFLOW.md` with a stated time limit so
+it is canon rather than instinct.
+
+## 4. The merge queue moves from "later, at 9+ people" to week three
+
+In Part 2 the merge queue is a scaling item. Under trunk-based it is core, and
+the reason is semantic conflicts rather than textual ones: two PRs that each
+pass green against the trunk they branched from, and break each other after
+landing. Agent volume makes that a daily event instead of a monthly one.
+
+A merge queue tests each PR against the actual post-merge state of trunk before
+letting it in. GitHub's native one is free, so this lands in stack A, not stack
+C. Graphite or Aviator only when volume genuinely outgrows it.
+
+## 5. Adversarial review gets risk-tiered instead of universal
+
+Blocking every 200-line PR on a blinded four-key review with skeptic subagents
+is what kills merge cadence, and a gate that kills cadence gets routed around.
+
+Keep RoboRev per commit and `/code-review`'s Standards and Spec axes as the
+blocking pair. Run `/z-adversarial-review` **blocking** only on flagged paths:
+auth, payments, schema and migrations, `contracts/`, prompts and skills, and
+anything the security review would have caught. Everywhere else it runs
+post-merge against trunk on a nightly cadence, with findings filed as tickets
+through `/triage`.
+
+The bar does not drop. Some of it moves after the merge, and the revert rule in
+tier three is what pays for that move. If you are not willing to revert on
+trunk, do not make this trade.
+
+## 6. CI speed stops being a cost decision
+
+Part 3 puts managed runners under cost: roughly 2-3x faster at about a third
+less than GitHub minutes. Under trunk-based, CI latency **is** the merge rate,
+so Blacksmith, Namespace, or Depot move into stack A. Slow CI under trunk-based
+does not get skipped, it gets batched, and batching is precisely what
+trunk-based exists to prevent.
+
+## What changes in the stacks
+
+Three rows move up, and all three are free or near-free.
+
+| Item | Branch-based default | Trunk-based |
+| --- | --- | --- |
+| Feature flags | Stack B, Deliver stage | **Stack A and D, day one.** GrowthBook Cloud or Statsig free tier. |
+| Merge queue | Step 8, or 9+ people | **Week 3, stack A.** GitHub native, free. |
+| Managed runners | Stack B, a cost play | **Stack A, structural.** ~$50-150/mo usage. |
+| Preview environments | Per PR | Per PR **and** a permanent trunk-tracking staging environment, because post-merge detection now carries real weight. |
+| Progressive rollout | Stack C (Argo Rollouts, LaunchDarkly) | Worth pulling into B: automated metric-driven rollback is the safety net that pre-merge review used to be. The PaaS instant-rollback button is the cheap version. |
+
+Net effect on stack A: roughly $50-150 a month for runners, and nothing else.
+
+## Two new anti-patterns and one new owner
+
+- **A stack that outlives the day.** If it did not merge today, it is a
+  long-lived branch and you are not doing trunk-based, whatever the diagram says.
+- **A flag that outlives its feature.** Every stale flag is a permanent
+  untested code path and a branch an agent will reason about wrongly. Flags need
+  the same ledger-and-cleanup cadence as `/ponytail-debt`: a monthly sweep that
+  deletes flags at 100% or 0% rollout, and an expiry date on every flag at
+  creation.
+- **Fixing forward on a red trunk.** Stop the line, revert, then diagnose in a
+  branch like everyone else.
+
+The new owner is **trunk health**, with a stated revert SLA. Somebody's job is
+"trunk is green," and stop-the-line has to mean something, or trunk-based
+degrades into everyone committing to main and hoping.
+
+## What does not change
+
+Canon, harness parity, telemetry, the work queue, the artifact chain, service
+boundaries, ownership, and the adoption sequence through week 5. Worktree per
+claim gets more correct. The blinded review still exists, it just runs on a
+different schedule for most diffs. Every one of the five rules at the top holds
+unchanged.
+
+## When trunk-based is the wrong call here
+
+Three cases. Release-gated software where a version ships to customers on a
+schedule and cannot be flag-controlled. Regulated changes needing pre-merge
+sign-off recorded per change, where moving review after the merge fails an
+audit. And a team that will not revert: without tier-three revert discipline,
+trunk-based moves risk after the merge and then does nothing about it, which is
+strictly worse than the branch-based default.
 
 ---
 
