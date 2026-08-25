@@ -19,5 +19,4 @@ Highest precedence. Overrides every other rule.
   escape, so a `C:\...` path gets eaten and the command fails. Never pass
   one, and never `cd` to the project root (Bash starts there). Need a
   directory change? POSIX form (`cd /c/Users/...`), a quoted forward-slash
-  path, or the PowerShell tool. `~/.claude/hooks/bash-path-guard.mjs`
-  backstops it where installed (docs/SETUP.md).
+  path, or the PowerShell tool.

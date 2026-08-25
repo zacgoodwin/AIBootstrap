@@ -18,12 +18,28 @@ full set. Skip one and its references go inert, not broken.
 
 | Tool | What it does | Install | Verify |
 |---|---|---|---|
-| rtk | Filters shell output before it reaches the model (docs/rules/RTK.md) | github.com/rtk-rs — then wire its PreToolUse hook per its README | `rtk --version`; `rtk gain` |
-| ponytail plugin | Enforces the lazy ladder (docs/rules/PRINCIPLES.md) every session | `/plugin` -> marketplace DietrichGebert/ponytail | SessionStart shows "PONYTAIL MODE ACTIVE" |
-| caveman + context-optimizer plugins | Terse prose + context hygiene; enabled in .claude/settings.json | auto-prompted on first session; accept, or remove from `enabledPlugins` | `/plugin` lists them |
+| rtk | Filters shell output before it reaches the model; its installer drops usage docs at `~/.claude/RTK.md` | github.com/rtk-rs — then wire its PreToolUse hook per its README | `rtk --version`; `rtk gain` |
+| ponytail plugin | Enforces the lazy ladder (docs/rules/PRINCIPLES.md) every session | `/plugin` -> ponytail marketplace (table below) | SessionStart shows "PONYTAIL MODE ACTIVE" |
+| caveman + context-optimizer plugins | Terse prose + context hygiene | `/plugin` -> their marketplaces (table below) | `/plugin` lists them |
 | stax (`st`) + roborev | Stacked branches + per-commit background review (docs/rules/WORKFLOW.md Shipping) | their READMEs; roborev config is already in `.roborev.toml` | `st doctor`; `roborev show HEAD` |
 | gh | Tickets and PRs | cli.github.com | `gh auth status` |
 | skill packs | The catalog in README.md | per-source files in docs/frameworks/ carry install commands (`npx skills add <source>` style) | invoked skills appear in the session skill list |
+
+### Plugin marketplaces
+
+Register once via `/plugin` -> add marketplace (or `claude plugin marketplace
+add <repo>`); the plugin rows above install from these.
+
+| Marketplace | Repo | Carries |
+|---|---|---|
+| ponytail | DietrichGebert/ponytail | ponytail plugin (lazy ladder mode, review/audit/debt skills) |
+| caveman | JuliusBrussee/caveman | caveman plugin (terse output mode) |
+| context-optimizer | egorfedorov/claude-context-optimizer | context hygiene plugin |
+| claude-plugins-official | anthropics/claude-plugins-official | official plugins: supabase, figma, claude-md-management |
+| context-engineering-marketplace | muratcankoylan/Agent-Skills-for-Context-Engineering | context-engineering skill pack |
+| zcaceres-skills | zcaceres/skills | zcaceres skill pack |
+| ecc | affaan-m/ECC | ECC pack |
+| codemyspec | Code-My-Spec/plugins | codemyspec plugin |
 
 ## 3. Wire the gate
 

@@ -14,4 +14,3 @@ jobs:
           node-version: 20
       - run: node tools/gate.mjs --self-test
       - run: node tools/gate.mjs
-      - run: node .claude/hooks/filter-test-output.mjs --check

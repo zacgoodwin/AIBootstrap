@@ -9,7 +9,7 @@ graphify-out/
 # Dependency-generated skill drops (self-installing skills from packages)
 .agents/skills/
 
-# Secrets. Never commit. See rules/SAFETY.md
+# Secrets. Never commit. See docs/rules/SAFETY.md
 .env*
 .claude/credentials.md
 secrets/

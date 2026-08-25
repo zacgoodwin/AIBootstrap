@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 // Gate: every repo path referenced in CLAUDE.md, README.md, and docs/ must
-// exist. Free, deterministic, <2s. This gate exists because the docs rotted
-// against deleted files once (docs/ai/*, rules/*, tools/*); it makes that
-// path unreachable. Run: node tools/gate.mjs  |  self-test: --self-test
+// exist, .gitignore must keep .claude/credentials.md ignored, and the shipped
+// hooks must pass their self-checks. Free, deterministic, <2s. The path check
+// exists because the docs rotted against deleted files once (docs/ai/*,
+// rules/*, tools/*); it makes that path unreachable.
+// Run: node tools/gate.mjs  |  self-test: --self-test
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
@@ -35,8 +38,11 @@ export function extractPaths(text, fileDir) {
     if (/^(https?:|mailto:)/.test(t)) continue;
     out.push({ raw: t, abs: resolve(fileDir, t) });
   }
-  // Bare path mentions rooted at known repo dirs (not preceded by ~ or /)
-  for (const m of text.matchAll(/(?<![\w~/.])((?:docs|tools|services|contracts|schemas|\.claude|\.github)\/[\w][\w./-]*)/g)) {
+  // Bare path mentions rooted at known repo dirs (not preceded by ~ or /).
+  // URLs are stripped first: "costbench.com/software/developer-tools/linear/"
+  // must not read as a repo ref to tools/linear/.
+  const noUrls = text.replace(/https?:\/\/[^\s)]+/g, " ");
+  for (const m of noUrls.matchAll(/(?<![\w~/.])((?:docs|tools|services|contracts|schemas|\.claude|\.github)\/[\w][\w./-]*)/g)) {
     const raw = m[1].replace(/[.,;:]+$/, "");
     out.push({ raw, abs: join(ROOT, raw) });
   }
@@ -57,17 +63,28 @@ function run() {
       if (!existsSync(abs.replace(/[.,;:]+$/, ""))) missing.push(`${f.slice(ROOT.length + 1)} -> ${raw}`);
     }
   }
+  // .claude/credentials.md must stay ignored (credentials.example.md relies on this)
+  if (!readFileSync(join(ROOT, ".gitignore"), "utf8").includes(".claude/credentials.md")) {
+    missing.push(".gitignore -> missing '.claude/credentials.md' ignore line");
+  }
   if (missing.length) {
     console.error(`gate: ${missing.length} dead path reference(s):`);
     for (const m of missing) console.error(`  ${m}`);
     process.exit(1);
   }
-  console.log(`gate: OK (${checked} path references resolve)`);
+  const hook = spawnSync(process.execPath, [join(ROOT, ".claude/hooks/filter-test-output.mjs"), "--check"], { stdio: "inherit" });
+  if (hook.status !== 0) {
+    console.error("gate: hook self-check failed");
+    process.exit(1);
+  }
+  console.log(`gate: OK (${checked} path references resolve, credentials ignored, hooks self-check)`);
 }
 
 function selfTest() {
-  const fixture = "See [plan](docs/plans) and docs/rules/SAFETY.md, plus docs/nope-missing.md and services/<name>/CLAUDE.md and .claude/workflows/.";
+  const fixture = "See [plan](docs/plans) and docs/rules/SAFETY.md, plus docs/nope-missing.md and services/<name>/CLAUDE.md and .claude/workflows/ and [Linear](https://costbench.com/software/developer-tools/linear/).";
   const got = extractPaths(fixture, ROOT).map((p) => p.raw);
+  const assertUrl = got.some((r) => r.includes("tools/linear"));
+  if (assertUrl) { console.error("gate --self-test FAIL: URL innards must not read as repo paths"); process.exit(1); }
   const assert = (cond, msg) => { if (!cond) { console.error(`gate --self-test FAIL: ${msg}`); process.exit(1); } };
   assert(got.includes("docs/rules/SAFETY.md"), "should extract bare docs path");
   assert(got.includes("docs/nope-missing.md"), "should extract the bad path");

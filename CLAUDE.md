@@ -23,13 +23,15 @@ docs/SETUP.md and complete it with the user before any other work.**
 
 ## Commands
 
-- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (doc paths + hook self-checks) + `TODO(bootstrap)` (project tests)
+- Gate tests (free, deterministic, <2s, CI + pre-commit once wired): `node tools/gate.mjs` (kit checks: doc paths, credentials ignore line, hook self-check; the runner is kit infrastructure, not a stack choice) + `TODO(bootstrap)` (project tests, any language, chained with `&&`)
 - Ship a branch: `/stack-ship` (roborev gate -> squash-submit PR -> adversarial review; see docs/rules/WORKFLOW.md Shipping)
 - Evals (paid, periodic, before ship + nightly): `TODO(bootstrap)`
 
 ## Non-negotiables
 
 - Every change ships with gate tests, plus evals when latent behavior changed.
+  Trivial one-liners and doc-only changes need no new test; every commit still
+  passes the standing gate.
 - Never merge to main with the gate red.
 - End every task with a status: DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT.
 - Read the file before making claims about it. Never speculate about code you
@@ -68,7 +70,6 @@ Load the file when the situation matches:
 - Unsure whether to act or ask -> docs/rules/AUTONOMY.md
 - Destructive ops, commits, secrets -> docs/rules/SAFETY.md
 - Writing prose, docs, or talking to the user -> docs/rules/VOICE.md
-- rtk meta commands, output filtering -> docs/rules/RTK.md
 
 ## Estimation
 
@@ -84,8 +85,3 @@ docs/rules/ domain goes in that file instead. None yet.
 
 When compacting, preserve test output, code changes, and any open
 TODO(bootstrap) markers.
-
-<!-- rtk-instructions v2 -->
-Always prefix shell commands with `rtk`, even inside `&&` chains: it filters
-output when it has a filter, passes through when it doesn't. Ref: docs/rules/RTK.md.
-<!-- /rtk-instructions -->

@@ -3,10 +3,9 @@
 # Principles
 
 Precedence when rules conflict: Safety first (docs/rules/SAFETY.md), then How
-to work (scope: finish everything asked, with tests and docs), then Ponytail
-(style: the smallest correct diff that covers that scope; loaded by the
-ponytail hook and skill — the ladder below is its in-repo copy). Ponytail
-limits code volume, never scope.
+to work (scope: finish everything asked, with tests and docs), then the lazy
+ladder (style: the smallest correct diff that covers that scope; the ladder
+below). The ladder limits code volume, never scope.
 
 ## How to work
 
@@ -66,9 +65,7 @@ Lazy means efficient, not careless. Stop at the first rung that holds:
 
 Understand the problem and trace the real flow first, then climb. Bug fix =
 root cause in the shared function, not a per-caller patch. Mark deliberate
-corner-cuts with a `ponytail:` comment naming the ceiling; if the upgrade
-should ever happen, it also gets a Backlog ticket (docs/rules/WORKFLOW.md).
-The comment marks the spot, the ticket owns the work.
+corner-cuts with a `ponytail:` comment naming the ceiling and upgrade path.
 Never lazy about: understanding the problem, input validation at trust
 boundaries, error handling that prevents data loss, security, accessibility,
 anything explicitly requested.
