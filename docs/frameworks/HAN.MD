@@ -200,7 +200,7 @@ Han is a marketplace of 161 plugins across 11 categories (core, bushido, discipl
 | `/shell-scripting-fundamentals` | shellcheck: Use when writing or modifying Bash/shell scripts. Covers script structure, variables, quoting, conditionals, and loops with modern best practices. |
 | `/shell-best-practices` | shfmt: Use when writing shell scripts following modern best practices. Covers portable scripting, Bash patterns, error handling, and secure coding. |
 
-## Code Architecture
+# Code Architecture
 | Execution | What it does |
 | --- | --- |
 | `/architect` | core: Design system architecture and high-level technical strategy |
@@ -214,7 +214,7 @@ Han is a marketplace of 161 plugins across 11 categories (core, bushido, discipl
 | `/oop-inheritance-composition` | oop: Use when deciding between inheritance and composition in object-oriented design. Use when creating class hierarchies or composing objects from smaller components. |
 | `/oop-polymorphism` | oop: Use when implementing polymorphism and interfaces in object-oriented design. Use when creating flexible, extensible systems with interchangeable components. |
 
-## Dev Tooling
+# Dev Tooling
 | Execution | What it does |
 | --- | --- |
 | `/commit-strategy` | git-storytelling: Use when planning commit strategies or determining when to commit changes. Helps developers commit early and often to tell the story of their development process. |

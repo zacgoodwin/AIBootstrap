@@ -26,7 +26,7 @@ All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted b
 | `/modern-python` | Configures Python projects with modern tooling (uv, ruff, ty); use when creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black |
 | `/writing-lean-proofs` | Writes and reviews structured Lean 4 proofs and designs Lean libraries following Mathlib conventions |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|

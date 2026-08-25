@@ -216,14 +216,14 @@ All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by th
 | `/zod-schema-validation` | Best practices for Zod schema validation and type inference in TypeScript applications. |
 | `/zustand-state-management` | Best practices for Zustand state management in React and Next.js applications with TypeScript. |
 
-## Code Architecture
+# Code Architecture
 
 | Execution | What it does |
 |---|---|
 | `/clean-architecture` | Guidelines for implementing Clean Architecture patterns in Flutter and Go applications, with emphasis on separation of concerns, dependen... |
 | `/microservices` | Guidelines for building production-grade microservices with FastAPI/Python and Go, covering serverless patterns, clean architecture, obse... |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|

@@ -136,7 +136,7 @@ All [existential-birds/beagle](https://github.com/existential-birds/beagle) skil
 | `/resolve-beagle` | Closes a spec's Open Questions (and latent gaps) before planning or implementation begins |
 | `/review-plan` | Reviews implementation plans for parallelization, TDD, types, libraries, and security before execution |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|

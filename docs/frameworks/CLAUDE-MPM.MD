@@ -133,14 +133,14 @@ All [bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills
 | `/feature-engineering` | Feature engineering techniques: create or transform features to improve model performance |
 | `/ml-pipeline-development` | Reproducible, maintainable ML pipelines using scikit-learn Pipeline and model development best practices |
 
-## Code Architecture
+# Code Architecture
 
 | Execution | What it does |
 |---|---|
 | `/software-patterns` | Compares trade-offs and recommends architectural patterns: DI, SOA, repository, domain events, circuit breaker, anti-corruption layer |
 | `/api-design-patterns` | API design patterns covering REST, GraphQL, gRPC, versioning, authentication, and modern best practices |
 
-## Dev Tooling
+# Dev Tooling
 
 | Execution | What it does |
 |---|---|
