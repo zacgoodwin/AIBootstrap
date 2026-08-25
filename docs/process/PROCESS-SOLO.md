@@ -7,7 +7,10 @@ if you skip a step.
 
 Read docs/process/PROCESS.md for the full-lifecycle route with every alternate named.
 This document assumes you cannot afford that route's ceremony and keeps what
-survives contact with a one-person schedule.
+survives contact with a one-person schedule. When a second person arrives, the
+team routes are docs/process/PROCESS-TEAM.md plus
+docs/process/PROCESS-TEAM-SERVER.md for stacked PRs, or
+docs/process/PROCESS-TEAM-TRUNK.md for trunk-based.
 
 ## What actually changes when it is just you
 
@@ -85,7 +88,7 @@ at once.
 
 ## Movement 1: Decide, one or two sessions, not a week
 
-The Define phase in docs/process/PROCESS.md has eight stages. Alone, most of that is
+The Define phase in docs/process/PROCESS.md has nine stages. Alone, most of that is
 documentation for readers who do not exist. Four stages survive, each because
 it prevents an expensive mistake.
 
@@ -194,8 +197,20 @@ You wrote it, so you believe it works. That belief is the failure mode.
 | `/test gaps` | zcaceres | Cross-references tests against source: untested branches, error paths, boundaries. Run before calling anything done. |
 | Gate tests | this repo | `node tools/gate.mjs` plus project tests. Deterministic, free, under two seconds, every commit. The floor. |
 
-Add `/accessibility` and `/frontend-a11y` (ECC) inside the loop for UI tickets.
-Retrofitting a11y alone is worse than retrofitting it with help.
+**Accessibility, opt in per project.** Skip it for a headless service. For
+anything with a user interface, turn it on now, because retrofitting a11y alone
+is worse than retrofitting it with help. Three cheap gates, in order of how
+early they catch: `eslint-plugin-jsx-a11y` in the pre-commit hook,
+`@axe-core/playwright` inside whatever E2E you already run, and Lighthouse CI
+budgets on changed routes. `/accessibility` and `/frontend-a11y` (ECC) do the
+design and implementation half inside the loop.
+
+Then know the ceiling, because alone you have nobody to catch what the tools
+miss: automated tooling covers roughly 30-50% of WCAG criteria. Put one manual
+screen-reader pass on the monthly hour, on whichever flow costs you most if it
+breaks. If a customer ever asks for a VPAT, that is a third party's job, not
+yours. docs/process/PROCESS.md stage 13 has the rest, including why an
+accessibility overlay is not a substitute.
 
 ### 7. Gate it
 
@@ -234,7 +249,42 @@ changes where being wrong is expensive.
 | `/monitoring` | rsc-harness | Once, early: uptime and alerts, so you learn it is down before a user emails you. |
 | `/document-release` | gstack | After the deploy sticks: fold what shipped back into the docs while it is still fresh. |
 
-### 10. Tell someone it exists
+### 10. When production breaks and you are the rotation
+
+You have no on-call rotation, which does not mean nothing pages. It means the
+page arrives as an email from a user, hours late, while you are doing something
+else. Two cheap things make that survivable, and both have to exist before the
+outage rather than during it.
+
+| Run | From | When |
+| --- | --- | --- |
+| `/incident-response` | Han | Once, early. Produces the severity ladder and a runbook per known failure mode. Alone the runbook's reader is you at 2am with none of today's context, which is a real second person. |
+| `/backups` | rsc-harness | Once, before real user data exists. RPO and RTO targets and 3-2-1-1-0 copies. A managed Postgres with automated backups covers most of it; the part it does not cover is whether you can restore. |
+| A timed restore drill | none, do it by hand | Quarterly. Restore into a scratch database and time it. That number is your real RTO. Nobody else is going to discover the backup was empty. |
+| `/investigate` | gstack | After containment, when the question turns from "stop the bleeding" to "why". |
+
+**Fold the incident back in, the same way a bug folds back in.** The regression
+test that would have caught it, plus a `/learn` entry. Solo, this is the whole
+mechanism that stops the same outage twice, because there is no second person
+carrying the memory.
+
+**The unattended-agent failure modes are the ones you will actually hit.** A
+loop that opened thirty pull requests overnight, an agent that force-pushed
+over a branch, a backfill run against production because that was the default
+connection string. `/guard` and `/freeze` (gstack) plus the zcaceres safety
+hooks are the prevention; snapshot before any data-modifying job. termly-cli on
+your phone is the closest thing to a pager you have.
+
+**Compliance, only when it binds you.** Most solo projects owe nothing here and
+should skip it. The moment one of three things is true, run `/compliance`
+(rsc-harness) once and `/gdpr-privacy` (rsc-harness) for the published
+artifacts: you take card payments (keep card entry in the processor's hosted
+fields so your servers and your CI never see a card number), you handle
+personal data of EU users, or you are selling to a company whose procurement
+will ask for a security questionnaire. Doing it at that moment is an afternoon.
+Doing it after the architecture assumed otherwise is a rewrite.
+
+### 11. Tell someone it exists
 
 Solo products die unlaunched more often than they die broken. Keep this thin.
 
@@ -256,7 +306,7 @@ you will actually sustain.
 A team runs six recurring passes. Solo, they collapse into two cadences: the
 weekly check and the monthly hour.
 
-### 11. Session and week
+### 12. Session and week
 
 | Run | From | Why |
 | --- | --- | --- |
@@ -266,7 +316,7 @@ weekly check and the monthly hour.
 | `/learn` | gstack | Whenever something was learned, into docs/LEARNINGS.md. |
 | `/clean-ai-slop` | zcaceres | Per branch before shipping: tombstone comments, restated-code comments, defensive try/catch, `any` casts. |
 
-### 12. The monthly hour
+### 13. The monthly hour
 
 | Run | From | Why |
 | --- | --- | --- |
@@ -275,6 +325,7 @@ weekly check and the monthly hour.
 | `/quality-docs-update` | zcaceres | Audits docs against current code. Your docs are agent input, so drift degrades every future session. |
 | `/ponytail-debt` | ponytail | Harvests every `ponytail:` shortcut comment into a ledger, so deliberate corners get revisited instead of forgotten. |
 | `/context-budget` | ECC | What every skill, rule, and MCP costs in tokens, with prioritized savings. Directly a money question when it is your money. |
+| `/cso --skills` | gstack | Quarterly rather than monthly. Scans the installed skills as the third-party executable text they are. Solo you install packs faster than anyone reviews them, and a skill runs with your credentials. |
 
 Automate the cadence: `/schedule` (built-in) creates cron routines, `/loop`
 handles recurring runs inside a session. A solo builder who has to remember
@@ -302,6 +353,9 @@ in for it.
 | Security engineer | `/security-review` (ECC) in-loop, `/cso` periodically | Auth, user input, secrets, endpoints, payments. |
 | CEO or investor | `/office-hours` (gstack), `/plan-ceo-review` (gstack) | Before a quarter of work goes into one bet. |
 | The person who says no | ponytail mode, `/ponytail-review` | Always on. It is a mode, not a command. |
+| SRE and on-call | `/incident-response` and `/runbook-structure` (Han), `/canary` (gstack) | Written once, read at 2am by a version of you with none of today's context. |
+| DBA | `/backups` (rsc-harness), plus a timed restore drill quarterly | Nobody else will notice the backup has been failing for six weeks. |
+| Compliance and legal | `/compliance` and `/gdpr-privacy` (rsc-harness), `legal-advisor` agent | Only when payments, EU personal data, or a procurement questionnaire makes it real. |
 | Rubber duck | `/council` (ECC), `/dev-team` (ECC) | One stuck decision, not a whole document. |
 | The colleague who knows | `/to-questionnaire` (mattpocock) | A decision you genuinely cannot answer: turn it into a questionnaire for someone who can. |
 
@@ -344,7 +398,14 @@ Everything in this list exists to coordinate people. You have no people.
   `/status-update`, `/slack-message`, `/internal-comms`) is dead weight.
 - Contract versioning across teams. `/contract-first` matters when two people
   own two sides. With one owner, a typed interface in the repo is enough.
-- CODEOWNERS, branch protection policy, merge queues, PR templates.
+- CODEOWNERS, branch protection policy, merge queues, PR templates. These are
+  coordination between people and you have none. **Pipeline hardening is not
+  on this list**: pin GitHub Actions by commit SHA rather than tag, declare
+  `permissions: contents: read` at the workflow root, and never pair
+  `pull_request_target` with a checkout of the PR head. That is supply-chain
+  risk, not coordination, and it is worse solo because nobody else reviews the
+  workflow diff your agent just wrote. [zizmor](https://github.com/zizmorcore/zizmor)
+  checks all three in one command; put it in CI once.
 - Human onboarding docs. Keep the agent-facing docs (CLAUDE.md, rules,
   architecture) because agents onboard every session. Skip the human ones.
 - Handoff documents between people. Keep `/context-save` and `/handoff`,
@@ -363,6 +424,9 @@ Everything in this list exists to coordinate people. You have no people.
   two-hour tax later. `/context-save` costs one minute.
 - **Building the thing nobody asked for.** Nothing stops you but ponytail and
   `/office-hours`.
+- **Assuming the backup works.** It is the one failure where being solo has no
+  recovery path at all: no colleague has a copy, no runbook exists, and the
+  data is gone. Time a restore quarterly.
 - **Deferring the gate.** "I will add tests after" is how a solo codebase
   becomes unmaintainable, because there is no second person whose pain forces
   the cleanup.
@@ -377,6 +441,7 @@ Everything in this list exists to coordinate people. You have no people.
 | Per release | `/canary --baseline`, `/land-and-deploy`, `/canary`, `/benchmark`, `/document-release` |
 | Weekly | `/health` |
 | Monthly | `/ponytail-audit`, `/cso --diff`, `/quality-docs-update`, `/ponytail-debt`, `/context-budget` |
+| Quarterly | A timed restore from a real backup; `/cso --skills` over the installed skill set |
 | On repeating a manual flow twice | `/skillify` |
 
 ## Tools for one
@@ -400,6 +465,6 @@ coordination or scale problem you do not have yet.
 ---
 
 Where this route and the full one differ: docs/process/PROCESS.md keeps every stage
-because a team can staff them. This one keeps twelve, and the four it defends
+because a team can staff them. This one keeps thirteen, and the four it defends
 hardest are the ones replacing a missing human: the review panel, the blinded
 adversarial gate, real-app QA, and the ponytail ladder.

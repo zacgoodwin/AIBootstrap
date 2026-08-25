@@ -1,0 +1,14 @@
+# Surfaces an agent must not be able to change without a human on the diff.
+#
+# The threat is specific: every required check lives in .github/workflows, so
+# an agent with write access there can weaken the gate that reviews it, and no
+# gate objects because the gate is what changed. Same argument for tools/,
+# which holds the gate's own implementation, and .claude/, whose hooks run with
+# this repo's credentials. Reasoning: docs/process/PROCESS.md stage 24.
+#
+# This file is inert on its own. It has teeth only once branch protection on
+# main requires review from Code Owners. Set that once; it is the other half.
+
+/.github/   @zacgoodwin
+/tools/     @zacgoodwin
+/.claude/   @zacgoodwin

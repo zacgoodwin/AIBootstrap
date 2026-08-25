@@ -4,13 +4,36 @@ on:
     branches: [main]
   pull_request:
 
+# Least privilege. The gate reads the tree and writes nothing; the default
+# token is broader than any job here needs. Elevate per job, never at the root.
+permissions:
+  contents: read
+
 jobs:
   gate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # Actions are pinned by commit SHA, not tag: a tag moves, and a moved tag
+      # is a supply-chain incident holding GITHUB_TOKEN. Renovate bumps these.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
       - run: node tools/gate.mjs --self-test
       - run: node tools/gate.mjs
+
+  # Everything above is a gate an agent could weaken by editing this file.
+  # zizmor is the check that notices: unpinned actions, over-broad token
+  # scopes, pull_request_target misuse, template injection. Its own job so a
+  # pipeline finding reads separately from a docs finding.
+  workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      # pipx ships on the GitHub Ubuntu images, so this adds no action to pin.
+      # Exit codes 11-14 mean findings by severity, so any finding fails.
+      - run: pipx run zizmor .github/workflows/

@@ -6,9 +6,12 @@ layer rather than by lifecycle stage, because on a team the lifecycle is not
 the hard part. Coordination is.
 
 docs/process/PROCESS.md is the lifecycle. docs/process/PROCESS-SOLO.md is the one-person cut.
-This document answers a narrower question: what has to be installed, versioned,
-and enforced so that five people running agents on one codebase produce one
-codebase.
+docs/process/PROCESS-TEAM-TRUNK.md is the trunk-based alternative to this
+document: one shared branch, branches that merge the same day, incomplete work
+merged dark behind a flag. It is self-contained and folds in the server-side
+picks, so pick it or this pair, not both. This document answers a narrower
+question: what has to be installed, versioned, and enforced so that five people
+running agents on one codebase produce one codebase.
 
 ## The problem agents create for a team
 
@@ -199,6 +202,56 @@ Each row is a machine, not an agreement.
 with expiring exceptions. `gsd-loop-review` (GSD) is the pattern to copy for
 auditing each open PR against its linked issue contract and required CI.
 
+**Harden the pipeline against the agents themselves.** Every gate above lives
+in .github/workflows, and an agent with write access there can weaken the gate
+that reviews it without any gate objecting, because the gate is what changed.
+Four controls close it, all free, and they matter more on a team because more
+agents have push access:
+
+1. **CODEOWNERS over .github/workflows, over the CODEOWNERS file itself, and
+   over branch-protection config.** A named human reviews pipeline changes.
+   This is the one CODEOWNERS entry that is not bureaucracy.
+2. **Pin actions by 40-character commit SHA, not by tag.** A moving tag is a
+   supply-chain incident waiting to happen with your `GITHUB_TOKEN` in scope.
+   Renovate bumps the pins.
+3. **`permissions: contents: read` at the workflow root,** elevated per job
+   only where needed. The default token is broader than nearly any job needs.
+4. **Never `pull_request_target` with a checkout of the PR head.** Untrusted
+   fork code, write permissions, and secrets in one job is the standard
+   takeover.
+
+[zizmor](https://github.com/zizmorcore/zizmor) is the static analyzer that
+catches all four, and it belongs in CI next to the secret scan so nobody has to
+remember them. `/github-actions` (rsc-harness) is the authoring counterpart for
+token permissions, OIDC deploys, and environment gates.
+
+**The agents are also a threat surface, not only a workforce.** Everything an
+agent reads is untrusted input, and on a team the inputs multiply: issue
+bodies, PR descriptions, fetched docs, and MCP responses all arrive as text an
+agent may act on. `/agent-safety` (rsc-harness) is the model for tool gating
+and injection defense; `/cso --skills` (gstack) scans the shared skill set as
+the third-party executable text it is, which matters most here because Layer 6
+installs that set on every machine at once; `/harness-mcp-scan` and
+`/safety-scan` (ruflo) cover MCP servers and injection screening;
+`/security-scan` (ECC) audits the committed `.claude` directory itself. GSD's
+`gsd-prompt-guard.js` and `gsd-read-injection-scanner.js` hooks are the
+enforcing version: a hook is a boundary, a rule in CLAUDE.md is a request.
+
+Two rules that turn that general principle into something checkable:
+
+- **Scope tools per task, not per agent.** Least privilege sliced by job rather
+  than by identity. An agent whose job is reading raw customer tickets gets
+  ticket-create and nothing else, and never repo write, no matter what its
+  parent session is allowed to do. The permission set follows the untrusted
+  input, so a successful injection is bounded by what that one task needed
+  rather than by what the harness can do.
+- **Vet and pin MCP servers.** A tool description is text the agent reads
+  before it decides, which makes an MCP server an injection vector as well as a
+  dependency. Pin versions the way actions are SHA-pinned, review the diff when
+  a pin moves, and keep the approved list in shared settings so a per-machine
+  addition is not silently possible. `/harness-mcp-scan` covers the scan;
+  pinning covers the day the scanned version changes underneath you.
+
 **Branch protection is the backstop, not the gate.** Require the gate tests,
 require RoboRev green, require one approving review. The agent pipeline should
 already have satisfied all three before a human looks.
@@ -209,6 +262,21 @@ already have satisfied all three before a human looks.
 
 The team's second-hardest problem after collisions: person B's agent does not
 know what person A's agent learned.
+
+**Four stores, and one rule: a fact lives in exactly one of them.**
+
+| Store | Holds | Property |
+| --- | --- | --- |
+| **Repo canon** (`CLAUDE.md`, `AGENTS.md`, `docs/rules/`) | What agents must obey: standards, safety rules, workflow, the constitution | Versioned, PR-reviewed, loaded by every session on every machine. If it is not here, half the team's agents never read it. |
+| **Repo docs** (`docs/architecture/`, ADRs, runbooks, specs) | Durable knowledge humans and agents both consult | Versioned; audited monthly against the code. |
+| **The wiki** (Tela, Notion, Confluence) | Human-facing narrative: PRDs, research reports, release notes, onboarding prose | Reachable by agents over MCP for reading and writing, but never the source of truth for anything an agent must obey. |
+| **Derived context** (knowledge graph, session handoffs, learnings ledger) | Regenerable understanding: code structure, paused-work state, accumulated lessons | Never canonical; rebuilt from the sources above. Losing it costs recompute, not knowledge. |
+
+The rule is what makes the taxonomy useful. When someone proposes a fifth
+store, the answer is not "no" but **"which of the four does this fact belong
+in"**, which is answerable and usually settles it. It also turns the
+no-second-memory-system anti-pattern below from a prohibition into a routing
+question.
 
 | Tool | From | Role |
 | --- | --- | --- |
@@ -280,7 +348,85 @@ features and needs tracing and evaluation.
 
 ---
 
-## Layer 8: The human layer
+## Layer 8: Production, what happens after merge
+
+The layer this document was missing entirely. Layers 1 to 7 get code into main
+safely; none of them cover the week after, and on a team that week has an owner
+who is not the author.
+
+**Deploys: per ticket, or batched.** A choice to make deliberately, because the
+default a team drifts into is usually batching and the cost is invisible until
+it bites.
+
+*Per ticket, on green.* Each merge deploys itself. A bad change blocks only
+itself, the revert is one commit rather than a bisect across twelve, and the
+release path is testable because it is code. What it requires that batching does
+not: a merge queue so concurrent merges do not produce a broken main to deploy
+from, a revert rule so a bad deploy has a one-command answer, and CI fast enough
+that latency is not the merge rate.
+
+*Batched trains.* Weekly or nightly, risk concentrated into a known window that
+a human watches. What it costs: one bad ticket blocks every other ticket in the
+batch, and the pressure that creates is what makes teams invent pre-release
+escape hatches so QA can test unmerged code. Batching earns its place against a
+real constraint, a slow or manual publish step, a customer-facing change window,
+a compliance process that reviews releases rather than changes. Name the
+constraint. If none applies, the batch is habit.
+
+`/land-and-deploy` and `/canary` (gstack) cover either shape; per-ticket is
+where the automation pays for itself fastest.
+
+**The pre-deploy drift check.** Code that passed QA still breaks production, and
+the usual reason is not the code. The QA environment is a close cousin of
+production, not a clone: dependency versions, platform settings, account
+configuration, and flag states drift between them, and the running application
+is composed from those at deploy time.
+
+Diff the two before the human approves, not monthly. A script reads the
+installed versions and the settings that matter from both environments via the
+platform's CLI or API and posts the summary on the deploy job, so the approver
+sees "these four things differ" before clicking rather than afterwards. A
+monthly environment audit catches drift eventually; a per-deploy diff catches it
+before it bites, and it costs one script written once. It also feeds the backup
+story below, since it already reads the configuration nobody has snapshotted.
+
+**Incidents.** `/incident-response` and `/runbook-structure` (Han) write the
+severity ladder, the comms protocol, and the runbooks before anyone needs them;
+`/sre-incident-response` (Han) works the live one. The rule that keeps it from
+becoming a folder of timelines: every incident closes with a regression test
+and a `/learn` entry, same as a bug, which is the loop back into Layer 1 canon.
+Rotation, paging, and status pages are priced in docs/process/STACK-TEAM.md; on a team
+under nine the answer is usually Better Stack bundling uptime, on-call, and the
+status page rather than three products.
+
+Add the agent-shaped entries a normal runbook lacks: an unattended loop that
+opened forty pull requests, an agent that force-pushed, a backfill pointed at
+production. `/guard` and `/freeze` (gstack) are the prevention; the runbook is
+for when prevention did not hold.
+
+**Backups and restore.** `/backups` (rsc-harness) for RPO and RTO targets and
+3-2-1-1-0 copies. The team version of the rule is that the restore drill has a
+named owner and a date, because "we have backups" is a claim nobody has tested
+until someone times a restore. Put it on the quarterly cadence.
+
+**Support as product input.** The loop this document lacked: a helpdesk wired
+into the tracker so a user complaint becomes a ticket with the same shape as
+any other. `/triage` (mattpocock) is the intake state machine, the `support`
+agent turns feedback into Backlog tickets, and `/document-release` plus the
+Diataxis suite keep the help docs from drifting behind what shipped. Chatwoot
+self-hosted or Zendesk hosted, wired into Linear or GitHub Issues, is the
+tooling half.
+
+**The compliance floor.** Whatever `/compliance` (rsc-harness) scoped in
+PROCESS.md stage 5 becomes an ownership row here, not a document. The control
+register names an owner per control, and most of the evidence a SOC 2 window
+wants is already emitted by Layer 4: review before merge, change management,
+vulnerability remediation. Decide where it is exported while Layer 4 is being
+wired, not during the audit.
+
+---
+
+## Layer 9: The human layer
 
 What stays human, and the tooling that keeps the human parts short.
 
@@ -313,9 +459,37 @@ better artifact than a meeting.
 
 ---
 
+## Accessibility
+
+Optional in the sense that a headless service does not need it, and not
+optional in any other. Turn it on for any repo with a user interface, and turn
+it on at the start, because retrofitting it is the expensive version. On a team
+it also stops being one person's conscience and becomes three checks in Layer 4.
+
+- **Lint time:** `eslint-plugin-jsx-a11y` in the pre-commit hook. Catches
+  issues before a page renders, which is the cheapest place to catch anything.
+- **Test time:** `@axe-core/playwright` asserting no critical violations inside
+  the E2E suite you already run. Near-zero marginal cost once the suite exists.
+- **PR time:** Lighthouse CI budgets as a required check on changed routes, and
+  Pa11y when you need WCAG rule detail rather than a score.
+
+Plus the two things automation cannot do, which need budgeting rather than
+installing: **automated tooling catches roughly 30-50% of WCAG criteria**, so a
+green gate is necessary and not sufficient. Budget a periodic manual
+screen-reader pass on the highest-stakes flows, and a third-party VPAT or ACR
+rather than self-certifying, which is also what enterprise procurement asks for
+by name. Both belong on the quarterly cadence with an owner, or they do not
+happen.
+
+docs/process/PROCESS.md stage 13 carries the depth: the target standard, the
+implementation patterns, where accessibility overlays fit, and the
+internationalization decision that has the same shape.
+
+---
+
 ## Adoption sequence
 
-Do not install all eight layers at once. Each week's layer makes the next one
+Do not install all nine layers at once. Each week's layer makes the next one
 cheaper.
 
 | Week | Install | Done when |
@@ -325,6 +499,7 @@ cheaper.
 | 3 | The merge gate: RoboRev on every commit, `/code-review`, `/stack-ship` with `/z-adversarial-review`, branch protection requiring all three | Nothing reaches main that no machine reviewed |
 | 4 | Knowledge and parity: `.claude/` committed, `/agent-sort` DAILY set agreed, Graphify or gbrain indexed, `/codebase-onboarding` written | A new hire ships a real ticket on day two |
 | 5 | Observability and cadence: AgentsView, ccusage, `/health` weekly, `/retro` weekly, monthly audits scheduled | The retro cites data instead of impressions |
+| 6 | Production: CODEOWNERS plus SHA-pinned actions plus zizmor in CI, an incident runbook with a severity ladder, a timed restore drill, support wired into the tracker | A pipeline change needs a human, a page has a runbook, and a restore has a measured RTO rather than an assumed one |
 
 `/schedule` (built-in) puts the weekly and monthly rows on a cron so the
 cadence does not depend on anyone remembering.
@@ -336,8 +511,8 @@ cadence does not depend on anyone remembering.
 | Size | What changes |
 | --- | --- |
 | 2 to 3 | Canon plus gates plus a shared tracker is enough. Skip merge queues, skip formal ownership, skip `/team-agent-orchestration`. Worktrees per claim, Stax for stacking, RoboRev on every commit. Contracts matter as soon as two people own two services. |
-| 4 to 8 | Add named ownership per service directory and per shared tool (see below). Add `/pr-quality-checklist` and severity-tagged review so "blocking" means the same thing to everyone. Add Tela or an equivalent agent-readable wiki: at this size, knowledge stops fitting in the repo docs. Add `/team-agent-orchestration` when the Kanban stops being obvious. |
-| 9+ | Merge queue becomes real, not optional. `/ralphinho-rfc-pipeline` for DAG execution across work units. `/skill-comply` quarterly, because at this size canon drifts silently. Separate deploy owner and on-call rotation. Vault instead of `.env` files. `/context-budget` becomes a budget line, not a curiosity. |
+| 4 to 8 | Add named ownership per service directory and per shared tool (see below). Add `/pr-quality-checklist` and severity-tagged review so "blocking" means the same thing to everyone. Add Tela or an equivalent agent-readable wiki: at this size, knowledge stops fitting in the repo docs. Add `/team-agent-orchestration` when the Kanban stops being obvious. Layer 8 starts mattering here: an incident now has a person who did not write the code, so the runbook has a reader. |
+| 9+ | Merge queue becomes real, not optional (and check the tier: native merge queue is public-org-repo or Enterprise Cloud only, so on Team with a private repo it means Graphite or Mergify). `/ralphinho-rfc-pipeline` for DAG execution across work units. `/skill-comply` quarterly, because at this size canon drifts silently. Separate deploy owner and on-call rotation. Vault instead of `.env` files. `/context-budget` becomes a budget line, not a curiosity. |
 
 ---
 
@@ -352,8 +527,12 @@ purpose.
 | The gate | Owns pre-commit, CI, RoboRev config, branch protection. Fixes a red gate as first priority; a red gate that is normal is not a gate. |
 | The shared `.claude/` set | Owns the DAILY versus LIBRARY split and pack upgrades. Runs `/skill-stocktake` and `/config-gc`. |
 | Contracts and schemas | Owns `contracts/`. Any cross-service change is a schema version bump and both sides updated in the same PR. |
-| Design system | Owns docs/DESIGN.md and its Storybook. Rejects UI that deviates without a decision. |
+| Design system and accessibility | Owns docs/DESIGN.md and its Storybook. Rejects UI that deviates without a decision. Holds the quarterly screen-reader pass and the call on whether a third-party VPAT is needed. |
 | Deploy and on-call | Owns `/land-and-deploy` config, canary baselines, alerting. |
+| The pipeline | Owns CODEOWNERS, action pinning, `GITHUB_TOKEN` scopes, and the zizmor check. Distinct from the gate owner: this one owns the gate's own integrity. |
+| Incidents and restore | Owns the runbooks, the severity ladder, the on-call rotation, and the quarterly timed restore drill. |
+| Compliance | Owns the control register from PROCESS.md stage 5 and where its evidence is exported. Nothing to do most quarters, which is why it needs a name. |
+| Support | Owns the helpdesk-to-tracker loop and the help docs. |
 | Cost | Reads ccusage and `/context-budget` monthly, raises it before finance does. |
 
 ---
@@ -378,6 +557,15 @@ purpose.
   merges means nobody fixes it at 6pm on a Friday.
 - **Fan-out as a default.** Parallel agents on coupled work produce conflicting
   confident changes. Fan out only on genuinely disjoint units.
+- **A pipeline an agent can edit unreviewed.** Every gate in Layer 4 is a file
+  in .github/workflows. Without CODEOWNERS on that directory, the gate can be
+  weakened by the same process it is supposed to gate, and the diff looks
+  routine.
+- **Backups nobody has restored.** Untested backups are a belief, not a
+  control. The drill is quarterly and it is timed.
+- **Treating agent-read text as trusted.** An issue body, a fetched page, and
+  an MCP response are all inputs an agent may act on. On a team the volume of
+  untrusted text is much larger than one person's.
 
 ---
 

@@ -5,6 +5,11 @@ process almost entirely as things running on laptops: hooks, skills, CLIs, and
 a committed `.claude/` directory. This report asks what belongs on a server,
 who should run that server, and what each choice costs.
 
+Together those two documents are the stacked-PR route.
+docs/process/PROCESS-TEAM-TRUNK.md is the trunk-based alternative to the pair:
+self-contained, with these server-side picks folded into the layer they gate.
+Pick that document or this pair, not both.
+
 Organized by the section headings in docs/frameworks/Z-TOP-SKILLS.md, so every category in
 the skill catalog gets an answer, including the categories whose answer is
 "nothing, keep this local." Knowing where not to spend is half the value.
@@ -86,7 +91,7 @@ you added agents to increase.
 | Per monthly active user | LaunchDarkly, most flag vendors | Uncorrelated with agent output. Safe. |
 | Per event or error | Sentry (~$26 Team, ~$80 Business, ~5k free) | Mostly production traffic, weakly correlated. Watch it, but fine. |
 | Per snapshot, trace, score, or scan | Chromatic ($179 for 35k snapshots, $399 for 85k, $0.008 over), Percy (from $599), Braintrust ($2.50/1k scores), LangSmith ($2.50/1k traces) | **Dangerous.** Agents open more PRs, which means more snapshots, more traces, more evals. Model your bill at 5x current PR volume before signing. |
-| Per compute minute or GB | GitHub Actions minutes, Browserbase (~$0.10-0.12/browser hour, $12/GB on Developer) | **Dangerous, and now unavoidable.** GitHub began charging $0.002/minute for self-hosted runner usage in private repos on 1 March 2026, so the old escape hatch is metered too. |
+| Per compute minute or GB | GitHub Actions minutes, Browserbase (~$0.10-0.12/browser hour, $12/GB on Developer) | **Dangerous, and the escape hatch is on probation.** GitHub announced a $0.002/minute charge for self-hosted runner usage in private repos on 16 December 2025 and [postponed it two days later](https://github.blog/changelog/2025-12-16-coming-soon-simpler-pricing-and-a-better-experience-for-github-actions/); it never took effect. Postponed is not cancelled, so carry it as a risk line. GitHub-hosted rates did move, downward, by up to 39% from 1 January 2026. |
 
 **The practical rule that falls out:** buy the per-seat services, and put the
 per-activity ones where the meter cannot reach you. That is a principled
@@ -102,17 +107,22 @@ Three vocabularies, one map.
 
 | Z-TOP-SKILLS heading | SDLC stage | PROCESS.md |
 | --- | --- | --- |
-| Pack Setup, Harness Development, Harness Setup, Token Savings, Context/Memory | HAR harness | 1, 24 |
-| Starting Direction, PRD, Research, Business, Marketing | PM product | 2, 3, 4, 5, 18 |
-| Initial Design, Designer Implementation | UX design | 6, 12 |
-| Success Measurement, Requirements | PRI prioritization | 8, 9 |
-| Loop, Developing, Testing, Technical Stack Specific, Mobile | DEV developing | 10, 11, 15 |
-| Code Review, Codebase Health, Security | REV code review | 13, 14, 19, 20, 22 |
-| Deploying | DEP deploy | 16 |
-| Product Health | MON monitoring | 17 |
-| Documentation, Knowledge Base | SUP support | 21, 23 |
-| Code Architecture | ARC architecture | 7 |
-| Agent Safety, Agent Only Assist, Anti Drift | AGT agent operations | 11, 24 |
+| Pack Setup, Harness Development, Harness Setup, Token Savings, Context/Memory | HAR harness | 1, 26 |
+| Starting Direction, PRD, Research, Business, Marketing | PM product | 2, 3, 4, 6, 20 |
+| Initial Design, Designer Implementation | UX design | 7, 13 |
+| Success Measurement, Requirements | PRI prioritization | 9, 10 |
+| Loop, Developing, Testing, Technical Stack Specific, Mobile | DEV developing | 11, 12, 16 |
+| Code Review, Codebase Health, Security | REV code review | 14, 15, 21, 22, 24 |
+| Deploying | DEP deploy | 17 |
+| Product Health | MON monitoring | 18, 19 |
+| Documentation, Knowledge Base | SUP support | 23, 25 |
+| Code Architecture | ARC architecture | 8 |
+| Agent Safety, Agent Only Assist, Anti Drift | AGT agent operations | 12, 24, 26 |
+
+Two PROCESS.md stages have no Z-TOP-SKILLS heading above them, which is itself
+a finding: **5 (compliance, privacy, and IP scope)** and **19 (incident
+response and resilience)** are lifecycle work the skill catalog barely covers.
+Their server-side answers are under Security and Product Health below.
 
 ---
 
@@ -203,7 +213,7 @@ these skills currently reason over numbers nobody has.
 | Need | Self-hosted | Hosted | Pick |
 | --- | --- | --- | --- |
 | Product analytics | PostHog (unsupported), Matomo | PostHog Cloud, Amplitude, Mixpanel | PostHog Cloud. Autocapture, funnels, retention, cohorts, replay, flags, surveys in one product; six categories for one bill. |
-| Experimentation with statistics | GrowthBook | [Statsig, GrowthBook Cloud, LaunchDarkly](https://www.growthbook.io/insights/growthbook-vs-launchdarkly-vs-statsig) | GrowthBook Cloud free tier is unusually good for this team shape: up to three users with unlimited flags, experiments, and traffic. Statsig is free to 1M events (Amplitude took on the Statsig brand, platform, and contracts in May 2026). LaunchDarkly enterprise contracts start around $25k/year and reach $100-150k at 50k MAU, which is governance pricing, not startup pricing. |
+| Experimentation with statistics | GrowthBook | [Statsig, GrowthBook Cloud, LaunchDarkly](https://www.growthbook.io/insights/growthbook-vs-launchdarkly-vs-statsig) | GrowthBook Cloud free tier is unusually good for this team shape: three users, unlimited flags and experiments. Traffic is not unlimited, which is exactly what the per-activity lens says to check: [Starter meters 1M events/month through the managed warehouse, plus 1M CDN requests and 5GB CDN bandwidth](https://www.growthbook.io/pricing). Self-hosting removes the event cap and is the answer when flag-evaluation volume is the thing that grows. Statsig is free to 1M events (Amplitude took on the Statsig brand, platform, and contracts in May 2026). LaunchDarkly enterprise contracts start around $25k/year and reach $100-150k at 50k MAU, which is governance pricing, not startup pricing. |
 | Dashboards over existing databases | Metabase, Superset | Metabase Cloud, Omni, Hex | Metabase either way. Community Edition self-hosted is genuinely complete: question builder, SQL editor, dashboards, alerts, 20+ connectors. |
 | Traffic analytics | Umami, Plausible, Matomo | Plausible Cloud, Fathom | Umami self-hosted runs in ~512MB beside the app. Plausible Cloud if you would rather not. |
 
@@ -286,15 +296,25 @@ the execution. Two constraints: unavailable with Zero Data Retention, and
 inference cannot route through Bedrock, Vertex, Foundry, or an LLM gateway in
 self-hosted environments.
 
-**Where the compute runs matters now.** GitHub began charging $0.002 per minute
-for self-hosted runner usage in private repositories on 1 March 2026, so "bring
-your own hardware" is no longer free. [Managed runner
-vendors](https://tenki.cloud/blog/github-actions-runner-showdown-2026) exist
-precisely for this: Blacksmith claims roughly 2-3x GitHub's speed at about a
-third less cost, Namespace leads on platform depth and arm64 CPU, Depot
-specializes in Docker build caching, with RunsOn, WarpBuild, and Tenki also
-credible. If image builds are the bottleneck, a build cache beats a faster
-generic runner.
+**Where the compute runs is a live question, not a settled one.** GitHub
+announced a $0.002-per-minute platform charge for self-hosted runner usage in
+private repositories on 16 December 2025 and [postponed it on 18
+December](https://www.theregister.com/2025/12/17/github_charge_dev_own_hardware/),
+conceding it had decided unilaterally. The charge never took effect and
+self-hosted minutes are still free. Treat that as a reprieve, not a verdict:
+GitHub withdrew the date, not the idea, and [opened a discussion on alternative
+billing models](https://github.com/orgs/community/discussions/182089). What did
+happen is the opposite of the scare, GitHub-hosted runner rates fell by up to
+39% on 1 January 2026.
+
+So the case for [managed runner
+vendors](https://tenki.cloud/blog/github-actions-runner-showdown-2026) is speed
+and build caching, which is what it always was, rather than a cost cliff that
+arrived. Blacksmith claims roughly 2-3x GitHub's speed at about a third less
+cost, Namespace leads on platform depth and arm64 CPU, Depot specializes in
+Docker build caching, with RunsOn, WarpBuild, and Tenki also credible. If image
+builds are the bottleneck, a build cache beats a faster generic runner. Budget
+the control-plane fee as a risk line, not a current cost.
 
 ## Designer Implementation
 
@@ -307,6 +327,21 @@ made: the design system stops describing intent and starts failing builds.
 | WCAG rule detail | Pa11y, axe-core in CI | Deque axe DevTools, Siteimprove | Pa11y in CI. Lighthouse reports a score, not the rule set. |
 | Visual regression | [BackstopJS](https://testguild.com/visual-validation-tools/), Argos self-hosted | [Chromatic, Percy, Applitools](https://argos-ci.com/blog/percy-vs-chromatic-vs-argos) | **Run the numbers before signing.** Chromatic is free to 5k snapshots/month, $179 for 35k, $399 for 85k, $0.008 each over. Percy is free to 5k then starts around $599. Both bill per snapshot, and agents open more PRs, so this is the textbook per-activity trap. BackstopJS is the self-hosted answer (**Lost Pixel was archived April 2026**, do not start there). Argos is open source with a real PR review UI but documents the hosted path. |
 | Component workshop | Storybook | Chromatic hosts Storybook | Storybook either way. It becomes a server the moment it is built and published per PR. |
+
+**Accessibility is opt-in per repo and free once you opt in.** Skip it for a
+headless service; turn it on for anything with a user interface, at the start,
+because retrofitting is the expensive version. The first two rows above are two
+of the three gates: Lighthouse budgets at PR time, Pa11y for rule detail. The
+third runs before either and costs nothing to host: `eslint-plugin-jsx-a11y` at
+lint time, catching issues before a page renders. A fourth rides the E2E suite
+under Testing, `@axe-core/playwright` asserting no critical violations, at
+near-zero marginal cost once that suite exists.
+
+What no server buys: **automated tooling catches roughly 30-50% of WCAG
+criteria**, so a green gate is necessary and not sufficient. Budget a periodic
+manual screen-reader pass on the highest-stakes flows and a third-party VPAT or
+ACR rather than self-certifying, which is also what enterprise procurement asks
+for by name. docs/process/PROCESS.md stage 13 carries the depth.
 
 ## Technical Stack Specific
 
@@ -348,7 +383,7 @@ itself. Only works if the tracker has an API an agent can reach.
 | Harder isolation | Docker Sandboxes (microVM per agent) | E2B, Daytona | Only when the threat model needs a separate kernel. |
 | Code search for humans and agents | [Sourcebot](https://github.com/sourcebot-dev/sourcebot), OpenGrok | Sourcegraph, GitHub code search | Sourcebot: Zoekt-backed with a built-in MCP server so agents query over Streamable HTTP. The multi-repo answer where Graphify is the single-repo one. |
 | A URL to QA against | [Argo CD PR generator](https://oneuptime.com/blog/post/2026-02-09-argocd-pr-preview-environments/view), Uffizzi, Coolify | Vercel, Netlify, Render preview environments | **Hosted, almost always.** This is the single highest-value purchase for a product with a UI: it lets `/qa` run in CI against a real URL instead of one person's localhost, and it gives DAST something to scan. |
-| Faster CI | Self-hosted runners (now $0.002/min on GitHub private repos) | Blacksmith, Namespace, Depot, RunsOn | Hosted managed runners. The old free-self-hosted argument evaporated in March 2026. |
+| Faster CI | Self-hosted runners (still free; the announced $0.002/min was postponed, never enacted) | Blacksmith, Namespace, Depot, RunsOn | Either, decided on speed rather than price. Self-hosting is still the free option; managed runners buy faster cores and build caching. Re-check before committing hardware: the control-plane fee is postponed, not withdrawn. |
 
 ## Testing
 
@@ -407,7 +442,7 @@ specifically is what you are buying.
 | Need | Self-hosted | Hosted | Pick |
 | --- | --- | --- | --- |
 | Review every PR regardless of origin | [Qodo Merge](https://wetheflywheel.com/en/guides/best-ai-code-review-tools-2026/) (free, on the open-source PR-Agent engine, your own keys) | CodeRabbit, Greptile, Qodo, Graphite | Trial two on real PRs; vendor benchmarks in this space disagree with each other. Greptile applies full-codebase context, which catches what a diff-only reviewer misses. |
-| Keep main green under concurrent merges | Nothing credible | [Graphite, Aviator, Mergify](https://graphite.com/guides/merge-queue-tools-options), GitHub merge queue | **Hosted.** Start with GitHub's native merge queue, free. Graphite is the closest counterpart to Stax. [Aviator](https://www.aviator.co/aviator-vs-graphite) adds parallel queues, batching, and monorepo affected-target routing at 1,000+ PRs a day. |
+| Keep main green under concurrent merges | Nothing credible | [Graphite, Aviator, Mergify](https://graphite.com/guides/merge-queue-tools-options), GitHub merge queue | **Hosted, and check the tier before planning on the free one.** GitHub's native merge queue covers public repositories owned by an organization on any plan, but private repositories [require GitHub Enterprise Cloud](https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue) at $21/user/mo. On Team with a private repo it is not available at all, and a third-party queue is the only route. Graphite is the closest counterpart to Stax. [Aviator](https://www.aviator.co/aviator-vs-graphite) adds parallel queues, batching, and monorepo affected-target routing at 1,000+ PRs a day. |
 | Gate on policy, not a checkbox list | OPA, Conftest, Kyverno | Same, as libraries | Self-hosted by nature. Puts the policy itself under review. |
 
 **Do not let a bot replace the blinded review.** `/z-adversarial-review` works
@@ -415,6 +450,16 @@ because the reviewer never saw the conversation. A PR bot sees the diff and the
 description, which is weaker. Run both.
 
 ## Deploying
+
+**Decide the cadence before the tooling, because it changes what you need.**
+Per-ticket deploys on green need three things batched trains do not: the merge
+queue under Code Review, so concurrent merges do not produce a broken main to
+deploy from; a revert rule, so a bad deploy has a one-command answer; and CI
+fast enough that latency is not the merge rate, which is what moves managed
+runners from a nice-to-have to a line item. Batched trains need none of those
+and pay for it elsewhere: one bad change blocks every other change in the batch.
+docs/process/PROCESS-TEAM.md Layer 8 has the choice itself; this is what each
+side costs to build.
 
 | Need | Self-hosted | Hosted | Pick |
 | --- | --- | --- | --- |
@@ -424,6 +469,23 @@ description, which is weaker. Run both.
 | Signed, scanned images | [Harbor](https://oneuptime.com/blog/post/2026-02-08-how-to-run-harbor-container-registry-with-vulnerability-scanning/view) | GitHub Packages, Cloudsmith, Artifactory | Either. Harbor is CNCF-graduated with native Trivy scan-on-push and Cosign signing. |
 | An allowlist an agent cannot escape | Harbor, Nexus, Verdaccio | Cloudsmith, Artifactory | The strong control for the dependency problem: an agent installs only from the registry it can reach, and that registry is yours. |
 | Secrets | [OpenBao, Infisical](https://infisical.com/blog/open-source-secrets-management-devops) | Doppler, 1Password, Infisical Cloud | **Hosted.** This is the category where self-hosting buys you an outage at the worst possible time. OpenBao is the Linux Foundation MPL-2.0 Vault fork at 2.5.0 (Feb 2026) if you must; Infisical is MIT and far gentler. |
+| Know what differs between staging and production before you deploy | A script against the platform's own CLI or API, output posted to the deploy job | Whatever your platform exposes; no vendor sells this | **Self-hosted by nature, and it is fifty lines.** See below. |
+
+**The pre-deploy drift check is the cheapest row in this table and the one
+nobody builds.** Code that passed QA still breaks production, and the usual
+reason is not the code: dependency versions, platform settings, account
+configuration, and flag states drift between the two environments, and the
+running application is composed from those at deploy time. The QA environment is
+a close cousin of production, not a clone, so "tested in QA" verified the code
+against QA's composition.
+
+A script reads the installed versions and the settings that matter from both
+environments and posts the diff on the deploy job, so the approver sees "these
+four things differ" before clicking. A monthly environment audit catches drift
+eventually; a per-deploy diff catches it before it bites. It also does double
+duty: the same read is the start of a configuration backup, platform state the
+restore drill under Product Health needs and no provider snapshot covers, so
+writing its output to storage is nearly free.
 
 ## Codebase Health
 
@@ -469,6 +531,10 @@ here after Code Review.
 | Aggregation | DefectDojo | Aikido, Snyk | See below. |
 | Policy | OPA, Conftest, Kyverno | Same | Rules as code so the gate fails on defined severity and exploitability conditions, not on every finding. |
 | Dependency updates | Self-hosted Renovate | Renovate Cloud, Dependabot | Self-hosted Renovate means you control the runner, credentials, and network, which is more defensible than a cloud bot holding broad repo access. |
+| The pipeline itself | [zizmor](https://github.com/zizmorcore/zizmor) in CI, CODEOWNERS, SHA-pinned actions | GitHub rulesets, Actions policy settings | **Both, and this row is the one most often missing.** Every required check above is a file an agent can edit. CODEOWNERS over the workflow directory makes a pipeline change need a human; zizmor catches unpinned actions, over-broad `GITHUB_TOKEN` scopes, `pull_request_target` misuse, and template injection. Free, and it runs in seconds. |
+| Prompt injection reaching an agent | GSD's `gsd-prompt-guard.js` and `gsd-read-injection-scanner.js` hooks, egress proxy | MCP gateway with response filtering | Self-hosted by nature, because the hook runs where the agent runs. Everything an agent reads is untrusted input, and in CI the inputs are issue bodies and fetched pages written by strangers. The layer this whole report covers least. |
+| The skills and MCP servers themselves | `/cso --skills` (gstack), `/harness-mcp-scan` and `/safety-scan` (ruflo), `/security-scan` (ECC) | Vendor MCP registries with review | A skill is executable text from a third party, distributed to every machine at once by the private marketplace under Pack Setup. That distribution is a supply chain and earns the scan a dependency gets. |
+| Compliance evidence | DefectDojo plus the forge's own audit log | Vanta, Drata, Aikido | **Defer until a customer asks, then hosted.** What matters earlier is cheaper: most of what a SOC 2 Type II window wants is already emitted by the required checks above (review before merge, change management, remediation inside a stated window). Decide where that evidence is exported and retained while wiring the gate, because the alternative is reconstructing a year of it from logs nobody kept for the purpose. |
 
 **The consolidation question.** Assembling gitleaks, OpenGrep,
 Dependency-Track, ZAP, and Trivy gets you five free gates covering secrets,
@@ -487,6 +553,8 @@ tier has hard test limits that a small team hits quickly.
 | Errors, grouped | GlitchTip, Sentry self-hosted | [Sentry](https://gaxonline.com/vs/sentry-vs-datadog/) (~5k errors free, ~$26 Team, ~$80 Business) | **Hosted Sentry.** For a 1-15 person team shipping a web or mobile app, this pays for itself in week one, and spike protection actually caps surprise bills. Turns `/investigate` from log reading into a stack trace with a frequency count. |
 | Uptime and a status page | [Uptime Kuma](https://betterstack.com/community/comparisons/uptime-kuma-alternative/), Gatus | Better Stack, Checkly, Pingdom | Uptime Kuma self-hosted **on different infrastructure from the app**. A monitor that dies with the thing it monitors is not a monitor. |
 | Session replay | [OpenReplay](https://temps.sh/blog/can-you-self-host-session-replay-2026) | PostHog, LogRocket, FullStory | Whatever the analytics choice already includes. |
+| Someone is told, and knows what to do | A rota in the wiki (Grafana OnCall is archived, do not start there) | [incident.io](https://incident.io/blog/incident-management-pricing-comparison-2026) (~$45/user/mo Pro, on-call and status page included), Better Stack, PagerDuty | **Hosted, and per-seat, so it is safe for this team shape.** Better Stack is the consolidation play under nine people: uptime, status page, on-call, and logs on one bill. incident.io is the option that is a product rather than a pager. Opsgenie shuts down April 2027. The server is not really the point here; the rota and the runbook are, and neither exists on a laptop. |
+| A restore you have actually performed | Managed snapshots plus an offsite copy you control, [restic](https://restic.net/) or Borg to object storage | Provider backups, managed database PITR | **Either, because the drill is the deliverable rather than the tool.** Automated backups are table stakes and every managed database has them. What no vendor supplies is evidence you can restore: schedule a timed restore into a scratch database quarterly and record the number, since that is the real RTO. This is also the control that every self-hosted row in this report quietly adds to, because each one holds state someone needs after an incident. |
 | LLM tracing, if the product ships LLM features | [Langfuse](https://github.com/langfuse/langfuse), Phoenix | Langfuse Cloud, LangSmith, Braintrust | See Anti Drift. Choose one, not both. |
 
 ## Agent Safety
@@ -500,6 +568,10 @@ instructions describe.
 | The agent cannot write outside its box | Coder, Docker Sandbox | Codespaces, E2B, Daytona | A container is not a request. |
 | The agent cannot reach what it should not | Egress proxy, network policy | Cloud provider egress controls | Managed settings can name an approved MCP list; the network makes it true. |
 | The agent cannot use an unapproved tool | [MCPJungle](https://github.com/mcpjungle/MCPJungle) | MintMCP, Obot, AWS MCP Gateway | The registry is the catalog agents discover from; the gateway controls access, routing, and logging. Pair with the managed-settings allowlist so the gateway is the only route and it holds the credentials. |
+| The agent holds only what its task needs | Per-task tool scoping in the agent definition; the gateway enforcing it | Same | **Scope tools per task, not per agent.** Least privilege sliced by job rather than by identity. An agent whose job is reading raw customer tickets gets ticket-create and nothing else, and never repo write, no matter what its parent session is allowed to do. The permission set follows the untrusted input, so a successful injection is bounded by what that one task needed. |
+| An approved MCP server stays the one you approved | Pinned versions in `.mcp.json`, reviewed like any dependency bump | Vendor registries with review | **Vet and pin.** A tool description is text the agent reads before it decides, so an MCP server is an injection vector as well as a dependency. `/harness-mcp-scan` covers the scan; pinning covers the day the scanned version changes underneath you. Keep the approved list in managed settings so a per-machine addition is not silently possible. |
+| The agent cannot be talked into it by what it reads | PreToolUse and PostToolUse injection-scanning hooks, distributed by the marketplace | MCP gateway response filtering | The rows above bound what an agent *may* do. This one bounds what persuades it to. Everything an agent reads is untrusted input: an issue body, a fetched page, a dependency README, an MCP response. Hooks are the only enforcing form, since a rule in CLAUDE.md is a request. Ship them through the private marketplace so the floor is not per machine. |
+| The agent cannot rewrite its own gate | CODEOWNERS over the workflow directory plus zizmor in CI | GitHub rulesets | The cheapest control in this document, and the one nobody installs. See Security. |
 | Isolation you can prove, not just configure | [IronClaw](https://github.com/IronSecCo/ironclaw) | — | Watch-list, not an install: security-first self-hosted agents with provable isolation. Too young to trust today; the right shape to track for this row. |
 | One login for every service in this report | [Authentik, Authelia, Keycloak](https://blog.elest.io/authentik-vs-authelia-vs-keycloak-choosing-the-right-self-hosted-identity-provider-in-2026/) | Okta, WorkOS, Google Workspace SSO | **The tax nobody budgets.** Twelve services means twelve auth systems unless one identity provider fronts them. Authentik is the 2026 default for greenfield self-hosting; Authelia is the lightweight reverse-proxy companion; Keycloak is heavier (~1GB RAM, steeper data model) and worth it mainly for Red Hat alignment. If most of your stack is SaaS, your existing Google or Okta tenant already solved this, which is one more quiet point for SaaS. |
 
@@ -617,6 +689,22 @@ building.
 
 ## Knowledge Base
 
+**Decide placement before delivery.** The server question here is second; the
+first is which of four stores a given fact belongs in, because buying a wiki
+does not tell you what goes in it.
+
+| Store | Holds | Property |
+| --- | --- | --- |
+| **Repo canon** (`CLAUDE.md`, `AGENTS.md`, `docs/rules/`) | What agents must obey: standards, safety rules, workflow, the constitution | Versioned, PR-reviewed, loaded by every session on every machine. No server involved, and that is the point. |
+| **Repo docs** (`docs/architecture/`, ADRs, runbooks, specs) | Durable knowledge humans and agents both consult | Versioned; audited monthly against the code. Docusaurus if it should also render. |
+| **The wiki** (the table below) | Human-facing narrative: PRDs, research reports, release notes, onboarding prose | Reachable by agents over MCP for reading and writing, but never the source of truth for anything an agent must obey. |
+| **Derived context** (Graphify, gbrain, handoffs, learnings ledger) | Regenerable understanding: code structure, paused-work state, accumulated lessons | Never canonical; rebuilt from the sources above. Losing it costs recompute, not knowledge, which is why it does not need a backup story. |
+
+One rule makes the taxonomy useful: **a fact lives in exactly one store.** When
+someone proposes a fifth, the answer is not "no" but "which of the four does
+this fact belong in", which is answerable and usually settles it. That is also
+the disciplined form of the no-second-memory-system rule under Context Setting.
+
 | Need | Self-hosted | Hosted | Pick |
 | --- | --- | --- | --- |
 | A wiki agents read and write | Tela (built-in MCP server) | Notion with its MCP server | Either. The property that matters is an MCP server, not the editor. Outline is humans-first and ships none, so agents reach it only through an integration you build. |
@@ -683,7 +771,8 @@ count the twelfth service.
 | Claude Code analytics dashboard | HAR | Included |
 | Private plugin marketplace | HAR | A git repo |
 | Linear | PM, PRI, DEV, SUP | ~$10/user/mo |
-| GitHub: Actions, merge queue, rulesets, Packages | PRI, ARC, DEV, REV, DEP | Existing plan |
+| GitHub: Actions, rulesets, Packages | PRI, ARC, DEV, REV, DEP | Existing plan |
+| Merge queue: Graphite or Mergify on Team, native only on public repos or Enterprise Cloud | REV | Vendor pricing, or $21/user/mo for native |
 | Blacksmith or Namespace runners | DEV, REV | ~⅔ of GitHub minute cost |
 | Qodana or Codacy | REV | ~$6-15/user/mo |
 | GitGuardian | REV | Free under 25 devs |
@@ -725,9 +814,14 @@ the accessibility and performance gate, diagrams, and the telemetry pipeline.
 | 4 | Preview environments; a browser service; ZAP against the preview | `/qa` and a DAST scan both run in CI against a real URL |
 | 5 | Promptfoo as a required check on prompt and skill changes | A prompt regression fails the build the way a code regression does |
 | 6 | Identity, before the service count grows | Every tool uses one login |
-| 7 | Merge queue; PR review bot; SBOM into Dependency-Track | Main stays green under concurrent merges, and an agent-added dependency is a reviewable event |
-| 8 | Tracker with an API agents can drive; helpdesk wired into it; Pact Broker if services are split | An agent moves ticket state without a person, and a breaking contract change cannot deploy |
-| 9 | Sandboxed workspaces; MCP gateway; self-hosted environments if compliance requires | Agents cannot write outside a container, and tool credentials are off laptops |
+| 7 | Merge queue (native if the repo is public or you are on Enterprise Cloud, else Graphite or Mergify); PR review bot; SBOM into Dependency-Track | Main stays green under concurrent merges, and an agent-added dependency is a reviewable event |
+| 8 | Tracker with an API agents can drive; Pact Broker if services are split | An agent moves ticket state without a person, and a breaking contract change cannot deploy |
+| 9 | Sandboxed workspaces; MCP gateway; injection-scanning hooks shipped via the marketplace; self-hosted environments if compliance requires | Agents cannot write outside a container, tool credentials are off laptops, and untrusted text is scanned before an agent acts on it |
+| 10 | On-call rota with runbooks; a timed quarterly restore drill; helpdesk wired into the tracker | A page has a documented response, the RTO is measured rather than assumed, and a user complaint becomes a ticket without a person retyping it |
+
+Step 2 should include zizmor and CODEOWNERS over .github/workflows from the
+start: the required checks it installs are themselves files an agent can edit,
+and that is the cheapest hole to close while there is nothing to migrate.
 
 Steps 1, 2, and 5 are most of the value, and all three are free. Do not start
 at step 9 because it is the most interesting.
@@ -764,8 +858,20 @@ at step 9 because it is the most interesting.
   hosted with self-hosting on a named constraint.
 - **New since the first draft:** Claude Code self-hosted environments, and the
   constraint that they cannot route inference through Bedrock, Vertex, Foundry,
-  or an LLM gateway. Also, GitHub began metering self-hosted runner minutes in
-  private repos on 1 March 2026.
+  or an LLM gateway.
+- **Wrong, this revision's correction:** earlier drafts stated GitHub began
+  metering self-hosted runner minutes in private repos on 1 March 2026, and
+  built a recommendation on it. GitHub announced the charge on 16 December 2025
+  and postponed it on 18 December; it never took effect. The lesson is about
+  sourcing rather than runners: an announcement is not a fact until its date
+  passes. Postponed is not cancelled, so the risk line stays.
+- **Wrong, this revision's correction:** earlier drafts called GitHub's native
+  merge queue free and put it in the SaaS reference stack unqualified. It
+  covers public repositories owned by an organization, and private
+  repositories only on GitHub Enterprise Cloud. The Team plan does not have it.
+- **Wrong, this revision's correction:** earlier drafts described the
+  GrowthBook Cloud free tier as unlimited traffic. Flags and experiments are
+  unlimited; events and CDN usage are metered.
 
 ---
 
@@ -773,15 +879,16 @@ at step 9 because it is the most interesting.
 
 | Section | Change |
 | --- | --- |
-| Layer 4 gates | Required status checks become the enforcement point. Pre-commit hooks are the fast local echo of a server check, not the check. Add DAST and evals as gate types. |
+| Layer 4 gates | Required status checks become the enforcement point. Pre-commit hooks are the fast local echo of a server check, not the check. Add DAST and evals as gate types, and a check over the pipeline definition itself. |
 | Layer 5 shared knowledge | Add the MCP gateway and registry as the access layer, and `graphify --mcp` as the one-flag shared-index change. |
 | Layer 6 harness parity | "Commit `.claude/`" becomes "commit it, publish it as a private plugin, push the policy floor via managed settings, and bake it into the workspace image." |
 | Layer 7 observability | Claude Code telemetry plus the analytics dashboard replace ccusage and AgentsView as the source of truth. |
 | Team tool tier | Split it by delivery model, and add the per-seat versus per-activity pricing lens as the selection rule. |
 | Ownership table | Add owners for the telemetry pipeline, the gate, the marketplace, identity, the deploy platform, and each SaaS subscription. |
 | Anti-patterns | Add "a server nobody owns," "twelve services and twelve logins," and "a metered subscription priced before you added agents." |
-| New | A support layer, which the document lacks entirely. |
-| New | An evals gate. The repo requires evals for latent behavior and has no mechanism that enforces it. |
+| Done | A production layer. PROCESS-TEAM.md Layer 8 now carries incidents, backups and the restore drill, support-as-product-input, and the compliance floor. |
+| Done | Pipeline hardening in Layer 4: CODEOWNERS over the workflow directory, SHA-pinned actions, least-privilege tokens, zizmor in CI. |
+| Done | An evals gate. Promptfoo as a required check now appears in PROCESS.md stage 12 with its own trigger, kept separate from the per-commit gate tests so a paid non-deterministic check never makes the fast gate flaky. |
 
 ---
 

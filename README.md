@@ -32,7 +32,7 @@ start normally.
 | [CLAUDE.md](CLAUDE.md) | The template's root instructions: map, commands, non-negotiables, routing table |
 | [docs/rules/](docs/rules/) | The rules pack CLAUDE.md loads on demand — one file per domain |
 | [docs/SETUP.md](docs/SETUP.md) | The first-run interview |
-| [docs/process/](docs/process/) | Lifecycle and tool-stack research: solo vs team, laptop vs server, five costed stacks |
+| [docs/process/](docs/process/) | Lifecycle and tool-stack research: solo vs team, stacked PRs vs trunk, laptop vs server, five costed stacks |
 | [docs/frameworks/](docs/frameworks/) | The skill catalog: one file per upstream pack, plus the cross-pack pick list |
 | [docs/agents/](docs/agents/) | Subagent rosters, per pack and deduplicated |
 | [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Project docs the setup interview fills in |

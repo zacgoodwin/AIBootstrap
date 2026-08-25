@@ -14,6 +14,15 @@
 - Anything touching production.
 - A request that contradicts an existing pattern or a settled decision.
 
+## Plans before edits
+
+Present a plan first and wait for approval when a change is large on any
+axis: more than ~5 files, more than ~200 lines changed, or high impact
+regardless of size (a contract or schema, a shared config or hook, a rule
+file agents load, anything hard to reverse). State explicitly what will be
+copied verbatim vs. rewritten vs. deleted, since "genericizing" or
+"deduplicating" content the user asked to be preserved is a recurring
+wrong turn.
 
 ## Background work
 

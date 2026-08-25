@@ -1,6 +1,6 @@
 # The Ultimate Development Process
 
-An opinionated path through the skill catalog: one lifecycle, 24 stages, each
+An opinionated path through the skill catalog: one lifecycle, 26 stages, each
 stage backed by the best skills found across docs/frameworks/Z-TOP-SKILLS.md
 and the 19 framework packs in docs/frameworks/. Z-TOP-SKILLS.md is the full
 catalog; this
@@ -17,10 +17,11 @@ release, and Maintain runs on a weekly and monthly cadence forever.
 SETUP ──> DEFINE ─────────────> BUILD (loop) ──────> SHIP ──────> MAINTAIN (cadence)
 bootstrap  ideation              dev loop             deploy       slop cleanup
            research              testing + QA         monitor      codebase health
-           business plan         accessibility        marketing    documentation
-           PRD                   code review                       security
-           tech/data/visual      merge gate                        retro + learning
-           architecture ADRs     debugging                         harness hygiene
+           business plan         accessibility        incidents    documentation
+           compliance scope      code review          marketing    security
+           PRD                   merge gate                        retro + learning
+           tech/data/visual      debugging                         harness hygiene
+           architecture ADRs
            measurement plan
            decomposition ──> tickets feed the Build loop
 ```
@@ -103,7 +104,53 @@ stress test including falsifiability), rsc-harness business ops for the
 mechanics (`/pricing`, `/unit-economics`, `/financial-model`, `/fundraising`),
 `/expansion-strategy` and `/retention-analysis` (PM OS) once revenue exists.
 
-### 5. Product Requirements Documentation
+### 5. Compliance, privacy, and IP scope
+
+Which rules bind this product, answered before the architecture that has to
+obey them. Scope is an architecture decision, not a lawyer's footnote.
+
+| Primary | From | Why |
+| --- | --- | --- |
+| `/compliance` | rsc-harness | Scopes which frameworks actually bind the business (SOC 2, ISO 27001, HIPAA, PCI DSS, EU AI Act, DORA, NIS2) and builds a control register with owners and evidence per control. Run it before the technical design, because the scope answer changes the design. |
+| `/gdpr-privacy` | rsc-harness | The artifacts a product publishes or hands a customer: a privacy policy true to what it actually processes, lawful basis per purpose, the consent surface, Art. 28 processor terms. |
+| `legal-advisor` agent | this repo | Flags privacy, compliance, IP, and regulatory risk in a plan before it ships. The cheapest pass available; run it on the PRD in the next stage. |
+
+Three specifics this stage exists to catch, because each is expensive to
+retrofit and none of them surface on their own.
+
+**PCI scope decides what your checkout smoke test is allowed to touch.** If a
+primary account number ever reaches your servers, your servers are in scope,
+and so is any CI environment that replays a fixture containing one. Keeping
+card entry inside the processor's hosted fields or iframe means the smoke test
+asserts on the processor's test tokens instead, and CI stays out of scope.
+Decide this before the first payment ticket: descoping a checkout after it is
+built is a rewrite, and a mock payment gateway (docs/process/PROCESS-TEAM-SERVER.md,
+Testing) only helps once the boundary is drawn.
+
+**SOC 2 evidence is a byproduct of the gate or it is a fire drill.** Most of
+what a Type II audit asks for (change management, access review, review before
+merge, vulnerability remediation inside a stated window) is already produced by
+the merge gate in stage 15 and the security layer in stage 24. Decide where
+that evidence is exported and retained while you are wiring the gate. The
+alternative is reconstructing twelve months of it during the observation
+window, from logs that were never kept for the purpose.
+
+**AI IP indemnification is tiered, and the tier is a purchasing decision.**
+Model vendors' indemnities for generated output carry conditions and caps that
+differ by plan, and the free and consumer tiers generally carry none at all.
+Since agents write most of the code here, record in the control register which
+tier this project's inference actually runs on, and whether the indemnity
+survives the way you use it. Dependency license obligations belong in the same
+register: CVE scanning under stage 24 answers "is it vulnerable", not "may we
+ship it".
+
+Alternates: `/hipaa-compliance` and `/healthcare-phi-compliance` (ECC) when
+health data is in scope, `/decision-doc` (PM OS) to record the scope call
+itself, `/open-sourcing` (Trail of Bits) for license choice when the repo goes
+public, `/prd-review-panel --perspectives "legal"` (PM OS) for a lighter pass
+when nothing here obviously applies.
+
+### 6. Product Requirements Documentation
 
 One PRD, reviewed from every seat that could kill it later.
 
@@ -120,7 +167,7 @@ Alternates: `/prfaq-beagle` (Beagle, Amazon Working Backwards gauntlet),
 devil's advocate reviewer), `/decision-doc` (PM OS) for decisions made along
 the way.
 
-### 6. Initial technical, data and visual design
+### 7. Initial technical, data and visual design
 
 Three tracks, run in parallel, each leaving a doc the loop reads.
 
@@ -151,7 +198,7 @@ Alternates: `/napkin-sketch` (PM OS ASCII wireframes), `/gsd:sketch`
 architecture pictures, Figma skills (`/figma-generate-design`,
 `/figma-generate-library`) when Figma is the source of truth.
 
-### 7. Architecture governance (starts here, never stops)
+### 8. Architecture governance (starts here, never stops)
 
 Decisions get recorded when made, not reconstructed later.
 
@@ -164,7 +211,7 @@ Alternates: `/decision-records` (rsc-harness, immutable numbered ADRs),
 `/constitution` (rsc-harness, project non-negotiables as testable rules),
 `/codemyspec:design strategy` (Phoenix stacks), `/adr-*` suite (ruflo).
 
-### 8. Measurements and analytics
+### 9. Measurements and analytics
 
 Decide what success looks like before building, wire the instruments during.
 
@@ -180,7 +227,7 @@ Alternates: `/kpi-framework`, `/ab-testing`, `/dashboard` (rsc-harness),
 `/activation-analysis` and `/retention-analysis` (PM OS) post-launch,
 `/eval-harness` (ECC) when the feature is latent and needs evals not metrics.
 
-### 9. Requirements decomposition and ticketing
+### 10. Requirements decomposition and ticketing
 
 The spec becomes tracer-bullet tickets with dependency edges; tickets feed the loop.
 
@@ -200,7 +247,7 @@ local-first tracking, `/project` (zcaceres, GitHub Projects/Linear kanban).
 
 ## Phase 2: Build (the loop, per ticket)
 
-### 10. Loop-based development: worktrees, stacked PRs, RoboRev
+### 11. Loop-based development: worktrees, stacked PRs, RoboRev
 
 The core loop. One ticket, one worktree, one stacked branch, automated review
 on every commit.
@@ -231,7 +278,7 @@ Goodharting), `/pr` stacked mode (zcaceres) or `/stacked-prs` (claude-mpm) if
 not using stax, Worktrunk CLI for worktree management at scale, super-board
 (tiny, watch it) for a GitHub-Projects card-to-merged-PR autonomous loop.
 
-### 11. Testing and QA
+### 12. Testing and QA
 
 Review checks the diff; QA checks the running product. Both, always.
 
@@ -242,6 +289,23 @@ Review checks the diff; QA checks the running product. Both, always.
 | `/qa` / `/qa-only` | gstack | Drives the real app in a browser, finds bugs, fixes them (`/qa`) or just reports (`/qa-only`). |
 | `/test gaps` | zcaceres | Cross-references tests against source: untested branches, error paths, boundary conditions. Run before calling a ticket done. |
 | Gate tests (`node tools/gate.mjs` + project tests) | this repo | Deterministic, free, under 2s, every commit. The floor beneath everything else. |
+| Promptfoo as a required check | tool | The other half of the floor, and the one usually missing. This repo requires evals whenever latent behavior changes, and a rule with no mechanism is a preference. Promptfoo runs versioned test cases against prompts, models, RAG pipelines, and agents, with assertions for exact match, schema, cost, latency, and LLM-graded quality; its exit code makes it a check that blocks a merge below a threshold. Free and self-hosted. |
+
+**Tests and evals are not the same gate and must not share a threshold.** A
+gate test is deterministic, free, and binary: it passes or the commit does not
+land. An eval is paid, non-deterministic, and scored against a pass threshold,
+so it runs before ship and nightly rather than on every commit. Wiring an eval
+into the per-commit hook makes the hook slow and flaky, and a flaky gate stops
+being a gate. Keep them separate and give each its own trigger.
+
+**Load and capacity testing is the one gap the catalog does not fill.** Every
+performance skill named here and in stage 18 measures one user's experience
+(Core Web Vitals, bundle size, slow transactions). None of them answer what
+happens at a hundred concurrent users, which is a different question with a
+different failure mode. There is no skill for it; reach for k6, Locust, or
+Artillery directly, and run it before a launch rather than after the first
+traffic spike. This is also the check that catches the N+1 query an agent
+wrote that looks fine against a ten-row dev database.
 
 Alternates: `/verification-loop` (ECC), `/gen-test-plan` + `/run-test-plan`
 (Beagle, YAML E2E plans), `/browser-qa` (ECC), `/property-based-testing` and
@@ -249,7 +313,7 @@ Alternates: `/verification-loop` (ECC), `/gen-test-plan` + `/run-test-plan`
 `/quality-chaos-monkey` (zcaceres, race conditions and edge cases),
 stack-specific testing skills (ECC `/react-testing`, `/python-testing`, etc.).
 
-### 12. Accessibility
+### 13. Accessibility
 
 Not a retrofit. Runs inside the loop for any UI ticket.
 
@@ -262,7 +326,45 @@ Alternates: `/anti-ui-slop audit` (uizze, reports a11y among technical
 checks), gsd-pi `accessibility`, `/gluestack-accessibility` (Han, if using
 gluestack).
 
-### 13. Code review
+**Opt in per repo, and opt in at the start.** A headless service does not need
+this stage. Anything with a user interface does, and the cost of turning it on
+later is a retrofit across every component already written. Three gates, each
+riding infrastructure other stages already install, in order of how early they
+catch:
+
+1. **Lint time:** `eslint-plugin-jsx-a11y` in the pre-commit hook from stage 1.
+   Catches issues before a page renders, which is the cheapest place to catch
+   anything, and it is the rung this stage most often skips.
+2. **Test time:** `@axe-core/playwright` asserting no critical violations
+   inside the E2E suite from stage 12. Near-zero marginal cost once that suite
+   exists.
+3. **PR time:** Lighthouse CI budgets as a required check on changed routes,
+   with Pa11y when you need WCAG rule detail rather than a score.
+
+**Know the ceiling: automated tooling catches roughly 30-50% of WCAG
+criteria.** A green gate is necessary and not sufficient, and treating it as
+sufficient is how a compliant-looking product fails a real user. Two things
+close the rest and neither is a tool you install: a periodic manual
+screen-reader pass (NVDA or VoiceOver) on the highest-stakes flows, on the
+quarterly cadence with an owner; and a third-party VPAT or ACR rather than
+self-certifying, which is also what enterprise procurement asks for by name.
+
+**Accessibility overlays are a liability, not a control.** A script that
+remediates in the visitor's browser leaves the source-level WCAG failures in
+place, does not satisfy a VPAT, and is regularly reported to interfere with the
+screen readers it claims to serve. If one is already installed, do not drop it
+cold: build the gates above, get the audit, then decommission, because removing
+the visible mitigation before the real one exists raises exposure rather than
+lowering it. Measure the day it can go.
+
+**Internationalization is the same shape of decision** and gets skipped for the
+same reason: cheap now, a rewrite later. If a second locale is plausible,
+`/internationalization-i18n` and `/localization-l10n` (Mindrally) belong in the
+loop for the first UI ticket, not after the strings are hardcoded in two
+hundred components. If a second locale is genuinely not coming, say so once and
+move on.
+
+### 14. Code review
 
 Human-grade review on top of RoboRev's automated pass.
 
@@ -279,7 +381,7 @@ Codex/Gemini external review), `/ponytail-review` (over-engineering only),
 typescript-reviewer agent (installed) for TS/JS diffs, `/receiving-code-review`
 (Superpowers) for processing feedback with rigor instead of blind compliance.
 
-### 14. Merge gates with adversarial reviews
+### 15. Merge gates with adversarial reviews
 
 The last door before main. Nothing talks its way through.
 
@@ -297,7 +399,7 @@ two independent reviewers must both pass with a convergence loop),
 `/verify` (rsc-harness evidence gate), `/gsd-loop-review` (GSD,
 PR-vs-issue-contract audit).
 
-### 15. Debugging and investigation
+### 16. Debugging and investigation
 
 For when the loop breaks or production reports something the tests missed.
 
@@ -316,7 +418,7 @@ repeated fix attempts have made things worse).
 
 ## Phase 3: Ship (per release)
 
-### 16. Deploying
+### 17. Deploying
 
 | Primary | From | Why |
 | --- | --- | --- |
@@ -325,13 +427,21 @@ repeated fix attempts have made things worse).
 | `/canary <url> --baseline` | gstack | Run BEFORE deploying: captures screenshots, console error counts, and load times as the comparison baseline. |
 | `/launch-checklist` | Aakash Gupta PM OS | For product launches (not routine deploys): prioritized checklist with owners, dependencies, and critical path; templates for small, major, and regulatory launches. |
 
+**Schema changes deploy differently from code.** Code rolls back; a dropped
+column does not. Expand-contract (add the new shape, backfill, move reads, then
+remove the old shape across separate deploys) is the pattern that keeps a
+migration reversible, and `/database-migrations` (ECC) is where the strategy
+gets written down. Any backfill big enough to notice is a data-modifying job
+and runs under this repo's background-jobs protocol: snapshot the affected rows
+first, monitor on a cadence, report before and after.
+
 Alternates: `/resolving-merge-conflicts` (mattpocock) when landing goes
 sideways, `/gen-release-notes` (Beagle), `/deployment` and provider-specific
 skills (rsc-harness: `/vercel`, `/fly-io`, `/cloudflare`, etc.) when choosing
 or operating infra, `/opensource-pipeline` (ECC) for public releases,
 `/github-actions` (rsc-harness) for CI plumbing.
 
-### 17. Post-deploy monitoring and performance
+### 18. Post-deploy monitoring and performance
 
 Deploying ends at ship; this is the watch after.
 
@@ -346,7 +456,47 @@ staging vs production), `/observability` (rsc-harness, OpenTelemetry wiring),
 Sentry plugin (Han) for error tracking, `/production-audit` (ECC) for the
 "what breaks in prod" question.
 
-### 18. Product marketing
+### 19. Incident response and resilience
+
+Stage 18 is the watch. This is what happens when the watch finds something,
+and what has to already exist for the answer to be short.
+
+| Primary | From | Why |
+| --- | --- | --- |
+| `/incident-response` | Han | Incident procedures and on-call playbooks: severity levels, who is told what, and the post-mortem template. Written before it is needed, because nobody writes process at 2am. |
+| `/runbook-structure` | Han | Structured runbooks for whoever is holding the pager. A runbook an agent can also read is the difference between a page and a fix. |
+| `/sre-incident-response` | Han | Working a live incident on SRE lines once one is actually running. |
+| `/backups` | rsc-harness | Defensible RPO and RTO targets, 3-2-1-1-0 copies that are offsite and immutable, and the restore procedure. This is the floor under everything above it. |
+
+**A backup nobody has restored is a hypothesis.** The restore drill is the only
+test of a backup that counts, and it belongs on the cadence table below like
+any other recurring pass. Time it: the number you get is your real RTO, and it
+is usually not the one in the plan.
+
+**Every incident ends the way every bug ends.** A regression test that would
+have caught it, plus a learning in docs/LEARNINGS.md via stage 25. Same rule as
+`/orch-fix-defect` in stage 16, higher stakes. An incident that produces only a
+timeline document has taught the codebase nothing.
+
+**Agent-shaped failures need their own runbook entries,** because they do not
+look like the outages runbooks are usually written for: an unattended loop that
+opened forty pull requests overnight, an agent that force-pushed over a branch,
+a backfill that ran against production because the connection string was the
+default one. The prevention is in this repo's rules already, snapshot before a
+data-modifying job, monitor on a five-minute cadence, keep `/guard` and
+`/freeze` on for unattended work. The runbook is for the day prevention did not
+hold.
+
+Alternates: `/monitoring` and `/observability` (rsc-harness) for the alerting
+that pages you in the first place, Sentry's `/incident-response` and
+`/analyze-performance` (Han) when Sentry is the alert source,
+`/investigate` (gstack) once the incident is contained and the question becomes
+root cause, `/quality-chaos-monkey` (zcaceres) to find the failure mode before
+production does. Tooling for on-call rotation and status pages is priced in
+docs/process/STACK-TEAM.md; run uptime checks on infrastructure separate from the app,
+since a monitor that dies with the thing it monitors is not a monitor.
+
+### 20. Product marketing
 
 Voice first, then campaigns, then channels. Everything reuses the voice profile.
 
@@ -368,7 +518,7 @@ scheduling), `/press-kit` and `/case-studies` (rsc-harness).
 
 ## Phase 4: Maintain (recurring)
 
-### 19. AI slop cleanup
+### 21. AI slop cleanup
 
 Three kinds of slop, three tools. Per-branch is cheap; whole-repo is periodic.
 
@@ -384,7 +534,7 @@ with fixes), `/review-ai-writing` + `/humanize-beagle` (Beagle, prose slop in
 docs and commits), `/quality-dead-code-analyzer` (zcaceres, the mechanical
 dead-code half).
 
-### 20. Codebase health
+### 22. Codebase health
 
 | Primary | From | Why |
 | --- | --- | --- |
@@ -399,7 +549,7 @@ Alternates: `/devex-review` (gstack, developer-experience audit),
 `/quality-project-health` (zcaceres, 0-10 rating), `/review-structure`
 (Beagle), `/repo-scan` (ECC).
 
-### 21. Documentation
+### 23. Documentation
 
 | Primary | From | Why |
 | --- | --- | --- |
@@ -414,7 +564,7 @@ Alternates: `/code-tour` (ECC, onboarding guide with diagram),
 roles so they stop rotting), `/make-pdf` (gstack), `/ensure-docs` and
 `/improve-doc` (Beagle), `/ui-demo` (ECC, demo videos).
 
-### 22. Security
+### 24. Security
 
 Layered: continuous scanning in CI, per-feature review in the loop, periodic
 deep audit.
@@ -427,6 +577,65 @@ deep audit.
 | `/differential-review` | Trail of Bits | Security-focused review of a specific risky diff, with adversarial exploit modeling. |
 | `/threat-modeling` | claude-mpm | STRIDE with risk scoring; mitigations land in the backlog and the test suite, closing the loop into Phase 1 tickets. |
 
+**Agent and pipeline security.** Everything above secures the code the agents
+write. This secures the agents, and it is the layer this catalog covers least
+well relative to how much of the work agents now do.
+
+| Primary | From | Why |
+| --- | --- | --- |
+| `/agent-safety` | rsc-harness | Bounds an agent that already runs: tools gated to least privilege, and prompt-injection defense for untrusted text arriving through web fetches, RAG, email, and issue bodies. The premise is one sentence: everything an agent reads is untrusted input, and an issue comment can be an instruction. |
+| `/cso --skills` | gstack | Supply-chain scan of the installed skills themselves. A skill is executable text from a third party and earns the same scrutiny as a dependency. |
+| `/harness-mcp-scan` and `/safety-scan` | ruflo | MCP server security, and screening for prompt-injection threats. |
+| `/security-scan` | ECC | Scans the `.claude` configuration itself, which is the file set that decides what every session is allowed to do. |
+| `/harness-threat-model` | ruflo | STRIDE pointed at the harness rather than the product: what an adversary does with an agent that holds your credentials. |
+
+Injection defense that runs rather than advises: GSD ships
+`gsd-prompt-guard.js` as a PreToolUse hook and `gsd-read-injection-scanner.js`
+as a PostToolUse hook that scans fetched and read content before the agent acts
+on it. A hook is a boundary; a rule in CLAUDE.md is a request.
+
+Two rules that turn least privilege from a principle into something checkable:
+
+**Scope tools per task, not per agent.** Least privilege sliced by job rather
+than by identity. An agent whose job is reading untrusted external text (an
+issue body, a support ticket, a fetched page) gets exactly the tools that task
+needs and nothing more, and never repo write, no matter what its parent session
+is allowed to do. The permission set follows the untrusted input, so a
+successful injection is bounded by what that one task needed rather than by
+what the harness can do.
+
+**Vet and pin MCP servers.** A tool description is text the agent reads before
+it decides, which makes an MCP server an injection vector as well as a
+dependency. Pin versions in `.mcp.json` the way actions are pinned by SHA, and
+review the diff when a pin moves. `/harness-mcp-scan` covers the scan; pinning
+covers the day the scanned version changes underneath you.
+
+**CI hardening, the gap agents open.** An agent with write access to
+.github/workflows can weaken the gate that is supposed to review it, and the
+gate will not object, because the gate is the thing being edited. Four
+controls close it and all four are free.
+
+1. **CODEOWNERS over the pipeline.** .github/workflows, the CODEOWNERS file
+   itself, and branch-protection config require a named human reviewer.
+   Without this, the merge gate approves its own weakening.
+2. **Pin actions by commit SHA, not by tag.** `actions/checkout@v4` follows a
+   moving tag, so a compromised tag is a supply-chain incident holding your
+   `GITHUB_TOKEN`. Pin the 40-character SHA and let Renovate bump it.
+3. **Least-privilege `GITHUB_TOKEN`.** Declare `permissions:` at the workflow
+   root as `contents: read` and elevate per job only where a job needs it. The
+   default is broader than almost any workflow requires.
+4. **Never pair `pull_request_target` with a checkout of the PR head.** That
+   combination runs untrusted fork code with write permissions and secrets in
+   scope, and it is the standard fork-PR takeover.
+
+Scan for these rather than remembering them:
+[zizmor](https://github.com/zizmorcore/zizmor) is a static analyzer for GitHub
+Actions that catches exactly this class, unpinned actions, excessive
+permissions, `pull_request_target` misuse, and template injection. It is free,
+fast, and belongs in the gate next to the secret scan. `/github-actions`
+(rsc-harness) is the authoring counterpart, covering token permissions, OIDC
+cloud deploys, and environment gates.
+
 Alternates: `/security-review` (Claude Code built-in, branch-level pass when
 the ECC pack is not installed), Trail of Bits is the deep bench (`/semgrep`,
 `/codeql`, `/supply-chain-risk-auditor`, `/audit-prep-assistant`, `/fp-check`
@@ -435,7 +644,7 @@ to kill false positives, fuzzing suite), `/security-scfw` / `/security-socket`
 `/security-scan` (ECC, scans the .claude config itself), `/secure-coding`
 (rsc-harness), stack-specific security skills (ECC `/django-security` etc.).
 
-### 23. Retro and learning loop
+### 25. Retro and learning loop
 
 The mechanism that makes every other stage improve. Failures get codified the
 day they happen; successes get skillified the second time they repeat.
@@ -453,7 +662,7 @@ Alternates: `/growth-log` (ECC, reusable patterns not diary entries),
 `/continuous-learning-v2` (ECC, hook-driven instinct capture),
 docs/MISTAKES.md per this repo's rules.
 
-### 24. Context, memory and harness hygiene
+### 26. Context, memory and harness hygiene
 
 The agent-ops layer: keeps long projects coherent and the token bill sane.
 
@@ -490,6 +699,7 @@ auto .contextignore), `/strategic-compact` (ECC).
 /write-prod-strategy     # strategy doc
 /define-north-star       # the metric
 /plan-ceo-review         # founder gate
+/compliance              # which frameworks bind this, before the architecture
 /prd-draft               # the PRD
 /prd-review-panel        # seven reviewers in parallel
 /spec                    # executable spec
@@ -519,9 +729,10 @@ ships with the regression test that would have caught it.
 ```
 /canary <url> --baseline   # before
 /land-and-deploy           # ship
-/canary <url>              # ten-minute watch
+/canary <url>              # ten-minute watch (runbook + on-call target exist by now)
 /benchmark <url>           # perf vs baseline
 /document-release          # docs current
+# incident runbook and on-call target already exist (stage 19) before this point
 /feature-results           # (after data accrues) hypothesis check
 marketing skills as the launch demands
 ```
@@ -531,9 +742,10 @@ marketing skills as the launch demands
 | When | Run |
 | --- | --- |
 | Every session end | `/loose-ends`, `/learn` when something was learned |
-| Every branch | `/clean-ai-slop`, `/cso --diff` when the diff warrants it |
+| Every branch | `/clean-ai-slop`, `/cso --diff` when the diff warrants it; zizmor on any branch that touched .github/workflows; Promptfoo when the branch changed a prompt, a skill, or any latent behavior |
 | Weekly | `/retro`, `/health` |
 | Monthly | `/ponytail-audit`, `/review-llm-artifacts` chain, `/cso --comprehensive`, `/quality-docs-update`, `/config-gc`, `/context-budget` |
+| Quarterly | Restore drill from a real backup, timed; `/cso --skills` and `/security-scan` over the harness; compliance control register reviewed against what actually shipped; manual screen-reader pass on the highest-stakes flows when the repo has a UI (stage 13) |
 | On repeat of any manual flow | `/skillify` |
 
 The weekly and monthly rows can run themselves: `/schedule` (built-in) creates
@@ -558,6 +770,8 @@ shelf until a real need shows up.
 | Graphify | Codebase as a queryable knowledge graph; answers architecture questions without grep. docs/SETUP.md step 7 adds the `graphify query` harness rule when this pack is installed. | Tech design, debugging, harness hygiene |
 | Kata | Local-first issue tracking with CLI and TUI, built for agent loops. The tracker `/to-tickets` publishes to when you do not want Linear or GitHub Projects. Local-first fits the no-machine-deps starter-kit goal. | Decomposition, Build loop |
 | Git Credential Manager | Secure cross-platform git auth. Cheap, one-time, removes a whole class of credential friction. | Setup |
+| Promptfoo | Evals as a required check: versioned cases, assertions including LLM-graded quality and cost, exit codes that block a merge. Free, self-hosted, and the only thing in this list that enforces the evals rule this repo already wrote. | Testing, merge gate |
+| zizmor | Static analysis for GitHub Actions: unpinned actions, over-broad `GITHUB_TOKEN` permissions, `pull_request_target` misuse, template injection. Free, and it is the only check that notices an agent weakening its own pipeline. | Security, merge gate |
 | ccusage | Local token usage and cost analytics across sessions. Feeds the monthly `/context-budget` and `/cost-tracking` pass with real numbers. | Harness hygiene cadence |
 | docs-mcp-server | Local grounded-docs MCP (Context7 alternative) so library and API answers come from real docs, not training data. GitMCP is the per-repo variant: point it at any GitHub project to stop hallucinated APIs. | Build loop, research |
 | Storybook | Component workshop in isolation; the living home of the design system that `/design-consultation` produces. UI repos only. | Visual design, Build loop |
@@ -568,6 +782,7 @@ shelf until a real need shows up.
 | --- | --- | --- |
 | Worktrunk | Running 2+ parallel agent sessions routinely | Worktree management at scale; native EnterWorktree covers the single-session case. |
 | Temporal | First real background job or backfill | Durable execution with retries and visibility, instead of hand-rolled job loops. Rivet Actors is the lighter stateful-compute alternative. |
+| k6 or Locust | Before the first launch with real concurrency | Load and capacity testing, which no skill in the catalog covers. `/benchmark` measures one user; this measures a hundred. |
 | Replane | First A/B test or staged rollout | Feature flags and dynamic config without redeploying; pairs with `/experiment-decision`. |
 | Phoenix (Arize) | The product itself ships LLM features | Tracing, evaluation, and troubleshooting for LLM calls; the observability half of the evals rule. |
 | Vault | Secrets shared beyond one machine | Centralized secrets management; until then `.env` + gitleaks scanning covers it. |

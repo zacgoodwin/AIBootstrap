@@ -209,7 +209,7 @@ than broken.
 | Stack | Hosted pick | Why |
 | --- | --- | --- |
 | A | [Railway Hobby](https://devtoolpicks.com/blog/railway-vs-render-vs-fly-io-solo-developers-2026) ($5 incl. $5 usage; realistically $6-13/mo) or Vercel Hobby (free, but a bot spike can blow past the 100k invocation cap - a documented failure mode) | Railway wins solo on price and predictability. Avoid Fly.io's trial-only entry unless global edge is the product. |
-| B | Railway (~$10-20) or Render Starter $7 + GrowthBook Cloud free (3 users, unlimited flags) + Listmonk on the box + [Postiz](https://teqvolt.com/open-source/postiz-29-6k-star-open-source-social-scheduler-buffer-alternative) self-hosted (AGPL, 30+ platforms) if a publishing cadence is real | Flags free, newsletter owned, social scheduling owned. [Coolify on the box](https://ceaksan.com/en/hetzner-coolify-self-hosting-reality) is also a fine primary deploy target - real projects report ~$17/mo total versus $64-100 managed. |
+| B | Railway (~$10-20) or Render Starter $7 + [GrowthBook Cloud](https://www.growthbook.io/pricing) free (3 users, unlimited flags and experiments; metered at 1M events/mo plus 1M CDN requests and 5GB bandwidth, so self-host if evaluation volume grows) + Listmonk on the box + [Postiz](https://teqvolt.com/open-source/postiz-29-6k-star-open-source-social-scheduler-buffer-alternative) self-hosted (AGPL, 30+ platforms) if a publishing cadence is real | Flags free, newsletter owned, social scheduling owned. [Coolify on the box](https://ceaksan.com/en/hetzner-coolify-self-hosting-reality) is also a fine primary deploy target - real projects report ~$17/mo total versus $64-100 managed. |
 | C | Vercel Pro $20 + Railway + GrowthBook + Buffer or Postiz Cloud $29 + a domain-and-email polish pass | Paying for the deploy platform's polish and preview URLs rather than operating them. |
 | D | Cloudflare Pages and Workers free + Neon free; a *.pages.dev subdomain until a ~$10/yr domain feels earned | Gives up: a real backend PaaS. Long-running servers do not fit the free edge, so the architecture bends to the free tier, which is a genuine design tax. Vercel Hobby is non-commercial. No SMTP budget means no newsletter; skip it or use a free-tier sender. |
 | E | Coolify on the box: deploys, per-branch previews, managed Postgres backups + GrowthBook self-hosted (MIT) + Listmonk + Postiz self-hosted; ingress via Cloudflare Tunnel (free) or [Pangolin](https://www.serverspan.com/en/blog/pangolin-on-a-vps-replace-cloudflare-tunnels-and-tailscale-with-one-self-hosted-tool) on a ~$5 VPS | The two places delivery genuinely fights the homelab are public ingress and outbound email; both are on the exceptions list below with options. Production with a real SLA is the third; the hybrid answer is serving the app from the edge VPS while the homelab runs everything else. |
@@ -377,7 +377,7 @@ each earns its keep.
 | GitHub Free/Pro | Specification, development, test, deliver, maintain | All |
 | The Hetzner + Coolify box | Research (SearXNG), specification (Kroki), deliver (Listmonk, deploy target), maintain (Umami, Uptime Kuma) | B, C |
 | Obsidian | Ideation, research, specification - and agent-readable context | All |
-| PostHog Cloud | Research (surveys), deliver (flags via experiments), maintain (analytics, replay, errors) | A, B, C, D (free tier); E self-hosts Umami + OpenReplay |
+| PostHog Cloud | Research (surveys), deliver (flags via experiments), maintain (analytics, replay, errors) | A, B, D (free tier); C paid; E self-hosts Umami + OpenReplay |
 | Supabase | Development, deliver, maintain | B, C |
 | v0 | Ideation, design | B, C |
 | Sentry | Test (release health), deliver, maintain | A, B, C, D (E swaps in GlitchTip) |
@@ -414,8 +414,8 @@ Stack B plus: API overflow budget on top of Max 20x (~$100-200) · Cursor Pro
 or Copilot Pro as a second surface · Lovable $25 · Figma Pro $16 · Linear $10 +
 Notion $10 · CodeRabbit ~$24 · Chromatic Starter when snapshots earn it ·
 Browserbase $20 · Blacksmith/Depot ~$30 · Langfuse Cloud $29 · Better Stack
-~$40 · Maze $25 + ~$100/mo of AI-moderated interviews · Aikido when user data
-arrives. The defensible core of C over B is four things: more agent (API
+~$40 · PostHog paid once the free tier's events or replays bind · Maze $25 +
+~$100/mo of AI-moderated interviews · Aikido when user data arrives. The defensible core of C over B is four things: more agent (API
 overflow + second vendor), other people's opinions (interviews, hosted PR
 review), a cloud browser so QA runs without your laptop, and being paged
 properly. The rest is polish.
