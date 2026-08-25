@@ -1,4 +1,19 @@
-# Top skills catalog
+# Top skills catalog (ARCHIVED, no longer maintained)
+
+**Retired.** This was the cross-pack pick list, one sorted view of every pack at
+once, which made it the file every other file pointed at and the file most
+likely to drift. It is kept as a snapshot and is not updated.
+
+Current catalogs: one file per pack in docs/frameworks/, with
+docs/frameworks/NON-PACK-SKILLS.md for skills no pack file carries. Tools that
+are not skills live in docs/dev-tooling/. Agent rosters live in docs/agents/.
+
+Read it as a record of what the catalog looked like when it was retired, not as
+a guide to the repo now. Its scope is wider than any current file: the `# Tools`
+section near the end catalogs apps, MCP servers and frameworks, which is content
+that now belongs in docs/dev-tooling/.
+
+---
 
 The cross-pack pick list: the best skill per job, drawn from every source in
 docs/frameworks/ plus sources with no pack file of their own (the Source

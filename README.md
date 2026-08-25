@@ -38,8 +38,9 @@ start normally.
 | [docs/agents/](docs/agents/) | Subagent rosters, per pack and deduplicated |
 | [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Project docs the setup interview fills in |
 | [.claude/](.claude/) | Shipped agents, skills, hooks, and settings, plus [agent-library/](.claude/agent-library/): 33 more agents parked, not loaded |
-| [.github/](.github/) | The gate workflow, the weekly upstream check, and the CODEOWNERS that keeps an agent off them |
+| [.github/](.github/) | The gate workflow, the docs-watchdog workflow, the weekly upstream check, and the CODEOWNERS that keeps an agent off them |
 | [tools/gate.mjs](tools/gate.mjs) | The gate: every doc path resolves, credentials stay ignored, provenance is recorded, hooks self-check |
+| [tools/docs-check.mjs](tools/docs-check.mjs), [tools/verify-claims.mjs](tools/verify-claims.mjs) | The watchdog: counts and links measured off disk, and the gate that discards any reviewer finding it cannot reproduce |
 | [tools/sources.json](tools/sources.json), [tools/skills-update.mjs](tools/skills-update.mjs) | Where each vendored skill and pack catalog came from, and what has moved since |
 
 ## The rules pack
