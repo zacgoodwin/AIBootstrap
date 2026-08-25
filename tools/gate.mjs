@@ -71,7 +71,13 @@ function run() {
     const text = readFileSync(f, "utf8");
     for (const { raw, abs } of extractPaths(text, dirname(f))) {
       checked++;
-      if (!existsSync(abs.replace(/[.,;:]+$/, ""))) missing.push(`${f.slice(ROOT.length + 1)} -> ${raw}`);
+      const target = abs.replace(/[.,;:]+$/, "");
+      if (!existsSync(target)) { missing.push(`${f.slice(ROOT.length + 1)} -> ${raw}`); continue; }
+      // An empty directory cannot survive a clone (git tracks files, not dirs),
+      // so it resolves locally and 404s in CI. Treat it as dead here instead.
+      if (statSync(target).isDirectory() && readdirSync(target).length === 0) {
+        missing.push(`${f.slice(ROOT.length + 1)} -> ${raw} (empty dir; won't exist in a clone)`);
+      }
     }
   }
   // .claude/credentials.md must stay ignored (credentials.example.md relies on this)
