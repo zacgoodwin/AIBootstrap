@@ -10,7 +10,8 @@ docs/process/PROCESS-TEAM-TRUNK.md is the trunk-based alternative to the pair:
 self-contained, with these server-side picks folded into the layer they gate.
 Pick that document or this pair, not both.
 
-Organized by the section headings in docs/frameworks/Z-TOP-SKILLS.md, so every category in
+Organized by the section headings the docs/frameworks/ catalog files share,
+so every category in
 the skill catalog gets an answer, including the categories whose answer is
 "nothing, keep this local." Knowing where not to spend is half the value.
 
@@ -105,7 +106,7 @@ regression, evals, browsers, and observability ingest.
 
 Three vocabularies, one map.
 
-| Z-TOP-SKILLS heading | SDLC stage | PROCESS.md |
+| Skill catalog heading | SDLC stage | PROCESS.md |
 | --- | --- | --- |
 | Pack Setup, Harness Development, Harness Setup, Token Savings, Context/Memory | HAR harness | 1, 26 |
 | Starting Direction, PRD, Research, Business, Marketing | PM product | 2, 3, 4, 6, 20 |
@@ -119,7 +120,7 @@ Three vocabularies, one map.
 | Code Architecture | ARC architecture | 8 |
 | Agent Safety, Agent Only Assist, Anti Drift | AGT agent operations | 12, 24, 26 |
 
-Two PROCESS.md stages have no Z-TOP-SKILLS heading above them, which is itself
+Two PROCESS.md stages have no skill catalog heading above them, which is itself
 a finding: **5 (compliance, privacy, and IP scope)** and **19 (incident
 response and resilience)** are lifecycle work the skill catalog barely covers.
 Their server-side answers are under Security and Product Health below.
@@ -830,7 +831,7 @@ at step 9 because it is the most interesting.
 
 ## Where no server is warranted
 
-| Z-TOP-SKILLS heading | Why it stays local |
+| Skill catalog heading | Why it stays local |
 | --- | --- |
 | Starting Direction / Human Helper | Interview loops between one human and one agent. Nothing to enforce, nothing to aggregate. |
 | Technical Stack Specific | Stack knowledge is context, not enforcement. The package registry constrains it indirectly. |

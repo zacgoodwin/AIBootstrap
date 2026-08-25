@@ -841,8 +841,9 @@ and Layer 5's four-store rule is the answer when someone proposes one.
 | Trail of Bits | Deep security bench | Pull in when the stakes rise |
 | ponytail | Over-engineering review and audit, debt ledger | Already a mode; the audit is a monthly cadence item |
 
-Install per source via the files in docs/frameworks/; the full skill catalog by
-workflow stage lives in docs/frameworks/Z-TOP-SKILLS.md.
+Install per source via the files in docs/frameworks/, which are the full
+skill catalog by workflow stage. Tools that are not skills live in
+docs/dev-tooling/.
 
 ---
 

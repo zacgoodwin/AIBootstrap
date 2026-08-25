@@ -1,6 +1,6 @@
 # Oldhand skills
 
-All [berwinsingh/oldhand](https://github.com/berwinsingh/oldhand) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 56029eb (2026-08-03) checked 2026-08-24.
+All [berwinsingh/oldhand](https://github.com/berwinsingh/oldhand) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream 56029eb (2026-08-03) checked 2026-08-24.
 
 Oldhand is a deliberately minimal framework: one portable skill (1 skill total, 0 agents, 0 hooks) packaged as a Claude Code and ChatGPT Codex plugin. The single `/oldhand:oldhand` command (`$oldhand` on Codex) is a complete ticket-to-proof development workflow: work contract from any tracker or plain prompt, end-to-end flow tracing, MIT/Apache-2.0 prior-art research, minimal Ponytail implementation, and realistic browser or computer-use verification. Everything else in the repo is packaging: plugin manifests, a smoke-test script, and the docs site.
 

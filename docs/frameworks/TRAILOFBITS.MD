@@ -1,6 +1,6 @@
 # Trail of Bits skills
 
-All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit 311a784 (2026-08-24) checked 2026-08-24. 42 plugins: 80 skills, 8 commands, 29 agents, 4 hook sets, 2 MCP server configs. Agent roster detail: docs/agents/TRAILOFBITS.MD.
+All [trailofbits/skills](https://github.com/trailofbits/skills) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream commit 311a784 (2026-08-24) checked 2026-08-24. 42 plugins: 80 skills, 8 commands, 29 agents, 4 hook sets, 2 MCP server configs. Agent roster detail: docs/agents/TRAILOFBITS.MD.
 
 # Product Process
 

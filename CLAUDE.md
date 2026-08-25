@@ -20,8 +20,11 @@ docs/SETUP.md and complete it with the user before any other work.**
 - docs/user-guide/ — end-user docs
 - tools/ — repo scripts · .claude/ — agents, skills, hooks, settings
 - README.md — front door: quickstart, repo map, pack index
-- docs/frameworks/ — skill catalog; docs/frameworks/Z-TOP-SKILLS.md is the
-  cross-pack pick list by workflow stage, the rest are per-pack inventories
+- docs/frameworks/ — skill catalog by workflow stage: one file per upstream
+  pack, plus NON-PACK-SKILLS.md for the skills no pack file carries. Each
+  skill appears in exactly one file
+- docs/dev-tooling/ — the tools shelf: CLI apps, frameworks, MCP servers,
+  language-specific helpers
 - docs/agents/ — per-pack agent rosters + docs/agents/IN-REPO-AGENTS.md
   (machine-wide roster; 14 of its rows ship here)
 
@@ -59,7 +62,8 @@ docs/SETUP.md and complete it with the user before any other work.**
 | Marketing / launch / sales / support / product / data | matching agent in .claude/agents/ |
 | Cataloging from a source | docs/rules/WORKFLOW.md Catalog and doc generation |
 | Skills or catalogs behind upstream | /skills-update (provenance: tools/sources.json) |
-| Full skill catalog | docs/frameworks/Z-TOP-SKILLS.md |
+| Full skill catalog | docs/frameworks/ (pack files + NON-PACK-SKILLS.md) |
+| Tools, apps, MCP servers | docs/dev-tooling/ |
 
 Skills above come from the packs docs/SETUP.md installs; until a pack is
 installed, its rows are inert.

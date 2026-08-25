@@ -597,6 +597,10 @@ deterministic scanner in the slop-cleanup cadence).
 oh-my-claudecode, FirstMate, LobeHub, Paperclip, Sim). Native subagents,
 worktrees, and Workflow scripts cover the orchestration this process needs.
 Revisit only when orchestration genuinely outgrows one machine per developer.
+The one piece worth borrowing from those desktops is live session status,
+and it is a hook, not a vendor: `PostToolUse` writes one status line per
+session to a temp-dir file, and a loop reads the last line of each. Build
+it when three or more concurrent sessions per person is routine, not before.
 A second memory layer on top of Graphify plus gbrain adds sync problems, not
 recall.
 
@@ -619,8 +623,9 @@ recall.
 | Trail of Bits | Deep security bench | Pull in when the stakes rise |
 | ponytail | Over-engineering review and audit, debt ledger | Already a mode; the audit is a team cadence item |
 
-Install per source via the files in docs/frameworks/; the full skill catalog by
-workflow stage lives in docs/frameworks/Z-TOP-SKILLS.md.
+Install per source via the files in docs/frameworks/, which are the full
+skill catalog by workflow stage. Tools that are not skills live in
+docs/dev-tooling/.
 
 ---
 

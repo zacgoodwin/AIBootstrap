@@ -1,6 +1,6 @@
 # rsc-harness skills
 
-Skills from https://github.com/ericrisco/rsc-harness, sorted into the same sections as Z-TOP-SKILLS.md. Upstream not pinned in tools/sources.json; `/skills-update` records the commit on its first full catalog pass.
+Skills from https://github.com/ericrisco/rsc-harness, sorted into the same sections as the other files in docs/frameworks/. Upstream not pinned in tools/sources.json; `/skills-update` records the commit on its first full catalog pass.
 
 # Product Process
 ## Pack Setup

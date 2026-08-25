@@ -17,3 +17,6 @@ secrets/
 *.key
 # roborev snapshots
 /.roborev/
+
+# Audit run artifacts (regenerate with /audit)
+.audit/

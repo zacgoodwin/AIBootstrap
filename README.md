@@ -20,7 +20,7 @@ the template becomes your project's.
    what you build with, and what tooling you want, then builds a costed
    install plan for your approval.
 3. Install the packs you picked. Start from
-   [the catalog](docs/frameworks/Z-TOP-SKILLS.md).
+   [the catalog](docs/frameworks/).
 
 Setup ends by deleting the `TODO(bootstrap)` markers. After that, sessions
 start normally.
@@ -32,11 +32,13 @@ start normally.
 | [CLAUDE.md](CLAUDE.md) | The template's root instructions: map, commands, non-negotiables, routing table |
 | [docs/rules/](docs/rules/) | The rules pack CLAUDE.md loads on demand — one file per domain |
 | [docs/SETUP.md](docs/SETUP.md) | The first-run interview |
-| [docs/process/](docs/process/) | Lifecycle and tool-stack research: solo vs team, stacked PRs vs trunk, laptop vs server, five costed stacks |
-| [docs/frameworks/](docs/frameworks/) | The skill catalog: one file per upstream pack, plus the cross-pack pick list |
+| [docs/process/](docs/process/) | Lifecycle and tool-stack research: solo vs team, stacked PRs vs trunk, laptop vs server, five costed solo stacks and four team ones |
+| [docs/frameworks/](docs/frameworks/) | The skill catalog: one file per upstream pack, plus the skills no pack file carries |
+| [docs/dev-tooling/](docs/dev-tooling/) | The tools shelf: CLI apps, frameworks, MCP servers, language-specific helpers |
 | [docs/agents/](docs/agents/) | Subagent rosters, per pack and deduplicated |
 | [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Project docs the setup interview fills in |
-| [.claude/](.claude/) | Shipped agents, skills, hooks, and settings |
+| [.claude/](.claude/) | Shipped agents, skills, hooks, and settings, plus [agent-library/](.claude/agent-library/): 33 more agents parked, not loaded |
+| [.github/](.github/) | The gate workflow, the weekly upstream check, and the CODEOWNERS that keeps an agent off them |
 | [tools/gate.mjs](tools/gate.mjs) | The gate: every doc path resolves, credentials stay ignored, provenance is recorded, hooks self-check |
 | [tools/sources.json](tools/sources.json), [tools/skills-update.mjs](tools/skills-update.mjs) | Where each vendored skill and pack catalog came from, and what has moved since |
 
@@ -60,11 +62,15 @@ then the smallest diff that covers it.
 
 ## Skill catalog
 
-**[docs/frameworks/Z-TOP-SKILLS.md](docs/frameworks/Z-TOP-SKILLS.md) is the
-catalog** — the best skill per job across every pack below, organized by
-workflow stage: Product Process, Development Process, Code Architecture, Dev
-Tooling, Scaffolding and Harness, Built-in Claude Code, and Tools. Start
-there; the per-pack files are the full inventories behind it.
+**[docs/frameworks/](docs/frameworks/) is the catalog** — one file per
+upstream pack, each organized by workflow stage: Product Process, Development
+Process, Code Architecture, Dev Tooling, Scaffolding and Harness, and Built-in
+Claude Code. Skills whose source has no pack file, or that their pack file
+does not list, live in
+[NON-PACK-SKILLS.md](docs/frameworks/NON-PACK-SKILLS.md). Every skill appears
+in exactly one file, with no duplication between them. Tools that are not
+skills — CLI apps, frameworks, MCP servers — are catalogued separately in
+[docs/dev-tooling/](docs/dev-tooling/).
 
 | Pack | Upstream | What it is |
 |---|---|---|
@@ -109,17 +115,28 @@ catalog: five packs ship agents, and
 [docs/agents/IN-REPO-AGENTS.md](docs/agents/IN-REPO-AGENTS.md) is a
 deduplicated roster of every agent reachable from one mature machine — an
 example of where this ends up, not a description of this repo. Fourteen
-agents ship here, in [.claude/agents/](.claude/agents/): six business
+agents ship loaded, in [.claude/agents/](.claude/agents/): six business
 personas, a seven-agent product review panel, and a TypeScript reviewer.
+Another 33 sit parked in [.claude/agent-library/](.claude/agent-library/)
+— reviewers, build resolvers, planners, a GAN harness trio — costing
+no context until you copy one up into `.claude/agents/`.
 
 ## The gate
 
-`node tools/gate.mjs` runs in CI and as a pre-commit hook. It is
-deterministic, free, and finishes in under two seconds: every repo path
-referenced in the docs must resolve, `.claude/credentials.md` must stay
+`node tools/gate.mjs` runs in CI on every push and pull request, and is
+cheap enough to wire into a pre-commit hook yourself. It is deterministic,
+free, and finishes in under two seconds: every repo path referenced in the
+docs must resolve, `.claude/credentials.md` must stay
 gitignored, every vendored skill and pack catalog must carry its provenance,
 and the shipped hooks and tools must pass their self-checks. Run
 `node tools/gate.mjs --self-test` to check the gate itself.
+
+The gate can be weakened by editing the workflow that runs it, so two
+things watch that surface: [zizmor](https://github.com/zizmorcore/zizmor)
+lints the workflows in their own CI job (unpinned actions, over-broad
+token scopes), and [.github/CODEOWNERS](.github/CODEOWNERS) puts a human
+on any diff to `.github/`, `tools/`, or `.claude/`. CODEOWNERS is inert
+until you turn on branch protection requiring Code Owner review.
 
 It never touches the network, which is why "what moved upstream" is a separate
 command rather than a gate test.

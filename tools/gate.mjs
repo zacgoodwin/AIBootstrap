@@ -50,7 +50,7 @@ export function extractPaths(text, fileDir) {
   for (const m of text.matchAll(/\]\(([^)#\s]+?)(?:#[^)]*)?\)/g)) {
     const t = m[1];
     if (/^(https?:|mailto:)/.test(t)) continue;
-    out.push({ raw: t, abs: resolve(fileDir, t) });
+    out.push({ raw: t, abs: resolve(fileDir, t), kind: "link", anchor: m[0].match(/#([^)]*)\)/)?.[1] ?? null });
   }
   // Bare path mentions rooted at known repo dirs (not preceded by ~ or /).
   // URLs are stripped first: "costbench.com/software/developer-tools/linear/"
@@ -60,7 +60,7 @@ export function extractPaths(text, fileDir) {
   // must fail rather than read as prose.
   for (const m of noUrls.matchAll(/(?<![\w~/.])((?:docs|tools|services|contracts|schemas|rules|architecture|\.claude|\.github)\/[\w][\w./-]*)/g)) {
     const raw = m[1].replace(/[.,;:]+$/, "");
-    out.push({ raw, abs: join(ROOT, raw) });
+    out.push({ raw, abs: join(ROOT, raw), kind: "bare", anchor: null });
   }
   return out.filter(({ raw }) => {
     if (/[<>*]|TODO/.test(raw)) return false; // placeholders
@@ -121,7 +121,8 @@ function checkSources(problems) {
   }
   for (const f of readdirSync(join(ROOT, "docs/frameworks"))) {
     const p = `docs/frameworks/${f}`;
-    if (f === "Z-TOP-SKILLS.md") continue; // derived from the others; no single upstream
+    // Aggregates skills from many upstreams, so no single source to track.
+    if (f === "NON-PACK-SKILLS.md") continue;
     if (f.toLowerCase().endsWith(".md") && !claimed.has(p)) problems.push(`${p} -> no tools/sources.json entry`);
   }
 }
@@ -202,4 +203,6 @@ function selfTest() {
   console.log("gate --self-test: OK");
 }
 
-process.argv[2] === "--self-test" ? selfTest() : run();
+// Importing this module (tools/docs-check.mjs does) must not run a command.
+const invokedDirectly = resolve(process.argv[1] ?? "") === resolve(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
+if (invokedDirectly) process.argv[2] === "--self-test" ? selfTest() : run();

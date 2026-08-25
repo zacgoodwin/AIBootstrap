@@ -1,6 +1,6 @@
 # GSD skills
 
-All [open-gsd/gsd-core](https://github.com/open-gsd/gsd-core) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 8442d98 (2026-08-24) checked 2026-08-24.
+All [open-gsd/gsd-core](https://github.com/open-gsd/gsd-core) skills, sorted by the same sections as the other files in docs/frameworks/. Upstream 8442d98 (2026-08-24) checked 2026-08-24.
 
 gsd-core ships 71 skills, each paired with a `/gsd:<name>` command (identical sets), plus 35 agents, 28 hook scripts, 46 capability packs, 46 planning templates, and 104 reference docs. Sibling org repos carry 46 more skills — gsd-pi (37), gsd-spec-build-loop (5), and one each in gsd-browser, gsd-test-runner, agent-inbox, gsd-graph — folded into the tables below and tagged with their repo. Entries without a tag live in gsd-core.
 

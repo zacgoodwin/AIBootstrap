@@ -679,6 +679,7 @@ stages as the packs above and were missing from the catalog.
 |  super-board   |  Autonomous GitHub-Projects build/QA/review loop for Claude Code: card to Ready, come back to merged   |  https://github.com/EricTechPro/super-board   |
 |  termly-cli   |  Encrypted mobile companion for Claude Code, Gemini CLI and OpenCode sessions   |  https://github.com/termly-dev/termly-cli   |
 |  Jules Action   |  Google's cloud coding agent as a GitHub Action; cross-vendor CI seat   |  https://github.com/google-labs-code/jules-action   |
+| Headroom | Compress tool outputs, logs, files, and RAG chunks before they reach the LLM | https://github.com/headroomlabs-ai/headroom |
 
 
 ## GUI / Web Apps 

@@ -74,7 +74,8 @@ nothing in docs/rules/ goes stale.
 | stax (`st`) + roborev | Stacked branches + per-commit background review (docs/rules/WORKFLOW.md Shipping) | their READMEs; roborev config is already in `.roborev.toml` | `st doctor`; `roborev show HEAD` |
 | gh | Tickets and PRs | cli.github.com | `gh auth status` |
 | graphify | Codebase as a queryable knowledge graph; CLAUDE.md routes codebase questions here | github.com/safishamsi/graphify | `graphify --version` |
-| skill packs | The catalog in docs/frameworks/Z-TOP-SKILLS.md | the marketplace table below covers the plugin sources; other packs are documented in docs/frameworks/, which names the upstream repo and carries an install line where upstream publishes one | invoked skills appear in the session skill list |
+| skill packs | The catalog in docs/frameworks/ | the marketplace table below covers the plugin sources; other packs are documented in docs/frameworks/, which names the upstream repo and carries an install line where upstream publishes one | invoked skills appear in the session skill list |
+| everything else on the shelf | CLI apps, frameworks, MCP servers, and language-specific helpers considered but not baseline | docs/dev-tooling/ names each one and its upstream | per tool |
 
 ### Plugin marketplaces
 

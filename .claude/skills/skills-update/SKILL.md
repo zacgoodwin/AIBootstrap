@@ -72,9 +72,10 @@ clone it caches is the thing to enumerate.
 Then, in this order:
 
 1. Rewrite the pack file's tables.
-2. Fix any row in `docs/frameworks/Z-TOP-SKILLS.md` that this pack owns and
-   that changed — the pick list is derived from the pack files, and the gate
-   does not check it for you.
+2. Move rows between the pack file and `docs/frameworks/NON-PACK-SKILLS.md`
+   if the pass changed which skills the pack carries — every skill in the
+   catalog belongs to exactly one file, and the gate does not check that
+   for you.
 3. `node tools/skills-update.mjs stamp <id> --commit HEAD` — updates the
    manifest and the file's header sentence together. Stamping without doing
    the pass is a lie the gate cannot catch.
