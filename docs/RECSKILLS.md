@@ -671,6 +671,9 @@ stages as the packs above and were missing from the catalog.
 |  Codex CLI   |  OpenAI coding agent CLI; cross-vendor second opinions via /codex and adversarial skeptic seats   |  https://github.com/openai/codex   |
 |  Gemini CLI   |  Google coding agent CLI; another cross-vendor review seat   |  https://github.com/google-gemini/gemini-cli   |
 |  Antigravity (agy)   |  Google Antigravity agent CLI; cross-vendor skeptic seat for /z-adversarial-review   |  https://antigravity.google   |
+|  super-board   |  Autonomous GitHub-Projects build/QA/review loop for Claude Code: card to Ready, come back to merged   |  https://github.com/EricTechPro/super-board   |
+|  termly-cli   |  Encrypted mobile companion for Claude Code, Gemini CLI and OpenCode sessions   |  https://github.com/termly-dev/termly-cli   |
+|  Jules Action   |  Google's cloud coding agent as a GitHub Action; cross-vendor CI seat   |  https://github.com/google-labs-code/jules-action   |
 
 
 ## GUI / Web Apps 
@@ -702,6 +705,12 @@ stages as the packs above and were missing from the catalog.
 |  Maxun   |  Open-source no-code platform turning websites into structured data / APIs   |   https://github.com/getmaxun/maxun  |
 |  tirreno   |  Open-source event tracking, threat detection, and risk scoring framework   |   https://github.com/tirrenotechnologies/tirreno  |
 |  Storybook | Frontend workshop for building UI components and pages in isolation   |  https://storybook.js.org/  |
+|  Otari   |  Self-hosted OpenAI-compatible LLM gateway: virtual keys, budgets, 40+ providers   |  https://github.com/mozilla-ai/otari  |
+|  Kherad   |  Notion-like wiki backed by real git commits with merge-request review, plus AI agents   |  https://github.com/mohammadmaso/kherad  |
+|  Usertour   |  Open-source in-app onboarding: product tours, checklists, surveys   |  https://github.com/usertour/usertour  |
+|  ShipShipShip   |  Self-hostable changelog and roadmap page for publishing product updates   |  https://github.com/GauthierNelkinsky/ShipShipShip  |
+|  AcquireMock   |  Self-hosted mock payment gateway for testing e-commerce integrations   |  https://github.com/ashfromsky/acquiremock  |
+|  IronClaw   |  Security-first self-hosted AI agents with provable isolation; watch-list   |  https://github.com/IronSecCo/ironclaw  |
 
 
 

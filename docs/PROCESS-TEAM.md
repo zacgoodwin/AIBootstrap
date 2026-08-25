@@ -103,7 +103,10 @@ conversation first.
 `gsd-loop-review` audits the resulting PR against its linked issue contract and
 required CI, posting a verdict and labels without ever merging. A label
 vocabulary that agents can read turns the tracker into a queue that drains
-itself.
+itself. super-board packages exactly this loop for GitHub Projects: drag a
+card to Ready and a Claude Code build, QA, and review cycle runs to a merged
+PR. Tiny project (double digits of stars); trial it on a low-stakes repo
+before trusting it with the queue.
 
 **Tracker choice:** GitHub Issues plus Projects when the code is already on
 GitHub (agents drive it via `/gh-cli` and `/github-ops`). Linear when the team
@@ -212,6 +215,7 @@ know what person A's agent learned.
 | Graphify | tool | One queryable knowledge graph of the codebase, committed or shared. `graphify query "<question>"` before raw grep; `graphify update .` after changes. One graph per repo, not one per developer. |
 | `/setup-gbrain` + `/sync-gbrain` | gstack | Code-index memory with per-remote trust policy. `--audit` shows which pages exist per project, which matters when several people write to the same brain. |
 | Tela | tool | Self-hostable markdown team wiki with a built-in MCP server, so agents read and write the same wiki humans do. Outline is the alternative when the wiki is for humans first; it ships no MCP server, so agents reach it only through whatever integration you build. |
+| Kherad | tool | Notion-like wiki for non-technical teams backed by real git commits with merge-request review, plus AI agents. The only wiki option that also satisfies "canon lives in the repo": wiki changes pass the same gate as code. Young project; trial before adopting. |
 | `/unified-memory` | ECC | Durable, inspectable context and handoffs shared across Claude, Codex, Cursor, and OpenCode. Relevant the moment the team is not all on one CLI. |
 | `/knowledge-ops` | ECC | Knowledge base ingestion, sync, and retrieval across local files, MCP memory, vector stores, and Git repos. |
 | `/handoff` and `/claude-handoff` | mattpocock | Compact a session into a handoff document, or hand it live to a fresh background agent. On a team this is also the person-to-person handoff. |

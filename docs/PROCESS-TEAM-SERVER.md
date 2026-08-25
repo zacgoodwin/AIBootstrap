@@ -265,6 +265,11 @@ they first appear:
 - `use_bedrock`, `use_vertex`, `use_foundry` route inference through your own
   cloud account.
 
+The cross-vendor counterpart:
+[jules-action](https://github.com/google-labs-code/jules-action) puts Google's
+Jules coding agent in the same workflow slot — the CI form of the Codex,
+Gemini, and Antigravity CLI seats the review gates already use.
+
 **[Self-hosted
 environments](https://code.claude.com/docs/en/self-hosted-environments)**
 (public beta, Team and Enterprise, off by default) run Claude Code cloud
@@ -356,6 +361,7 @@ volume changes what breaks.
 | Make sense of thousands of results | [ReportPortal](https://qualflare.com/reportportal-alternative/) | Currents, Allure TestOps, Datadog Test Optimization | ReportPortal self-hosted: ML pattern matching clusters recurring failures, which is the scaling answer when agent-written suites fail in bulk and the signal is which root cause, not which test. |
 | Keep the gate credible | quarantine logic in CI | [Trunk Flaky Tests](https://trunk.io/flaky-tests), Datadog | Hosted. Tracks pass/fail history per commit, quarantines automatically rather than by hand, works with any language, runner, and CI. Agent-written tests raise absolute flake count even at a constant rate. |
 | Stop cross-service breakage | Pact Broker | PactFlow | Either. See Code Architecture. |
+| Payments without a live processor | [AcquireMock](https://github.com/ashfromsky/acquiremock) | Stripe test mode | Trigger: the first payment feature. Provider test modes cover the happy path; a mock gateway you control also injects the failures (declines, timeouts, partial refunds) an agent-written suite should exercise. |
 | Evals, not just tests | Promptfoo | Braintrust, LangSmith, Langfuse Cloud | See Anti Drift. |
 
 ## Code Review
@@ -494,6 +500,7 @@ instructions describe.
 | The agent cannot write outside its box | Coder, Docker Sandbox | Codespaces, E2B, Daytona | A container is not a request. |
 | The agent cannot reach what it should not | Egress proxy, network policy | Cloud provider egress controls | Managed settings can name an approved MCP list; the network makes it true. |
 | The agent cannot use an unapproved tool | [MCPJungle](https://github.com/mcpjungle/MCPJungle) | MintMCP, Obot, AWS MCP Gateway | The registry is the catalog agents discover from; the gateway controls access, routing, and logging. Pair with the managed-settings allowlist so the gateway is the only route and it holds the credentials. |
+| Isolation you can prove, not just configure | [IronClaw](https://github.com/IronSecCo/ironclaw) | — | Watch-list, not an install: security-first self-hosted agents with provable isolation. Too young to trust today; the right shape to track for this row. |
 | One login for every service in this report | [Authentik, Authelia, Keycloak](https://blog.elest.io/authentik-vs-authelia-vs-keycloak-choosing-the-right-self-hosted-identity-provider-in-2026/) | Okta, WorkOS, Google Workspace SSO | **The tax nobody budgets.** Twelve services means twelve auth systems unless one identity provider fronts them. Authentik is the 2026 default for greenfield self-hosting; Authelia is the lightweight reverse-proxy companion; Keycloak is heavier (~1GB RAM, steeper data model) and worth it mainly for Red Hat alignment. If most of your stack is SaaS, your existing Google or Okta tenant already solved this, which is one more quiet point for SaaS. |
 
 **Budget identity before the twelfth service, not after.**
@@ -569,10 +576,13 @@ Retention.
 [LiteLLM](https://docs.litellm.ai/docs/simple_proxy) self-hosted gives virtual
 keys with [budgets per key, team, org, and model that stop requests at the
 cap](https://docs.litellm.ai/docs/proxy/users); Portkey and Helicone are the
-hosted equivalents. Two caveats: LiteLLM self-hosted is Postgres, Redis, secret
-management, and version pinning, and no gateway composes with Claude Code
-self-hosted environments, which cannot route inference through one. Measure
-first; add enforcement only if caps are genuinely needed.
+hosted equivalents. [Otari](https://github.com/mozilla-ai/otari) (Mozilla AI)
+is the lighter self-hosted alternative: OpenAI-compatible, virtual keys and
+budgets across 40+ providers, without LiteLLM's operational stack. Two
+caveats: LiteLLM self-hosted is Postgres, Redis, secret management, and
+version pinning, and no gateway composes with Claude Code self-hosted
+environments, which cannot route inference through one. Measure first; add
+enforcement only if caps are genuinely needed.
 
 ## Anti Drift / Anti Hallucinations
 
@@ -610,6 +620,7 @@ building.
 | Need | Self-hosted | Hosted | Pick |
 | --- | --- | --- | --- |
 | A wiki agents read and write | Tela (built-in MCP server) | Notion with its MCP server | Either. The property that matters is an MCP server, not the editor. Outline is humans-first and ships none, so agents reach it only through an integration you build. |
+| A wiki that reviews as PRs | [Kherad](https://github.com/mohammadmaso/kherad) | — | Notion-like editing backed by real git commits with merge-request review, so wiki changes pass the same gate as code. Young project; trial before adopting. |
 | Which tools agents may reach | MCPJungle | MintMCP, Obot | See Agent Safety. |
 
 ---

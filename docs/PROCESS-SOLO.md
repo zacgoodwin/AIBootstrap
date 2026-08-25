@@ -318,7 +318,8 @@ long answer. docs/rules/DELEGATION.md holds the table.
 recurring work. `/unlazy` (unlazy) writes runnable acceptance gates to
 GATES.md before autonomous work starts and blocks completion via a Stop hook
 until they pass, which is what makes an overnight run trustworthy instead of
-expensive.
+expensive. termly-cli puts the running session on your phone (encrypted,
+remote), so checking the overnight loop does not require a laptop.
 
 **Watch the bill.** `ccusage` for local token and cost analytics across
 sessions. `/cost-tracking` (ECC) if you want it inside Claude Code. RTK is
@@ -388,6 +389,7 @@ Everything in this list exists to coordinate people. You have no people.
 | Git Credential Manager | One-time setup, removes a recurring class of auth friction. |
 | docs-mcp-server or GitMCP | Library and API answers from real docs instead of training data. Alone, a hallucinated API costs you the whole debugging session. |
 | Graphify | Add when the repo outgrows your memory of it, not before. |
+| termly-cli | Mobile companion for Claude Code, Gemini, and OpenCode sessions. The overnight loop's pager, since you have no on-call rotation. |
 
 Skip: Worktrunk (until two parallel sessions are routine), Temporal, Vault,
 Tela, AgentsView, Replane, multi-agent desktops. Every one of them solves a

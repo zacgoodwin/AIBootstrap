@@ -227,7 +227,8 @@ command: trace, prior-art research, minimal implementation, browser-verified),
 (Phoenix), `/sdd` (rsc-harness spec-driven chain), `/continuous-agent-loop` +
 `/loop-design-check` (ECC, for designing new autonomous loops without
 Goodharting), `/pr` stacked mode (zcaceres) or `/stacked-prs` (claude-mpm) if
-not using stax, Worktrunk CLI for worktree management at scale.
+not using stax, Worktrunk CLI for worktree management at scale, super-board
+(tiny, watch it) for a GitHub-Projects card-to-merged-PR autonomous loop.
 
 ### 11. Testing and QA
 
@@ -577,6 +578,8 @@ shelf until a real need shows up.
 | serve-sim | iOS work | Apple simulators streamed to a browser; pairs with the `/ios-qa` family. |
 | Scalekit | An enterprise customer asks for SSO/SCIM | Enterprise auth component instead of building it. |
 | markdownify-mcp | Research ingests PDFs, decks, or odd formats | Converts almost anything to Markdown so `/research` output lands in the repo cleanly. |
+| Usertour | `/activation-analysis` names an onboarding gap | Open-source in-app product tours, checklists, and surveys; the shipping half of the activation work. |
+| ShipShipShip | Release notes exist but nowhere public to put them | Self-hostable changelog and roadmap page; where `/gen-release-notes` output lands. |
 
 ### Hold off
 
