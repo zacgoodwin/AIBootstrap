@@ -1,6 +1,6 @@
 # Beagle skills
 
-All [existential-birds/beagle](https://github.com/existential-birds/beagle) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit d1a7489 (2026-08-09, post-v4.4.0) checked 2026-08-23. 11 plugins. Upstream reports 139 unique skills (145 shipped; `review-verification-protocol` is bundled into 7 plugins); this file lists 137 — two rows are missing from the transcription, recover them on the next upstream pass. No hooks, agents, commands, or MCP servers.
+All [existential-birds/beagle](https://github.com/existential-birds/beagle) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit d1a7489 (2026-08-09, post-v4.4.0) checked 2026-08-23. 11 plugins, 139 unique skills (145 shipped; `review-verification-protocol` is bundled into 7 plugins). No hooks, agents, commands, or MCP servers.
 
 # Product Process
 
@@ -109,12 +109,14 @@ All [existential-birds/beagle](https://github.com/existential-birds/beagle) skil
 | `/remix-v2-meta-sessions-review` | Reviews Remix v2 meta/session code: v1-shape meta exports, cookie security gaps, missing CSRF |
 | `/remix-v2-perf-ssr` | Remix v2 performance: streaming, HTTP caching, server/client boundaries, hydration safety |
 | `/remix-v2-perf-ssr-review` | Reviews Remix v2 perf: caching header misuse, hydration mismatches, prefetch hygiene |
+| `/remix-v2-error-boundaries-review` | Reviews Remix v2 error handling: unified ErrorBoundary, isRouteErrorResponse narrowing, throw-vs-return, v1 holdovers (CatchBoundary, useCatch) |
 | `/review-remix-v2` | Comprehensive Remix v2 review; detects Remix v2 and loads per-area review skills |
 | `/review-frontend` | Comprehensive React/TypeScript frontend review with per-area skills, parallel where supported |
 | `/shadcn-ui` | shadcn/ui component patterns: Radix primitives, CVA variants, compound components |
 | `/shadcn-code-review` | Reviews shadcn/ui components: CVA patterns, asChild composition, accessibility states |
 | `/tailwind-v4` | Tailwind CSS v4: CSS-first configuration, design tokens, OKLCH colors, dark mode |
 | `/zustand-state` | Zustand state management: stores, selectors, persistence, devtools |
+| `/vitest-testing` | Vitest patterns: vitest.config, mocking with vi.mock and vi.fn, snapshots, coverage setup |
 | `/rust-best-practices` | Development guidance for writing idiomatic Rust |
 | `/rust-project-setup` | Guidance for scaffolding new Rust projects |
 | `/rust-code-review` | Reviews Rust: ownership, borrowing, lifetimes, error handling, trait design, unsafe usage |
