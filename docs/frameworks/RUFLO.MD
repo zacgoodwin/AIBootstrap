@@ -1,6 +1,6 @@
 # Ruflo
 
-Skills from https://github.com/ruvnet/ruflo — an agent meta-harness shipped as 35+ Claude Code plugins. Sorted into the same categories as the README. Domain-vertical plugins (IoT, trading, market data) get their own section since the main taxonomy has no home for them.
+Skills from https://github.com/ruvnet/ruflo — an agent meta-harness shipped as 35+ Claude Code plugins. Sorted into the same categories as Z-TOP-SKILLS.md. Domain-vertical plugins (IoT, trading, market data) get their own section since the main taxonomy has no home for them.
 
 # Product Process
 ## Pack Setup

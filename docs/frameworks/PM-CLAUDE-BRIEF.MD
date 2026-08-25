@@ -1,6 +1,6 @@
 # PM Claude Brief skills
 
-All [MariaVimer/pm-claude-brief](https://github.com/MariaVimer/pm-claude-brief) offerings, sorted by the same sections as README.md. Upstream 3321dad (2026-05-03) checked 2026-08-24.
+All [MariaVimer/pm-claude-brief](https://github.com/MariaVimer/pm-claude-brief) offerings, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 3321dad (2026-05-03) checked 2026-08-24.
 
 A brief-writing discipline pack for product managers: 1 skill (`/pm-brief`) and 12 CLAUDE.md brief templates, one per common PM problem type. You copy the template for your problem into your project as CLAUDE.md, fill it in, and Claude challenges weak hypotheses, authority-based rationale, and missing success criteria before doing any work. No agents, no hooks, no code.
 

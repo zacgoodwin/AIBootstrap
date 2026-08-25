@@ -22,7 +22,7 @@ The four stacks:
 
 | Stack | Optimizes for | Monthly order of magnitude (5 people) |
 | --- | --- | --- |
-| **A. Least overhead** | Fewest vendors, fewest logins, most free tiers, nothing to babysit | ~$300-500 |
+| **A. Least overhead** | Fewest vendors, fewest logins, most free tiers, nothing to babysit | ~$225-260 |
 | **B. Best in class** | The strongest tool per stage that per-seat pricing keeps sane for an agent-heavy team | ~$900-1,500 |
 | **C. Cost no object** | The strongest tool per stage, full stop | $5,000+ and climbing |
 | **D. Cheapest** | Minimum dollars, with the give-ups named per stage | ~$95-110 |
@@ -123,7 +123,7 @@ plus fast disposable prototypes.
 
 **On the machine:** `/design-consultation` (produces DESIGN.md),
 `/design-shotgun`, `/taste-skill` or `/stitch-skill` (anti-generic standards),
-`/anti-ui-slop` family, the Figma MCP server already wired into this harness.
+`/anti-ui-slop` family, the Figma MCP server, installed from the claude-plugins-official marketplace (docs/SETUP.md step 5).
 
 | Stack | Hosted pick | Why |
 | --- | --- | --- |
@@ -144,7 +144,7 @@ to be routed around, and server-side agent execution.
 
 | Stack | Hosted pick | Why |
 | --- | --- | --- |
-| A | **[GitHub Team](https://www.getpricepulse.com/blog/github-pricing-2026-complete-guide.html)** ($4/user/mo): repo + Actions + merge queue + Packages + Pages + Codespaces | The widest multi-stage product in the whole report: one $4 seat covers specification (Issues/Projects), development (repo, Codespaces), test (Actions), deliver (merge queue, Packages, Pages), and maintain (Dependabot, security alerts). |
+| A | **[GitHub Team](https://www.getpricepulse.com/blog/github-pricing-2026-complete-guide.html)** ($4/user/mo): repo + Actions + merge queue + Packages + Pages + Codespaces | The widest hosted multi-stage product in the report (Claude Code spans all eight, but it is the harness, not a hosted pick): one $4 seat covers specification (Issues/Projects), development (repo, Codespaces), test (Actions), deliver (merge queue, Packages, Pages), and maintain (Dependabot, security alerts). |
 | B | GitHub Team + **[Blacksmith or Namespace runners](https://tenki.cloud/blog/github-actions-runner-showdown-2026)** (~2-3x faster at ~⅓ less than GitHub minutes) + [Depot](https://latchkey.dev/learn/compare-runners/depot-vs-blacksmith) if Docker builds are the bottleneck + Claude Code GitHub Action (`@claude` on issues/PRs, installs the private marketplace into CI) | GitHub began metering self-hosted runner minutes in private repos ($0.002/min, March 2026), so managed runners are now the cost play, not just the speed play. Agents iterate fast; slow CI becomes skipped CI. |
 | C | GitHub Enterprise ($21/user/mo) + Copilot Business ($19/seat) as the second assistant + Namespace + Depot + [Coder](https://coder.com/docs/admin/integrations/devcontainers) self-hosted workspaces + Claude Code **self-hosted environments** (Team/Enterprise beta: runners in your network, checkouts and secrets never leave, all connections outbound) + [Sourcegraph/Amp Enterprise](https://sourcegraph.com/pricing?product=codeIntelligence) (~$59/user/mo; platform contracts ~$15k+ small-team) for cross-repo code intelligence | The compliance-grade lane. Note the constraint from PROCESS-TEAM-SERVER: self-hosted environments cannot route inference through Bedrock, Vertex, Foundry, or an LLM gateway. |
 | D | 5x individual Claude Pro (~$85/mo total) + GitHub Free org + Neon free or Postgres on the box | The structural give-ups live here. Individual Pro accounts mean no managed settings, no org analytics, no marketplace distribution via org settings: harness parity and telemetry become convention, not policy. GitHub Free means no branch protection on private repos, so the entire gate layer is voluntary. Escape hatches: GitHub Team at $20/mo total restores required checks, or public repos get them free. Pro's usage limits also cap the agents themselves, which is the least visible and largest cost. |
@@ -186,7 +186,7 @@ reversible rollout, flags, secrets, and the launch itself.
 | Stack | Hosted pick | Why |
 | --- | --- | --- |
 | A | [Railway](https://www.birjob.com/blog/paas-comparison-railway-render-fly-vercel-2026) (~$10-20/mo for web + worker + Postgres) or [Render](https://devtoolpicks.com/blog/railway-vs-render-vs-fly-io-solo-developers-2026) (Starter $7 + $25/mo flat workspace fee for PR previews with database copies) + GitHub Packages + Doppler or Infisical Cloud free tier for secrets + [Statsig](https://www.growthbook.io/insights/growthbook-vs-launchdarkly-vs-statsig) free (1M events) or GrowthBook Cloud free (3 users, unlimited flags) | Render's flat-fee PR previews are the sleeper: they give `/qa` and DAST a real URL per PR, which upgrades the whole Test stage. |
-| B | Vercel Pro or Render + previews + **[GrowthBook Cloud](https://www.growthbook.io/insights/launchdarkly-pricing)** ($40/seat Pro) or Statsig + Infisical Cloud + [Postiz](https://teqvolt.com/open-source/postiz-29-6k-star-open-source-social-scheduler-buffer-alternative) (from $29 cloud) and [Listmonk](https://listmonk.app/) (self-host, single binary) for launch marketing | Flags per-seat, previews flat-fee, launch tooling owned. Watch Vercel's usage meters under bot traffic - a documented failure mode. On-prem lane: [Coolify](https://introserv.com/blog/dokploy-vs-coolify-complete-comparison-of-the-best-self-hosted-paas-platforms-for-vps-and-dedicated-servers-2026/) with native per-branch previews, or Argo CD + [Argo Rollouts](https://oneuptime.com/blog/post/2026-03-13-flagger-vs-argo-rollouts-comparison/view) on Kubernetes for metric-driven auto-rollback. |
+| B | Vercel Pro or Render + previews + **[GrowthBook Cloud](https://www.growthbook.io/insights/launchdarkly-pricing)** ($40/seat Pro) or Statsig + Infisical Cloud + [Postiz](https://teqvolt.com/open-source/postiz-29-6k-star-open-source-social-scheduler-buffer-alternative) (from $29 cloud) and [Listmonk](https://listmonk.app/) (self-host, single binary) for launch marketing | Flags per-seat, previews flat-fee, launch tooling owned. PostHog already covers flags and experiments in this stack; buy GrowthBook only for its statistics engine or per-flag governance. Watch Vercel's usage meters under bot traffic - a documented failure mode. On-prem lane: [Coolify](https://introserv.com/blog/dokploy-vs-coolify-complete-comparison-of-the-best-self-hosted-paas-platforms-for-vps-and-dedicated-servers-2026/) with native per-branch previews, or Argo CD + [Argo Rollouts](https://oneuptime.com/blog/post/2026-03-13-flagger-vs-argo-rollouts-comparison/view) on Kubernetes for metric-driven auto-rollback. |
 | C | Vercel Enterprise or Kubernetes + Argo CD + Rollouts + **[LaunchDarkly](https://www.growthbook.io/insights/launchdarkly-pricing)** (~$25k/yr entry; $100-150k at 50k MAU - governance pricing) + [Harbor](https://oneuptime.com/blog/post/2026-02-08-how-to-run-harbor-container-registry-with-vulnerability-scanning/view) or Artifactory + OpenBao or Vault + a merge platform ([Graphite or Aviator](https://www.aviator.co/aviator-vs-graphite) - stack-aware queues, the server-side sibling of stax) | The enterprise release train: kill switches with audit trails, signed images, queue-managed merges at 1,000+ PRs/day. |
 | D | One Hetzner box + Coolify (~EUR 10/mo): deploys, per-branch previews, Postgres backups + GrowthBook self-hosted + Cloudflare free CDN and Tunnel | Gives up: a PaaS SLA and vendor support; the box needs a named owner, which is exactly the attention stack A refuses to spend. Vercel Hobby is not an option for a commercial team product. |
 
@@ -217,7 +217,7 @@ your stack, do not buy a single-stage competitor for a stage it already covers.
 
 | Product | Covers | In stacks |
 | --- | --- | --- |
-| GitHub (one $4 seat) | Specification, development, test, deliver, maintain | A, B, C |
+| GitHub (one $4 Team seat; $21 Enterprise in C) | Specification, development, test, deliver, maintain | A, B, C |
 | Claude Code + skill packs | All eight stages, on the machine | A, B, C |
 | PostHog | Research (surveys), test (feature-flagged rollout checks), deliver (flags, experiments), maintain (analytics, replay, errors) | A (free), B (paid) |
 | Figma subscription | Ideation (FigJam), design, specification (design specs) | B, C |
@@ -225,8 +225,8 @@ your stack, do not buy a single-stage competitor for a stage it already covers.
 | Better Stack | Maintain: uptime + status page + on-call + logs | B |
 | Supabase | Development, deliver, maintain (logs/advisors via MCP) | A, B |
 | Better-known single-purpose tools (Chromatic, Braintrust, QA Wolf, LaunchDarkly, Dovetail) | One stage each, deeply | C only, by design |
-| Sentry | Test (release health), deliver, maintain | A, B, C |
-| Coolify (on-prem lane) | Development (previews), deliver, maintain (one box runs the self-hosted set) | B on-prem |
+| Sentry | Test (release health), deliver, maintain | A, B, D (C uses Datadog) |
+| Coolify (on-prem lane) | Development (previews), deliver, maintain (one box runs the self-hosted set) | B on-prem, D |
 
 ---
 
@@ -234,7 +234,7 @@ your stack, do not buy a single-stage competitor for a stage it already covers.
 
 Approximate monthly, five people, list prices, annual billing where cheaper.
 
-### Stack A: least overhead (~$300-500/mo)
+### Stack A: least overhead (~$225-260/mo)
 
 GitHub Team $20 · Claude Code Team Standard $125 · Sentry $26 · Railway ~$20 ·
 Supabase Pro $25 · everything else free tiers (Figma Starter, FigJam, Tally,
@@ -245,12 +245,12 @@ and the day one is hit is the day you revisit.
 ### Stack B: best in class (~$900-1,500/mo)
 
 Stack A plus: Claude Code Premium seats for the two heaviest agent users
-(+$200-250) · Linear $50-80 · Notion Business $100 · Figma Pro ~$60 mixed
+(+$150-200 net of the Standard seats they replace) · Linear $50-80 · Notion Business $100 · Figma Pro ~$60 mixed
 seats · Blacksmith runners ~$50-150 usage · Qodana $30 · Trunk Flaky Tests ·
 GrowthBook Pro $200 · Better Stack ~$50-100 · PostHog paid usage · Chatwoot
 CE free · v0 $25 · Tally Pro $29 - and the five self-hosted freebies
 (Promptfoo, OpenGrep, Lighthouse CI, Kroki, OTel collector) on one ~$10 VPS or
-inside CI. Roughly a dozen vendors, every one per-seat or flat-fee, no meter an
+inside CI. Roughly a dozen vendors, nearly all per-seat or flat-fee; the metered exceptions to watch are Blacksmith runner minutes and PostHog usage, the two an
 agent can run away with.
 
 ### Stack C: cost no object ($5,000+/mo before QA Wolf; $13k+ with it)
@@ -289,9 +289,10 @@ What going this route gives up, in order of how much it hurts:
    person.
 
 The upgrade ladder out: GitHub Team ($20 total) first, Claude Team seats
-(central admin plus managed settings) second, Sentry Team ($26) third. That
-sequence converts D into A for about $250/mo, which is the argument that A,
-not D, is the real floor for a team that intends to stay one.
+(central admin plus managed settings) second, Sentry Team ($26) third, then
+Railway ~$20 and Supabase Pro $25. That sequence converts D into A at roughly
+$225-260/mo, which is the argument that A, not D, is the real floor for a team
+that intends to stay one.
 
 ---
 

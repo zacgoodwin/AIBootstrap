@@ -8,7 +8,7 @@ from the author's machine.
 Execution: agents run as subagents via the Agent tool with
 `subagent_type=<name>`, or by asking Claude to "use the `<name>` agent".
 
-Categories follow the machine-wide roster: Plan & Architecture, Code Review, Build/Test/QA,
+Categories follow the machine-wide roster: Plan & Architecture, Code Review, Build, Test & QA,
 Docs & Research, Agent Harness, Open-source Pipeline, Product & Review Panel,
 Business Personas, Domain Specialists. A pack that needs a category the
 taxonomy lacks adds one and says so at the top of its file.
@@ -55,7 +55,7 @@ Last refreshed 2026-08-24 against these commits:
 | affaan-m/ECC | d8409a4 (2026-08-19) | First verification against upstream. The earlier file documented only the 34 agents parked locally; upstream ships 73. |
 | TheBushidoCollective/han | 29a19d3 (2026-08-19) | Unchanged. |
 | open-gsd/gsd-core | 8442d98 (2026-08-24) | Roster unchanged at 35; `gsd-research-synthesizer` description updated. |
-| trailofbits/skills | 311a784 (2026-08-24) | 31 to 29. c-review dropped both judge agents when the plugin moved from class-partitioned to location-partitioned review. |
+| trailofbits/skills | 311a784 (2026-08-24) | 31 to 29 (docs/frameworks/TRAILOFBITS.MD updated to match). c-review dropped both judge agents when the plugin moved from class-partitioned to location-partitioned review. |
 | Code-My-Spec/plugins | 2b6a897 (2026-08-21) | Unchanged. |
 
 To redo the pass, check what moved, then diff only the movers:

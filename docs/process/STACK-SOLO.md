@@ -7,8 +7,9 @@ specification, design, development, test, deliver, maintain.
 Built on the four PROCESS reports: docs/process/PROCESS-SOLO.md supplies the
 constraints (you are every role, attention is scarcer than tokens, nothing
 forces you to write anything down, scope creep has no predator, QA goes first),
-docs/process/PROCESS.md the lifecycle, and docs/process/PROCESS-TEAM-SERVER.md the hosted-tool
-research and pricing. Prices are list prices from secondary sources as of
+docs/process/PROCESS.md the lifecycle, docs/process/PROCESS-TEAM.md what
+changes at the first hire, and docs/process/PROCESS-TEAM-SERVER.md the
+hosted-tool research and pricing. Prices are list prices from secondary sources as of
 August 2026.
 
 Two assumptions shape everything below:
@@ -151,7 +152,7 @@ Storybook in-repo when there are components worth cataloging.
 
 | Stack | Hosted pick | Why |
 | --- | --- | --- |
-| A | [Figma free Starter](https://www.usecarly.com/blog/figma-pricing/) | Free tier covers one person's file needs; the system lives in DESIGN.md, not the tool. The Figma MCP server is already wired into this harness. |
+| A | [Figma free Starter](https://www.usecarly.com/blog/figma-pricing/) | Free tier covers one person's file needs; the system lives in DESIGN.md, not the tool. The Figma MCP server installs from the claude-plugins-official marketplace (docs/SETUP.md step 5). |
 | B | Figma free + [v0](https://uibakery.io/blog/bolt-vs-lovable-vs-v0) $25/mo | v0 generates the cleanest production-ready React/shadcn UI of the AI builders; for a solo builder it is a design department that answers in sixty seconds. [Penpot](https://hedrick.io/post/penpot-vs-figma) self-hosted is the own-your-files lane and fits the box, but only if that ownership matters to you. |
 | C | Figma Professional $16 + v0 $25 + [Lovable](https://blog.tooljet.com/lovable-vs-bolt-vs-v0/) ~$25 | Lovable for full-app throwaways with backend and auth included - the fastest "is this product idea real" loop that exists. |
 | D | Figma Starter free + Excalidraw | Gives up: v0. Prototypes come from `/prototype` and `/taste-skill`, slower but free. |
@@ -171,7 +172,7 @@ actually running two sessions.
 
 | Stack | Hosted pick | Why |
 | --- | --- | --- |
-| A | **GitHub Free**: private repos, 2,000 Actions minutes, Dependabot, secret scanning on public repos | The multi-stage backbone at $0. 2,000 minutes covers a solo project's CI comfortably if the gate stays under two minutes - which docs/rules/TESTING.md already requires. |
+| A | **GitHub Free**: private repos, 2,000 Actions minutes, Dependabot, secret scanning on public repos | The multi-stage backbone at $0. 2,000 minutes covers a solo project's CI comfortably if the gate stays fast - docs/rules/TESTING.md requires under two seconds. |
 | B | GitHub Free or Pro $4 + [Supabase](https://layerbase.com/blog/neon-vs-supabase) free → Pro $25 (database + auth + storage + realtime + functions, MCP server already in this harness) or [Neon](https://designrevision.com/blog/supabase-vs-neon) free (scale-to-zero, ~100 free projects - the side-project database) | Supabase when the product uses the platform, Neon when databases sit idle. Multi-stage: Supabase spans development + deliver + maintain (logs and advisors queryable from the harness). |
 | C | GitHub Pro + Supabase Pro + [Blacksmith or Depot](https://tenki.cloud/blog/github-actions-runner-showdown-2026) runners (~$20-50 usage) + [Browserbase Developer](https://apiscout.dev/guides/browserbase-vs-steel-vs-hyperbrowser-browser-infrastructure-2026) $20 + [Amp](https://sourcegraph.com/pricing?product=codeIntelligence) or Copilot Pro $10 as a second agent | Faster CI, a cloud browser so `/qa` and `/canary` run in CI instead of on your laptop, and a second-vendor agent for the diversity `/z-adversarial-review` skeptic seats want. |
 | D | Claude Pro $17 + GitHub Free + [Neon free](https://designrevision.com/blog/supabase-vs-neon) (scale-to-zero, ~100 free projects; Supabase free pauses after 7 idle days) | The real cost of the whole stack sits here: Pro's usage limits cap the agent, and the agent is the staff. Also gives up branch protection on private repos (a paid GitHub feature): go public, pay GitHub Pro $4, or lean on pre-commit alone and accept that it is skippable. |
@@ -260,9 +261,10 @@ above names its local give-up; these are the three structural ones:
 
 The upgrade ladder out, in order: Max when Pro binds (~+$83-183) · GitHub Pro
 $4 or go public (the gate) · Railway $5 (a real backend) · a $10/yr domain ·
-Sentry stays free far longer than the rest. Spending the first three converts
-D into A, which is why A, not D, is this report's recommended floor: the $13-40
-difference buys back the three give-ups above.
+Sentry stays free far longer than the rest. Spending the GitHub Pro, Railway,
+and domain rungs converts D into A, which is why A, not D, is this report's
+recommended floor: the $13-40 difference buys back give-ups 2 and 3 above. Max
+is the separate agent-capacity purchase and lands you past A, not at it.
 
 ---
 
@@ -357,7 +359,7 @@ The list the stack is honest about. Each row: the gap, why, and the options.
 ~$1-5 · Pangolin/edge VPS ~$5 · electricity ~$1 · everything else $0 after
 ~$250-300 one-time hardware. Roughly **$210-230/month**, the cheapest of the
 Max-based stacks, with more raw capability than B and C combined and the ops
-load to match. Two-thirds of the budget is still the agent, which is still the correct
+load to match. Nearly the whole budget is the agent, which is still the correct
 shape.
 
 Build order: hardware + Coolify + Forgejo the first weekend; move the CI gates
@@ -375,10 +377,10 @@ each earns its keep.
 | GitHub Free/Pro | Specification, development, test, deliver, maintain | All |
 | The Hetzner + Coolify box | Research (SearXNG), specification (Kroki), deliver (Listmonk, deploy target), maintain (Umami, Uptime Kuma) | B, C |
 | Obsidian | Ideation, research, specification - and agent-readable context | All |
-| PostHog Cloud | Research (surveys), deliver (flags via experiments), maintain (analytics, replay, errors) | All (free tier) |
+| PostHog Cloud | Research (surveys), deliver (flags via experiments), maintain (analytics, replay, errors) | A, B, C, D (free tier); E self-hosts Umami + OpenReplay |
 | Supabase | Development, deliver, maintain | B, C |
 | v0 | Ideation, design | B, C |
-| Sentry | Test (release health), deliver, maintain | All |
+| Sentry | Test (release health), deliver, maintain | A, B, C, D (E swaps in GlitchTip) |
 | Better Stack | Maintain, four ways at once | C |
 | Kata | Specification, development | All |
 | Forgejo | Specification, development, test, deliver in one sub-100MB binary | E |
@@ -392,7 +394,7 @@ each earns its keep.
 
 Claude Code Pro $20 (or Max 5x $100 the month things get serious) · GitHub
 Free · Railway ~$10 · everything else $0: Obsidian, Excalidraw, Kata, Bruno,
-Devbox, Tally, Figma Starter, PostHog free, Sentry free, Supabase free, the
+Devbox, Tally, Figma Starter, PostHog free, Sentry free, the
 three free CI gates. One to three bills. The constraint is agent capacity:
 Pro's limits are the ceiling you will hit first, and the honest fix is the
 Max upgrade, not more tools.

@@ -1,6 +1,6 @@
 # zcaceres/skills
 
-Skills from https://github.com/zcaceres/skills sorted by the README's sections. Install: `npx skills add zcaceres/skills -s <name>`.
+Skills from https://github.com/zcaceres/skills sorted by the same sections as Z-TOP-SKILLS.md. Install: `npx skills add zcaceres/skills -s <name>`.
 
 # Product Process
 ## Starting Direction / Human Helper

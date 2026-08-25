@@ -6,7 +6,8 @@ ship inside skills. Upstream d8409a4 (2026-08-19) checked 2026-08-24. Skills
 for the same pack: docs/frameworks/ECC.md.
 
 **On disk** says whether the agent is already installed here: `library` means
-parked in .claude/agent-library/ (promote via `/skill-library`), `active` means
+parked in .claude/agent-library/ (promote by copying the file into
+.claude/agents/), `active` means
 live in .claude/agents/, `—` means upstream only. 34 of the 73 are installed;
 the missing 39 are mostly the per-language reviewer and build-resolver fleet.
 

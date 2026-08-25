@@ -1,6 +1,6 @@
 # Mindrally skills
 
-All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by the same sections as README.md. Upstream commit 05a7130 checked 2026-08-23.
+All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream commit 05a7130 checked 2026-08-23.
 
 # Product Process
 
@@ -18,7 +18,7 @@ All [Mindrally/skills](https://github.com/Mindrally/skills) skills, sorted by th
 
 # Development Process
 
-## Designer Implmentation
+## Designer Implementation
 
 | Execution | What it does |
 |---|---|

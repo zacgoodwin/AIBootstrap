@@ -1,8 +1,8 @@
 # Han skills
 
-All [TheBushidoCollective/han](https://github.com/TheBushidoCollective/han) skills, sorted by the same sections as README.md. Upstream 29a19d3 (2026-08-19) checked 2026-08-23.
+All [TheBushidoCollective/han](https://github.com/TheBushidoCollective/han) skills, sorted by the same sections as Z-TOP-SKILLS.md. Upstream 29a19d3 (2026-08-19) checked 2026-08-23.
 
-Han is a marketplace of 161 plugins across 10 categories (core, bushido, disciplines, frameworks, languages, patterns, services, specialized, tools, validation, bridges). Skill names repeat across plugins (e.g. jira/linear/clickup each ship `create`, `complete`, `validate`), so every row prefixes the owning plugin. 419 skills, 72 agents, 100 hook-bearing plugins.
+Han is a marketplace of 161 plugins across 11 categories (core, bushido, disciplines, frameworks, languages, patterns, services, specialized, tools, validation, bridges). Skill names repeat across plugins (e.g. jira/linear/clickup each ship `create`, `complete`, `validate`), so every row prefixes the owning plugin. 419 skills, 72 agents, 100 hook-bearing plugins.
 
 # Development Process
 
@@ -12,7 +12,7 @@ Han is a marketplace of 161 plugins across 10 categories (core, bushido, discipl
 | `/develop` | core: Guides end-to-end feature development through 8 phases: discover requirements |
 | `/plan` | core: Create tactical implementation plan for a feature or task |
 
-## Designer Implmentation
+## Designer Implementation
 | Execution | What it does |
 | --- | --- |
 | `/atomic-design-atoms` | atomic-design: Use when creating atomic-level UI components like buttons, inputs, labels, and icons. The smallest building blocks of a design system. |
