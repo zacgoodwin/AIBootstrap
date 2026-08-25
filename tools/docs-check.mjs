@@ -15,6 +15,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { extractPaths } from "./gate.mjs";
+import { verify } from "./verify-claims.mjs";
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 const rel = (p) => relative(ROOT, p).replace(/\\/g, "/");
@@ -140,6 +141,12 @@ function relink(tracked, raw, fromDir) {
 
 function checkLinks(files, tracked, findings) {
   for (const f of files) {
+    // git ls-files still lists a tracked file that has been deleted from the
+    // working tree. Reading it blind takes the whole checker down with an
+    // ENOENT, which is the worst possible failure for a watchdog: it reports
+    // nothing at exactly the moment the docs are mid-restructure. Skip it and
+    // let the dead references to it be the finding.
+    if (!existsSync(join(ROOT, f))) continue;
     const text = readFileSync(join(ROOT, f), "utf8");
     const foreign = FOREIGN_LAYOUT.test(f);
     for (const ref of extractPaths(text, dirname(join(ROOT, f)))) {
@@ -559,6 +566,19 @@ function selfTest() {
   assert(one[0].fix === null, "a prose finding is never auto-applied");
   assert(normalizeSemantic([{ file: "a", quote: "q", severity: "nonsense" }])[0].severity === "P3", "a bad severity degrades, it does not throw");
 
+  // A reviewer finding gets into the baseline only if its quote reproduces.
+  {
+    const real = { file: "tools/gate.mjs", quote: "Importing this module (tools/docs-check.mjs does) must not run a command.", problem: "p", severity: "P2" };
+    const invented = { file: "tools/gate.mjs", quote: "this sentence was never written in that file", problem: "p", severity: "P1" };
+    const ghost = { file: "docs/nope-missing.md", quote: "anything", problem: "p", severity: "P1" };
+    const { admitted, rejected } = admitSemantic([real, invented, ghost]);
+    assert(admitted.length === 1 && admitted[0].quote === real.quote, "only the reproducible quote is admitted");
+    assert(rejected.length === 2, "an invented quote and a missing file are both rejected");
+    assert(rejected.every((r) => r.why), "every rejection says why");
+    // The quote spans a line break in the source; flattening is what makes it match.
+    assert(admitSemantic([{ ...real, quote: "must not   run\na command." }]).admitted.length === 1, "a reflowed quote still reproduces");
+  }
+
   // The inventory measures; it never guesses.
   const dirs = countable(trackedFiles());
   assert(dirs.every((d) => Number.isInteger(d.n) && d.n > 0), "every countable dir measured a real number");
@@ -595,12 +615,42 @@ export function normalizeSemantic(raw) {
   });
 }
 
+/**
+ * A reviewer finding is an opinion until its quote reproduces. Everything the
+ * deterministic half emits was measured off the filesystem; a reviewer pass is
+ * the one input that is merely asserted, so it is the one input that gets
+ * checked. A finding whose file is gone or whose quote appears nowhere in it
+ * was not read, and it does not enter the baseline.
+ *
+ * Returns the survivors and names the rest, because a silent drop is how you
+ * end up trusting a reviewer that has quietly started making things up.
+ */
+export function admitSemantic(raw) {
+  const claims = raw.map((r, i) => ({
+    id: `review-${i + 1}`,
+    finding: r.problem,
+    file: r.file,
+    evidence: [
+      { type: "file_exists", path: r.file },
+      { type: "line_content", file: r.file, contains: r.quote ?? "", normalize: true },
+    ],
+    raw: r,
+  }));
+  const { verified, discarded } = verify({ claims });
+  return { admitted: verified.map((c) => c.raw), rejected: discarded.map((c) => ({ file: c.file, quote: c.raw?.quote, why: c.reason })) };
+}
+
 /** Merge a fresh scan and any reviewer findings into the tracked baseline. */
 function writeBaseline(semanticPath, today) {
   const prior = new Map(readBaseline().findings.map((f) => [f.id, f]));
   const scanned = scan();
   const incoming = [...scanned.findings];
-  if (semanticPath) incoming.push(...normalizeSemantic(JSON.parse(readFileSync(resolve(semanticPath), "utf8"))));
+  if (semanticPath) {
+    const { admitted, rejected } = admitSemantic(JSON.parse(readFileSync(resolve(semanticPath), "utf8")));
+    for (const r of rejected) console.error(`  rejected  ${r.file}  ${String(r.quote ?? "").slice(0, 60)}  -> ${r.why}`);
+    if (rejected.length) console.error(`docs-check --baseline: ${rejected.length} reviewer finding(s) failed verification and were not admitted`);
+    incoming.push(...normalizeSemantic(admitted));
+  }
   // Reviewer findings already in the baseline are kept even when this run had
   // no reviewer pass: CI runs the deterministic half only, and must not read
   // that absence as "resolved".
