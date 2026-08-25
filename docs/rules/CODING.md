@@ -43,10 +43,6 @@ order:
 Equally viable options: name the trade-off and ask the user (Confusion
 Protocol, docs/rules/WORKFLOW.md).
 
-Prefer dependencies that ship their own agent skills: a dep carrying SKILL.md
-teaches the agent its API for free (same token logic as code-intel plugins).
-Check new deps for a `skills/` dir.
-
 ## LLM access: local Claude Code, not the API
 
 - Software we build never calls a hosted LLM API (Anthropic, OpenAI, any

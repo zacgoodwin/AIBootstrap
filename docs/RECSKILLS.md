@@ -612,6 +612,27 @@ See Agents Readme
 
 
 
+# Built-in Claude Code
+
+Ships with the harness, no pack install needed. These power the same process
+stages as the packs above and were missing from the catalog.
+
+| Execution | Source (origin) | What it does |
+| --- | --- | --- |
+| `/code-review [low\|medium\|high\|xhigh\|max]` | Claude Code built-in | Reviews the current diff, a PR number, branch, or path for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. `--comment` posts inline PR comments, `--fix` applies the findings. |
+| `/code-review ultra` | Claude Code built-in | Multi-agent cloud review of the current branch, or a GitHub PR via `/code-review ultra <PR#>`. User-triggered and billed; `/ultrareview` is the deprecated alias. |
+| `/simplify` | Claude Code built-in | Reviews changed code for reuse, simplification, efficiency, and altitude cleanups, then applies the fixes. Quality only, no bug hunting. |
+| `/security-review` | Claude Code built-in | Security review of the pending changes on the current branch. |
+| `/loop` | Claude Code built-in | Run a prompt or slash command on a recurring interval, or let the model self-pace. |
+| `/schedule` | Claude Code built-in | Create, update, list, or run scheduled cloud agents (routines) on a cron schedule, including one-time runs. |
+| `/design` | Claude Code built-in | Design canvas: multi-artboard visual design published as an Artifact with click-to-select visual editing. |
+| `/dataviz` | Claude Code built-in | Chart and dashboard design system loaded before writing any chart code: form heuristics, color formula, mark specs, interaction rules. |
+| `/claude-api` | Claude Code built-in | Claude API reference: model ids, pricing, params, streaming, tool use, MCP, caching. Loads before any Anthropic-API work. |
+| `/init` | Claude Code built-in | Initialize a CLAUDE.md with codebase documentation. |
+| `/run` | Claude Code built-in | Launch and drive the project's app to confirm a change works in the real app, not just tests. |
+| `/fewer-permission-prompts` | Claude Code built-in | Scans transcripts for common read-only calls and adds a prioritized allowlist to project settings. |
+| `/update-config` | Claude Code built-in | Configures the harness via settings.json: hooks, permissions, env vars. |
+
 # Tools
 ## CLI Apps
 
@@ -647,6 +668,12 @@ See Agents Readme
 |  memU   |  Shared personal memory system across agents and sessions   |   https://github.com/NevaMind-AI/memU  |
 |  Vault   |  Centralized secrets management, encryption, and access control   |  https://github.com/hashicorp/vault   |
 |  LEANN   |  Smallest vector index for RAG with 97% storage savings   |  https://github.com/StarTrail-org/LEANN   |
+|  Codex CLI   |  OpenAI coding agent CLI; cross-vendor second opinions via /codex and adversarial skeptic seats   |  https://github.com/openai/codex   |
+|  Gemini CLI   |  Google coding agent CLI; another cross-vendor review seat   |  https://github.com/google-gemini/gemini-cli   |
+|  Antigravity (agy)   |  Google Antigravity agent CLI; cross-vendor skeptic seat for /z-adversarial-review   |  https://antigravity.google   |
+|  super-board   |  Autonomous GitHub-Projects build/QA/review loop for Claude Code: card to Ready, come back to merged   |  https://github.com/EricTechPro/super-board   |
+|  termly-cli   |  Encrypted mobile companion for Claude Code, Gemini CLI and OpenCode sessions   |  https://github.com/termly-dev/termly-cli   |
+|  Jules Action   |  Google's cloud coding agent as a GitHub Action; cross-vendor CI seat   |  https://github.com/google-labs-code/jules-action   |
 
 
 ## GUI / Web Apps 
@@ -678,6 +705,12 @@ See Agents Readme
 |  Maxun   |  Open-source no-code platform turning websites into structured data / APIs   |   https://github.com/getmaxun/maxun  |
 |  tirreno   |  Open-source event tracking, threat detection, and risk scoring framework   |   https://github.com/tirrenotechnologies/tirreno  |
 |  Storybook | Frontend workshop for building UI components and pages in isolation   |  https://storybook.js.org/  |
+|  Otari   |  Self-hosted OpenAI-compatible LLM gateway: virtual keys, budgets, 40+ providers   |  https://github.com/mozilla-ai/otari  |
+|  Kherad   |  Notion-like wiki backed by real git commits with merge-request review, plus AI agents   |  https://github.com/mohammadmaso/kherad  |
+|  Usertour   |  Open-source in-app onboarding: product tours, checklists, surveys   |  https://github.com/usertour/usertour  |
+|  ShipShipShip   |  Self-hostable changelog and roadmap page for publishing product updates   |  https://github.com/GauthierNelkinsky/ShipShipShip  |
+|  AcquireMock   |  Self-hosted mock payment gateway for testing e-commerce integrations   |  https://github.com/ashfromsky/acquiremock  |
+|  IronClaw   |  Security-first self-hosted AI agents with provable isolation; watch-list   |  https://github.com/IronSecCo/ironclaw  |
 
 
 
@@ -723,6 +756,9 @@ See Agents Readme
 |  Mindrally Skills   |  240+ Claude Code skills converted from Cursor rules for major frameworks   |   https://github.com/Mindrally/skills  |
 |  Codex Skills Alternative   |  Vendor-neutral Agent Skills reimplementing Codex creative/product design workflows   |   https://github.com/DKeken/codex-skills-alternative  |
 |  PM Claude Brief   |  CLAUDE.md templates and brief-writing discipline for product managers   |   https://github.com/MariaVimer/pm-claude-brief  |
+|  Ponytail   |  Lazy-senior-dev mode: YAGNI ladder, over-engineering review/audit, debt ledger   |  https://github.com/DietrichGebert/ponytail  |
+|  Caveman   |  Ultra-compressed output mode, ~65% fewer output tokens with full technical accuracy; pairs with Ponytail   |  https://github.com/JuliusBrussee/caveman  |
+|  cco (claude-context-optimizer)   |  Cache-aware context optimization: session overhead audit (/cco-overhead), auto .contextignore, delegation advisor   |  https://github.com/egorfedorov/claude-context-optimizer  |
 
 
 

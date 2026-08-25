@@ -45,23 +45,5 @@
         ]
       }
     ]
-  },
-  "enabledPlugins": {
-    "caveman@caveman": true,
-    "claude-context-optimizer@context-optimizer": true
-  },
-  "extraKnownMarketplaces": {
-    "caveman": {
-      "source": {
-        "source": "github",
-        "repo": "JuliusBrussee/caveman"
-      }
-    },
-    "context-optimizer": {
-      "source": {
-        "source": "github",
-        "repo": "egorfedorov/claude-context-optimizer"
-      }
-    }
   }
 }

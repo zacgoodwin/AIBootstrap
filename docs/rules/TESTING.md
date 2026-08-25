@@ -4,7 +4,8 @@
 
 - Every feature ships a test suite in the same commit, plus evals when latent
   behavior is involved. Every bug fix ships a test that would have caught it
-  (plus an eval when the bug was latent). Trivial one-liners need no test. Not
+  (plus an eval when the bug was latent). Trivial one-liners and doc-only
+  changes need no new test; every commit still passes the standing gate. Not
   in the diff means not done. "Later" is banned.
 - Tests written by the pass that wrote the code inherit its blind spots. The
   plan's `### Acceptance Criteria` is the independent yardstick review checks
