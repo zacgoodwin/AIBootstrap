@@ -4,7 +4,9 @@ A Claude Code starter kit: one developer's tuned setup, codified so you can
 pick it up and get the same experience in your own repo. It ships three
 things — a CLAUDE.md template backed by a rules pack, a first-run interview
 that installs the toolchain and fills in the blanks, and a researched catalog
-of the skill and agent packs worth installing.
+of the skill and agent packs worth installing. A fourth keeps the other three
+from rotting: everything vendored or catalogued here records where it came
+from, and one command says what has moved upstream since.
 
 Nothing here is machine-specific. Clone it, answer the setup questions, and
 the template becomes your project's.
@@ -86,8 +88,12 @@ there; the per-pack files are the full inventories behind it.
 | [PM Claude Brief](docs/frameworks/PM-CLAUDE-BRIEF.MD) | MariaVimer/pm-claude-brief | Brief-writing discipline for PMs: one skill and 12 CLAUDE.md templates |
 | [Oldhand](docs/frameworks/OLDHAND.MD) | berwinsingh/oldhand | Deliberately minimal: one portable skill |
 
-Most files record the upstream commit they were checked against, so you can
-tell how stale one is before trusting it.
+Each file records the upstream commit it was checked against, so you can tell
+how stale one is before trusting it, and
+[tools/sources.json](tools/sources.json) carries the same pin in a form a
+script can compare — see [Keeping it current](#keeping-it-current). Five files
+(ECC, Matt Pocock, rsc-harness, Ruflo, zcaceres) never recorded a commit and
+now say so outright rather than reading as freshly checked.
 
 Installing is uneven, because upstream is uneven. The marketplace table in
 [docs/SETUP.md](docs/SETUP.md) covers the packs distributed as Claude Code
@@ -111,8 +117,12 @@ personas, a seven-agent product review panel, and a TypeScript reviewer.
 `node tools/gate.mjs` runs in CI and as a pre-commit hook. It is
 deterministic, free, and finishes in under two seconds: every repo path
 referenced in the docs must resolve, `.claude/credentials.md` must stay
-gitignored, and the shipped hooks must pass their self-checks. Run
+gitignored, every vendored skill and pack catalog must carry its provenance,
+and the shipped hooks and tools must pass their self-checks. Run
 `node tools/gate.mjs --self-test` to check the gate itself.
+
+It never touches the network, which is why "what moved upstream" is a separate
+command rather than a gate test.
 
 The setup interview extends it with your project's own tests.
 
@@ -136,3 +146,7 @@ From there `/skills-update` is the judgment layer: read the diff, decide
 whether the change is wanted, `pull` a skill or re-run the catalog pass for a
 pack, then restamp. `pull` refuses to overwrite a working copy that was edited
 locally, so a local adaptation is never lost to an update.
+
+Nothing about this is automatic. `.github/workflows/upstream.yml` runs the
+check weekly and writes the table into the run summary — it reports, it does
+not fail the build and it does not update anything on its own.
