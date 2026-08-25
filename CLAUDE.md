@@ -55,6 +55,7 @@ docs/SETUP.md and complete it with the user before any other work.**
 | Strategy question | Read docs/STRATEGY.md; /office-hours, /plan-ceo-review |
 | Eng review | /plan-eng-review, /review |
 | Bugs / errors | /investigate |
+| Docs wrong or contradictory | /audit (every finding is verified before it reports) |
 | QA site behavior | /qa, /qa-only |
 | Ship a branch | /stack-ship (see Commands); /land-and-deploy for the deploy step |
 | Security | /cso |

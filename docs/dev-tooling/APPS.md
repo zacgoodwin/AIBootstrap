@@ -15,7 +15,6 @@
 |  SST   |  Quick full stack development  |   https://github.com/anomalyco/sst  |
 |  Kata   |  Local-first issue tracking for AI coding agents with CLI and TUI   |    https://github.com/kenn-io/kata |
 |  Git Credential Manager   |  Secure cross-platform Git credential storage and authentication   |   https://github.com/git-ecosystem/git-credential-manager  |
-|  Context   |  Local-first MCP documentation server for AI agents, instant and offline   |   https://github.com/neuledge/context  |
 |  AgentField   |  Build, run, and scale AI agents like APIs and microservices   |   https://github.com/Agent-Field/agentfield  |
 |  Token Saver   |  Content-aware CLI output compression cutting AI assistant tokens 60-99%   |  https://github.com/ppgranger/token-saver   |
 |  RTK   |  Rust CLI proxy cutting LLM token usage 60-90% on dev commands   |   https://github.com/rtk-ai/rtk  |
@@ -23,7 +22,6 @@
 |  Dify Docs   |  Official multilingual documentation source for Dify   |   https://github.com/langgenius/dify-docs  |
 |  LangChain   |  Agent engineering platform for building LLM apps   |    https://github.com/langchain-ai/langchain |
 |  Rivet Actors   |  Stateful compute primitive for AI agents and durable execution   |   https://github.com/rivet-dev/actors  |
-|  i-have-adhd   |  Skill preventing coding agents from burying the answer   |   https://github.com/ayghri/i-have-adhd  |
 |  Temporal   |  Durable execution platform for reliable, scalable applications   |   https://github.com/temporalio/temporal  |
 |  Create Context Graph   |  CLI scaffolding AI agent apps with graph-based reasoning memory   |  https://github.com/render-examples/create-context-graph   |
 |  oh-my-claudecode   |  Teams-first multi-agent orchestration layer for Claude Code   |  https://github.com/Yeachan-Heo/oh-my-claudecode   |

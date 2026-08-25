@@ -226,6 +226,7 @@ docs/dev-tooling/ instead.
 | `/figma-use` | anthropics/claude-plugins-official | you MUST invoke this skill BEFORE every `use_figma` tool call. NEVER call `use_figma` directly without loading this skill first. |
 | `/context-engineering:filesystem-context` | muratcankoylan/Agent-Skills-for-Context-Engineering | Use when agent work needs file-backed context: durable scratchpads, tool-output offloading, just-in-time discovery, cross-agent handoff files, filesystem memory, or cleanup policie |
 | `/context-engineering:latent-briefing` | muratcankoylan/Agent-Skills-for-Context-Engineering | Use when the user asks to "share memory between agents", "KV cache compaction for multi-agent", "orchestrator worker context", "latent briefing", "reduce worker tokens", "cross-age |
+| `/i-have-adhd` | ayghri/i-have-adhd | Reformats the agent's replies to ten rules that put the answer first: action-oriented, structured, minimal preamble. |
 
 # Scaffolding and Harness
 
