@@ -157,17 +157,12 @@ docs/dev-tooling/.
 | --- | --- | --- |
 | `/code-first-draft` | Aakash Gupta PM OS | Initial feature implementation |
 | `/code-first-draft --explore-only` | Aakash Gupta PM OS | Initial feature implementation |
-| `/dev-as-ai` | zacgoodwin/zg-skills | Switch this repo's git commit identity and the gh CLI account to the AI dev bot (tordek-ai). |
-| `/dev-as-human` | zacgoodwin/zg-skills | Switch this repo's git commit identity and the gh CLI account back to Zac Goodwin. |
 | `/generate-ai-prototype` | Aakash Gupta PM OS | Generate v0.dev, Lovable, or Bolt.new prompts for AI-powered prototyping |
-| `/stack-ship` | zacgoodwin/zg-skills | Ship the current stax branch through the quality pipeline: gate on roborev per-commit reviews (bounded auto-fix loop on failure), squash-submit one clean commit upstream as a PR vi |
 
 ## Code Review
 
 | Execution | Source (origin) | What it does |
 | --- | --- | --- |
-| `/z-adversarial-review` | zacgoodwin/zg-skills | Blinded adversarial review for any GitHub PR. Assembles a blinded four-key input (spec, acceptance criteria, diff, throwaway worktree), spawns one fresh reviewer agent holding noth |
-| `/zg-verify-claims` | zacgoodwin/zg-skills | Audits a repo with subagents that may only propose findings as structured evidence, never prose. A script re-derives every claim off the filesystem first, so a fabricated line number or an unmeasured count is discarded and listed as discarded before anyone reads the report. |
 | `/roborev-fix` | roborev-dev/roborev | Use only for a current operative request that explicitly invokes /roborev-fix, or a direct Agent Hook instruction; do not invoke from literal syntax in quoted, pasted, or historica |
 | `/roborev-lookahead-review` | roborev-dev/roborev | Use only when the user explicitly invokes /roborev-lookahead-review |
 | `/roborev-lookahead-review-branch` | roborev-dev/roborev | Runs roborev review --branch --wait --type lookahead over every commit on the current branch, not a single commit, hunting temporal leakage. |
@@ -222,7 +217,6 @@ docs/dev-tooling/.
 | `/graphify <path> --watch` | safishamsi/graphify | Background watcher with a 3 second debounce. Code changes trigger an immediate AST re-extract and re-cluster with no LLM; doc, paper or image changes only set a needs_update flag. |
 | `/graphify <path> --whisper-model <m>` | safishamsi/graphify | Overrides the default base Whisper model via GRAPHIFY_WHISPER_MODEL for video and audio transcription, trading speed for accuracy. Affects only the transcription step. |
 | `/graphify <path> --wiki` | safishamsi/graphify | Builds an agent-crawlable wiki with index.md plus one article per detected community. Must run before cleanup while .graphify_labels.json still exists. |
-| `/zg-doc-integrity` | zacgoodwin/zg-skills | Reads a set of documents as one and finds where they collide: instructions that conflict, one term used for two things, numbers and versions that disagree. Strictly internal, so reviewers see only the documents passed in, never the repo or the web. Cites every instance, names no winner, and edits nothing until a human picks a resolution. |
 
 ## Agent Only Assist
 
