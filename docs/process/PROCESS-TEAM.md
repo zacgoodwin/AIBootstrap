@@ -281,6 +281,7 @@ question.
 | Tool | From | Role |
 | --- | --- | --- |
 | Graphify | tool | One queryable knowledge graph of the codebase, committed or shared. `graphify query "<question>"` before raw grep; `graphify update .` after changes. One graph per repo, not one per developer. |
+| Potpie | tool | Derived graph one step wider than Graphify: code, PRs, source history, tracker, and wiki in one queryable context, with a local daemon that runs inference through your existing harness rather than its own API key. Its integrations are GitHub, Linear, Jira, and Confluence, which is most of this layer's surface on a team. Trial before adopting, and settle one thing first: its docs do not say whether a "pot" can be shared, and a graph per developer defeats the one shared graph the Graphify row above requires. |
 | `/setup-gbrain` + `/sync-gbrain` | gstack | Code-index memory with per-remote trust policy. `--audit` shows which pages exist per project, which matters when several people write to the same brain. |
 | Tela | tool | Self-hostable markdown team wiki with a built-in MCP server, so agents read and write the same wiki humans do. Outline is the alternative when the wiki is for humans first; it ships no MCP server, so agents reach it only through whatever integration you build. |
 | Kherad | tool | Notion-like wiki for non-technical teams backed by real git commits with merge-request review, plus AI agents. The only wiki option that also satisfies "canon lives in the repo": wiki changes pass the same gate as code. Young project; trial before adopting. |

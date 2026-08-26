@@ -786,6 +786,7 @@ shelf until a real need shows up.
 | Phoenix (Arize) | The product itself ships LLM features | Tracing, evaluation, and troubleshooting for LLM calls; the observability half of the evals rule. |
 | Vault | Secrets shared beyond one machine | Centralized secrets management; until then `.env` + gitleaks scanning covers it. |
 | Tela | A second person needs the project knowledge | Self-hosted markdown team wiki with a built-in MCP server, so agents read and write the same wiki humans do. Outline is the humans-first alternative without agent access. |
+| Potpie | Project context is split across GitHub, a tracker, and a wiki, and Graphify's code-only graph stops answering | Derived graph spanning code, PRs, source history, tracker, and wiki, with a local daemon that runs inference through your existing harness rather than its own API key. The one tool that argues against Graphify rather than duplicating it; see PROCESS-TEAM.md Layer 5 for the shared-graph question to settle first. |
 | React Doctor | React repo | Deterministic scanner that catches bad React patterns agents write; slots into the slop-cleanup cadence next to `/clean-ai-slop`. |
 | AgentsView | Weekly retros start asking "what did the agents actually do" | Local session search, analytics, and token stats; evidence for `/retro`. |
 | OpenCode / Crush | Adversarial review wants more vendor seats than Codex, Gemini, and Antigravity (agy) already provide | Additional agent CLIs for `/z-adversarial-review` skeptic seats; the three named CLIs are the assumed baseline. |
@@ -802,15 +803,27 @@ shelf until a real need shows up.
   oh-my-claudecode, FirstMate, LobeHub, Paperclip, Sim): native subagents,
   teams, and Workflow scripts already cover the orchestration this process
   needs. Revisit only if orchestration outgrows one machine.
-- **Memory layers** (brain.md, memU, Docbank): native file-based memory plus
-  gbrain and Graphify already hold project knowledge; a third memory system
-  adds sync problems, not recall.
-- **CodeGraph, Create Context Graph**: overlap Graphify; one graph is enough.
+- **Memory layers** (brain.md, memU, Docbank, contexton-ai-oss): native
+  file-based memory plus gbrain and Graphify already hold project knowledge; a
+  third memory system adds sync problems, not recall. contexton-ai-oss is held
+  on adoption rather than on idea: docs/rules/CODING.md ranks candidates by
+  stars, commit recency, issue responsiveness, and real user feedback, and at
+  0 stars and 8 commits it has none of them yet, whatever the merits of scoring
+  how much you trust a stored fact.
+- **CodeGraph, Create Context Graph, Context+**: overlap Graphify; one graph is
+  enough. Context+ is the closest runner-up and lost on a stated trade: it wants
+  an embedding backend per developer, where Graphify parses locally with
+  tree-sitter and explains every edge. Revisit if fuzzy semantic recall on a very
+  large repo starts beating explainable edges.
 - **Token Saver**: overlaps RTK; add only if RTK measurably misses cases
   (`rtk gain` will show it).
-- **LLM infra** (LangChain, AgentField, Wyolet Relay, Unsloth, LEANN): only
-  relevant when building LLM products, and the LLM-access rule routes product
-  inference through local Claude Code, which removes most of what these solve.
+- **LLM infra** (LangChain, AgentField, Wyolet Relay, Unsloth, LEANN,
+  Graphiti): only relevant when building LLM products, and the LLM-access rule
+  routes product inference through local Claude Code, which removes most of what
+  these solve. Graphiti is the pick among them if a product ever needs agent
+  memory where facts expire rather than accumulate; it is the best-adopted
+  of the graph options and still costs a graph database plus an LLM call per
+  ingest, so it is a product dependency, not team tooling.
 - **SystemPrompt Template, tirreno, Conductor, Ideon, Karpathy LLM Wiki,
   Dify Docs, Apohara Context Forge, Plasmic, Claude Code for PMM**: niche or
   curiosity-shelf; nothing in the process depends on them.

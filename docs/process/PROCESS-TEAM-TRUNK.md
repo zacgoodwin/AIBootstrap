@@ -420,6 +420,7 @@ top of the graph and the canon adds sync problems, not recall.
 | Tool | From | Role |
 | --- | --- | --- |
 | Graphify | tool | One queryable knowledge graph of the codebase, shared. `graphify query "<question>"` before raw grep; `graphify update .` after changes. Run with `--mcp` so agents query the graph as a tool and two people's graphs cannot disagree. |
+| Potpie | tool | Derived graph one step wider than Graphify: code, PRs, source history, tracker, and wiki in one queryable context, with a local daemon that runs inference through your existing harness rather than its own API key. Its integrations are GitHub, Linear, Jira, and Confluence, which is most of this layer's surface on a team. Trial before adopting, and settle one thing first: its docs do not say whether a "pot" can be shared, and a graph per developer defeats the one shared graph the Graphify row above requires. |
 | `/setup-gbrain` + `/sync-gbrain` | gstack | Code-index memory with per-remote trust policy. `--audit` shows which pages exist per project. |
 | Sourcebot or Sourcegraph | tool | Multi-repo code search. Graphify is the single-repo answer; this is the "who calls this API across twenty repos" answer. Sourcebot is Zoekt-backed with a built-in MCP server. |
 | Tela, Docmost, Notion | tool | The wiki. The property that matters is an MCP server, not the editor. Outline is humans-first and ships none, so agents reach it only through an integration you build. |

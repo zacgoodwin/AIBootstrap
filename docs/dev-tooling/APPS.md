@@ -38,6 +38,9 @@
 |  termly-cli   |  Encrypted mobile companion for Claude Code, Gemini CLI and OpenCode sessions   |  https://github.com/termly-dev/termly-cli   |
 |  Jules Action   |  Google's cloud coding agent as a GitHub Action; cross-vendor CI seat   |  https://github.com/google-labs-code/jules-action   |
 | Headroom | Compress tool outputs, logs, files, and RAG chunks before they reach the LLM | https://github.com/headroomlabs-ai/headroom |
+|  Potpie   |  Context graph over code, PRs, history, tracker, and wiki; local daemon, runs on your existing harness. Team trigger, see PROCESS-TEAM.md Layer 5   |  https://github.com/potpie-ai/potpie   |
+|  Graphiti   |  Temporal knowledge graph for agent memory, facts expire instead of accumulating. Product dependency, not team tooling; held with the LLM infra shelf   |  https://github.com/getzep/graphiti   |
+|  contexton-ai-oss   |  Knowledge graph engine scoring confidence per fact and learning from failures. Held: novel idea, no adoption yet; revisit if it gains traction   |  https://github.com/uma-dv/contexton-ai-oss   |
 
 
 ## GUI / Web Apps 
