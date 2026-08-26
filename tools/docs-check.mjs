@@ -578,6 +578,36 @@ function selfTest() {
     assert(rejected.every((r) => r.why), "every rejection says why");
     // The quote spans a line break in the source; flattening is what makes it match.
     assert(admitSemantic([{ ...real, quote: "must not   run\na command." }]).admitted.length === 1, "a reflowed quote still reproduces");
+
+    // A rejection carries the id it would have had, which is the only way the
+    // caller can tell a repaired finding from an invented one.
+    assert(rejected.every((r) => r.id), "every rejection carries an id");
+    assert(rejected.find((r) => r.quote === invented.quote).id === normalizeSemantic([invented])[0].id, "the rejected id matches the one normalizeSemantic would assign");
+    // Same finding, reflowed: the id must not move, or a repair looks new.
+    assert(reviewId(real) === reviewId({ ...real, quote: "Importing this module  (tools/docs-check.mjs does)\nmust not run a command." }), "a reflowed quote keeps its id");
+  }
+
+  // A finding the baseline knew about, whose quote no longer reproduces, is a
+  // repair: it stays as `fixed` so the id is not reissued. One the baseline
+  // never had is a fabrication: it is dropped, not recorded as repaired.
+  {
+    const gone = { file: "tools/gate.mjs", quote: "a line that used to be here but is not now", problem: "p", severity: "P2" };
+    const priorRow = { ...normalizeSemantic([gone])[0], first_seen: "2026-01-01", status: "open" };
+    const prior = new Map([[priorRow.id, priorRow]]);
+    const { rejected } = admitSemantic([gone]);
+    assert(rejected.length === 1, "the vanished quote is rejected");
+    assert(prior.has(rejected[0].id), "a rejected finding the baseline knew about is found by its id");
+
+    // The merge must let an explicit status win, or `fixed` is reset to `open`.
+    const incoming = [{ ...prior.get(rejected[0].id), status: "fixed" }];
+    const merged = new Map();
+    for (const f of incoming) {
+      const was = prior.get(f.id);
+      merged.set(f.id, { ...f, first_seen: was?.first_seen ?? "today", status: f.status ?? was?.status ?? "open" });
+    }
+    const row = merged.get(rejected[0].id);
+    assert(row.status === "fixed", "an explicit status survives the merge");
+    assert(row.first_seen === "2026-01-01", "first_seen is preserved across the repair");
   }
 
   // The inventory measures; it never guesses.
@@ -598,11 +628,20 @@ const readBaseline = () => (existsSync(join(ROOT, BASELINE)) ? JSON.parse(readFi
  * text sits. Prose moves constantly; the id has to survive a reflow or the
  * baseline reports every rewrap as a brand-new problem.
  */
+const reviewQuote = (r) => String(r.quote ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+
+/**
+ * The id a reviewer finding gets. Shared with admitSemantic on purpose: it has
+ * to look a rejected finding up in the baseline by the same key that put it
+ * there, and two copies of this arithmetic would drift into a silent miss.
+ */
+const reviewId = (r) => idFor("review", `${r.file}|${reviewQuote(r).toLowerCase()}`);
+
 export function normalizeSemantic(raw) {
   return raw.map((r) => {
-    const quote = String(r.quote ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+    const quote = reviewQuote(r);
     return {
-      id: idFor("review", `${r.file}|${quote.toLowerCase()}`),
+      id: reviewId(r),
       check: "review",
       class: r.class === "MECHANICAL" ? "MECHANICAL" : "SEMANTIC",
       severity: /^P[123]$/.test(r.severity) ? r.severity : "P3",
@@ -638,7 +677,13 @@ export function admitSemantic(raw) {
     raw: r,
   }));
   const { verified, discarded } = verify({ claims });
-  return { admitted: verified.map((c) => c.raw), rejected: discarded.map((c) => ({ file: c.file, quote: c.raw?.quote, why: c.reason })) };
+  return {
+    admitted: verified.map((c) => c.raw),
+    // The id travels with a rejection so the caller can tell the two kinds
+    // apart: a finding the baseline already knew about, versus one an agent
+    // just invented.
+    rejected: discarded.map((c) => ({ id: reviewId(c.raw ?? {}), file: c.file, quote: c.raw?.quote, why: c.reason })),
+  };
 }
 
 /** Merge a fresh scan and any reviewer findings into the tracked baseline. */
@@ -648,9 +693,30 @@ function writeBaseline(semanticPath, today) {
   const incoming = [...scanned.findings];
   if (semanticPath) {
     const { admitted, rejected } = admitSemantic(JSON.parse(readFileSync(resolve(semanticPath), "utf8")));
-    for (const r of rejected) console.error(`  rejected  ${r.file}  ${String(r.quote ?? "").slice(0, 60)}  -> ${r.why}`);
-    if (rejected.length) console.error(`docs-check --baseline: ${rejected.length} reviewer finding(s) failed verification and were not admitted`);
     incoming.push(...normalizeSemantic(admitted));
+    // A rejection means the quote no longer reproduces, and that has two very
+    // different causes. If the baseline already carried this id, the text it
+    // quoted was there once and is not now, which is what a repair looks like:
+    // keep it as `fixed` so the id is never reissued and a later run cannot
+    // report the same thing as brand new. If the baseline never had it, the
+    // reviewer invented it; name it and drop it, because recording a
+    // fabrication as "repaired" would put a lie in the permanent record.
+    let repaired = 0;
+    let invented = 0;
+    for (const r of rejected) {
+      const was = prior.get(r.id);
+      if (was) {
+        repaired++;
+        console.error(`  fixed     ${r.file}  ${String(r.quote ?? "").slice(0, 60)}  -> no longer reproduces; kept as fixed`);
+        incoming.push({ ...was, status: "fixed" });
+      } else {
+        invented++;
+        console.error(`  rejected  ${r.file}  ${String(r.quote ?? "").slice(0, 60)}  -> ${r.why}`);
+      }
+    }
+    if (rejected.length) {
+      console.error(`docs-check --baseline: ${repaired} finding(s) marked fixed, ${invented} unverifiable finding(s) dropped`);
+    }
   }
   // Reviewer findings already in the baseline are kept even when this run had
   // no reviewer pass: CI runs the deterministic half only, and must not read
@@ -660,7 +726,10 @@ function writeBaseline(semanticPath, today) {
   const merged = new Map();
   for (const f of incoming) {
     const was = prior.get(f.id);
-    merged.set(f.id, { ...f, first_seen: was?.first_seen ?? today, status: was?.status ?? "open", ...(was?.note ? { note: was.note } : {}) });
+    // An explicit status on the incoming finding wins: it is this run saying
+    // something changed. Without that precedence a finding marked fixed above
+    // would be silently reset to whatever the baseline last said.
+    merged.set(f.id, { ...f, first_seen: was?.first_seen ?? today, status: f.status ?? was?.status ?? "open", ...(was?.note ? { note: was.note } : {}) });
   }
   const findings = [...merged.values()].sort((a, b) => a.severity.localeCompare(b.severity) || a.file.localeCompare(b.file) || a.line - b.line);
   const out = {
