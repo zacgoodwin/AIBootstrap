@@ -103,6 +103,16 @@ individual skills, never about the packs that carry them.
 | [PM Claude Brief](docs/frameworks/PM-CLAUDE-BRIEF.MD) | MariaVimer/pm-claude-brief | Brief-writing discipline for PMs: one skill and 12 CLAUDE.md templates |
 | [Oldhand](docs/frameworks/OLDHAND.MD) | berwinsingh/oldhand | Deliberately minimal: one portable skill |
 
+Not every skill comes from a pack.
+[NON-PACK-SKILLS.md](docs/frameworks/NON-PACK-SKILLS.md) carries the rest.
+Where each pack file above has a single upstream, this one draws from many that
+ship no pack file of their own: Aakash Gupta's PM OS, graphify, the
+context-engineering set, Anthropic's own plugins, roborev, ponytail, Claude
+Code's built-ins, and [zg-skills](https://github.com/zacgoodwin/zg-skills),
+this repo author's, whose `/zg-doc-integrity` reads a set of documents against
+each other and `/zg-verify-claims` audits a repo with findings that must
+reproduce off the filesystem before they reach a report.
+
 Each file records the upstream commit it was checked against, so you can tell
 how stale one is before trusting it, and
 [tools/sources.json](tools/sources.json) carries the same pin in a form a
