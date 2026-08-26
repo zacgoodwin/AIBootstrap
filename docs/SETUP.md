@@ -36,6 +36,13 @@ marked.
   filter-test-output hook. Then copy docs/rules/WINDOWS.md's rules into
   CLAUDE.md as a `## Windows` section, demoting its `##` headings to
   `###`.
+- **Global only:** copy .claude/hooks/filter-test-output.mjs to
+  `~/.claude/hooks/` and register it in `~/.claude/settings.json` with an
+  absolute path (there is no `$CLAUDE_PROJECT_DIR` outside a project). Keep
+  its `TEST_RUNNERS` list broad — one global hook serves every repo, so this
+  is the one place the paths diverge: Repo narrows the regex to the
+  project's gate command at step 7, Global never does. Verify with
+  `node ~/.claude/hooks/filter-test-output.mjs --check`.
 - **Language** (ask only if step 2 didn't infer it) → record in
   docs/architecture/STACK.MD with exact versions ("Next.js 15 App
   Router", not "Next.js").
@@ -110,6 +117,25 @@ execute; generate a /wizard for the human-only steps.
 
 ## 7. Rewrite the choice-dependent rules
 
+**Which files you edit depends on step 1.** Repo: this clone's docs/rules/,
+in place. Global: copy docs/rules/*.md to `~/.claude/rules/` first and apply
+every rewrite below to the COPIES, so the template this clone ships stays
+unfilled for the next person. Skip SERVICES.md when copying — it describes a
+repo's service layout and means nothing machine-wide. Point the global
+CLAUDE.md's rules table at `~/.claude/rules/`.
+
+Then repoint every reference inside the copies, or the global install ships
+dangling paths: `grep -rn 'docs/rules/' ~/.claude/rules/` should leave only
+deliberate references to a PROJECT's own files. Rewrite intra-pack links to
+`~/.claude/rules/`; reword the SERVICES.md mentions in CODING.md and
+TESTING.md to name the project's copy, since you did not copy it; and point
+SAFETY.md's WINDOWS.md reference at the `## Windows` section you inlined at
+step 3. In the global CLAUDE.md's own rules table, drop the
+`Service layout and contracts -> docs/rules/SERVICES.md` row for the same
+reason and say instead that service rules are per project, read from that
+repo's own copy. tools/gate.mjs cannot catch any of this — it validates this
+clone, not `~/.claude/`.
+
 With the answers in hand, fill every choice point:
 
 - docs/rules/WORKFLOW.md `## Tickets` — the chosen tracker and template
@@ -125,6 +151,13 @@ With the answers in hand, fill every choice point:
   Projects default, rewrite the field lookup for another tracker, or
   delete the section when there is no tracker. Tune the model table's
   defaults to the chosen stack tier and subscription.
+- **Repo only:** .claude/hooks/filter-test-output.mjs — narrow `TEST_RUNNERS`
+  to this project's actual gate command and set `SELF_CHECK` to a command the
+  new regex matches, then narrow the `--check` runner loop to match. Global
+  skips this: its copy stays broad (step 3). Whatever you narrow to, keep the
+  runner's failure output matching `FAILURE_PATTERN` — a runner the filter
+  matches but whose failures it cannot surface reports a red suite as a clean
+  one. Re-run `node .claude/hooks/filter-test-output.mjs --check`.
 - **Repo only:** docs/rules/CODING.md `## Project conventions` — from the
   language / repo analysis.
 - **Repo only:** CLAUDE.md `## Commands` — project test and eval commands.

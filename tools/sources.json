@@ -333,6 +333,20 @@
       },
       "pinned": null,
       "checked": null
+    },
+    {
+      "id": "zg-skills",
+      "kind": "pack",
+      "doc": "docs/frameworks/ZG-SKILLS.MD",
+      "upstream": {
+        "type": "git",
+        "repo": "https://github.com/zacgoodwin/zg-skills"
+      },
+      "pinned": {
+        "commit": "723216b",
+        "date": "2026-08-25"
+      },
+      "checked": "2026-08-25"
     }
   ]
 }

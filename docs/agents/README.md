@@ -45,6 +45,7 @@ Listed here rather than given an empty file.
 | Mindrally/skills | Skills only (240+ converted Cursor rules). |
 | DKeken/codex-skills-alternative | Explicitly none: 19 skills, no agents or hooks. |
 | MariaVimer/pm-claude-brief | Explicitly none: 1 skill plus 12 CLAUDE.md brief templates. |
+| zacgoodwin/zg-skills | Explicitly none: 6 skills, 0 agents, 0 hooks. Its adversarial reviewer and skeptics are spawned per run, not shipped as definitions. |
 
 ## Refreshing this directory
 
