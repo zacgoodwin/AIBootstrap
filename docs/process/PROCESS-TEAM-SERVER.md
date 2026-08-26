@@ -710,6 +710,7 @@ the disciplined form of the no-second-memory-system rule under Context Setting.
 | --- | --- | --- | --- |
 | A wiki agents read and write | Tela (built-in MCP server) | Notion with its MCP server | Either. The property that matters is an MCP server, not the editor. Outline is humans-first and ships none, so agents reach it only through an integration you build. |
 | A wiki that reviews as PRs | [Kherad](https://github.com/mohammadmaso/kherad) | — | Notion-like editing backed by real git commits with merge-request review, so wiki changes pass the same gate as code. Young project; trial before adopting. |
+| A context graph where nothing may leave the network | [TrustGraph](https://github.com/trustgraph-ai/trustgraph) | — | The derived-context answer for the air-gap and no-third-party constraints above, and the only one: it runs inference on vLLM, TGI, Ollama, or LM Studio, so no code and no prompt leaves. Read the coverage matrix before you buy it, though. Cassandra, Qdrant, Pulsar, and object storage is four services covering one store, the worst services-per-store ratio on this page. Justified by a contract, not by preference. |
 | Which tools agents may reach | MCPJungle | MintMCP, Obot | See Agent Safety. |
 
 ---

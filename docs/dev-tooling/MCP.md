@@ -6,3 +6,4 @@
 |  markdownify-mcp   |  MCP server for converting almost anything to Markdown   |   https://github.com/zcaceres/markdownify-mcp  |
 |  GitMCP   |  Free remote MCP server exposing any GitHub project to stop code hallucinations   |   https://github.com/idosal/git-mcp  |
 |  Context   |  Local-first MCP documentation server for AI agents, instant and offline   |   https://github.com/neuledge/context  |
+|  Context+   |  MCP codebase graph: tree-sitter AST plus RAG and spectral clustering; needs an embedding backend. Runner-up to Graphify, held in PROCESS.md   |   https://github.com/forloopcodes/contextplus  |
