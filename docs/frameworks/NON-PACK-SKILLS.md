@@ -4,8 +4,12 @@ Skills that no per-pack inventory in docs/frameworks/ carries: either their
 source has no pack file of its own, or the pack file for that source does not
 list them. Same sections and format as the pack files, so between them every
 skill in the catalog appears exactly once; the Source column names the origin.
-Apps, frameworks, and MCP servers are not skills and are catalogued in
-docs/dev-tooling/ instead.
+
+That once-only rule covers individual skills. It does not cover the packs that
+carry them: a framework pack is installed as a unit, so it is listed on the
+tools shelf in docs/dev-tooling/ as well as here, on purpose. Things that are
+never skills, such as CLI apps and MCP servers, live only in
+docs/dev-tooling/.
 
 # Product Process
 

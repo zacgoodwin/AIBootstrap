@@ -34,7 +34,7 @@ start normally.
 | [docs/SETUP.md](docs/SETUP.md) | The first-run interview |
 | [docs/process/](docs/process/) | Lifecycle and tool-stack research: solo vs team, stacked PRs vs trunk, laptop vs server, five costed solo stacks and four team ones |
 | [docs/frameworks/](docs/frameworks/) | The skill catalog: one file per upstream pack, plus the skills no pack file carries |
-| [docs/dev-tooling/](docs/dev-tooling/) | The tools shelf: CLI apps, frameworks, MCP servers, language-specific helpers |
+| [docs/dev-tooling/](docs/dev-tooling/) | The tools shelf: things you install, including CLI apps, MCP servers, language helpers, and the framework packs whose skills are catalogued above |
 | [docs/agents/](docs/agents/) | Subagent rosters, per pack and deduplicated |
 | [docs/architecture/](docs/architecture/), [docs/DESIGN.md](docs/DESIGN.md), [docs/STRATEGY.md](docs/STRATEGY.md) | Project docs the setup interview fills in |
 | [.claude/](.claude/) | Shipped agents, skills, hooks, and settings, plus [agent-library/](.claude/agent-library/): 33 more agents parked, not loaded |
@@ -68,10 +68,18 @@ upstream pack, each organized by workflow stage: Product Process, Development
 Process, Code Architecture, Dev Tooling, Scaffolding and Harness, and Built-in
 Claude Code. Skills whose source has no pack file, or that their pack file
 does not list, live in
-[NON-PACK-SKILLS.md](docs/frameworks/NON-PACK-SKILLS.md). Every skill appears
-in exactly one file, with no duplication between them. Tools that are not
-skills — CLI apps, frameworks, MCP servers — are catalogued separately in
-[docs/dev-tooling/](docs/dev-tooling/).
+[NON-PACK-SKILLS.md](docs/frameworks/NON-PACK-SKILLS.md). Every **individual
+skill** appears in exactly one file here, with no duplication between them.
+
+[docs/dev-tooling/](docs/dev-tooling/) is the other shelf: CLI apps, MCP
+servers, language helpers, and framework packs, catalogued as things you
+install rather than as skills you invoke.
+
+A framework pack is a group of skills installed as a unit, so it is listed in
+both places on purpose: on the tools shelf as the thing you install, and in
+[docs/frameworks/](docs/frameworks/) as the skills it brings. That is not
+duplication, and it is not a defect to report. The one-file rule is about
+individual skills, never about the packs that carry them.
 
 | Pack | Upstream | What it is |
 |---|---|---|

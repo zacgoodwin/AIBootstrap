@@ -1,5 +1,10 @@
 ## Frameworks
 
+Packs you install as a unit. Several of these also appear in docs/frameworks/,
+which lists the individual skills each one brings; that is the same pack seen
+from the other side, not a duplicate entry. The once-only rule in
+docs/frameworks/NON-PACK-SKILLS.md is about individual skills.
+
 | Name | Purpose | URL |
 | --- | --- | --- |
 |  Oldhand   |  Ticket Based Development Workflow   |  https://berwinsingh.github.io/oldhand/#top   |
