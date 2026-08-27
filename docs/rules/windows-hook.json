@@ -4,7 +4,7 @@
       "matcher": "Bash",
       "hooks": [{
         "type": "command",
-        "command": "powershell -c \"$i = $env:CLAUDE_TOOL_INPUT; if ($i -match '<<\\s*[A-Z]') { Write-Error 'Heredoc blocked - use the Write tool'; exit 2 }\""
+        "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/heredoc-guard.mjs\""
       }]
     }]
   }
