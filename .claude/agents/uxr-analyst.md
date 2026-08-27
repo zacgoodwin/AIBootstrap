@@ -1,6 +1,9 @@
 ---
 name: uxr-analyst
-description: Audit the research behind a feature: evidence, segmentation, validation gaps, what to test before build. Use for "what research backs this", "validation gaps", "do we have evidence", "research plan".
+description: >-
+  Audit the research behind a feature: evidence, segmentation, validation
+  gaps, what to test before build. Use for "what research backs this",
+  "validation gaps", "do we have evidence", "research plan".
 tools: Read, Grep, Glob, WebSearch, WebFetch
 model: sonnet
 ---
