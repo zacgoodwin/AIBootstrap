@@ -1,6 +1,9 @@
 ---
 name: skeptic
-description: Devil's advocate on a proposal: problem validity, alternatives, failure modes, opportunity cost, scope creep. Use for "stress-test this", "poke holes", "why not", "challenge this plan".
+description: >-
+  Devil's advocate on a proposal: problem validity, alternatives, failure
+  modes, opportunity cost, scope creep. Use for "stress-test this", "poke
+  holes", "why not", "challenge this plan".
 tools: Read, Grep, Glob
 model: sonnet
 ---
