@@ -164,6 +164,14 @@ function run() {
     console.error("gate: hook self-check failed");
     process.exit(1);
   }
+  // Checks the template this kit ships, not the machine's settings.json: the
+  // gate has to be hermetic. Adopters check their own merged copy by running
+  // the script with no path argument.
+  const guard = spawnSync(process.execPath, [join(ROOT, ".claude/hooks/heredoc-guard-check.mjs"), "--check", join(ROOT, "docs/rules/windows-hook.json")], { stdio: "inherit" });
+  if (guard.status !== 0) {
+    console.error("gate: heredoc-guard self-check failed");
+    process.exit(1);
+  }
   const updater = spawnSync(process.execPath, [join(ROOT, "tools/skills-update.mjs"), "--self-test"], { stdio: "inherit" });
   if (updater.status !== 0) {
     console.error("gate: skills-update self-test failed");

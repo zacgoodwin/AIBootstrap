@@ -35,7 +35,14 @@ marked.
   never replace the file, or you lose its `permissions` block and the
   filter-test-output hook. Then copy docs/rules/WINDOWS.md's rules into
   CLAUDE.md as a `## Windows` section, demoting its `##` headings to
-  `###`.
+  `###`. The merged hook runs .claude/hooks/heredoc-guard.mjs, so copy that
+  and its two companions (heredoc-guard-check.mjs, heredoc-guard-sweep.mjs)
+  to wherever the settings file can reach them — on the Global path that
+  means `~/.claude/hooks/` and an absolute path in the command, since
+  `$CLAUDE_PROJECT_DIR` does not exist outside a project. Then verify the
+  merge landed:
+  `node .claude/hooks/heredoc-guard-check.mjs --check <the settings.json you
+  merged into>`.
 - **Global only:** copy .claude/hooks/filter-test-output.mjs to
   `~/.claude/hooks/` and register it in `~/.claude/settings.json` with an
   absolute path (there is no `$CLAUDE_PROJECT_DIR` outside a project). Keep
