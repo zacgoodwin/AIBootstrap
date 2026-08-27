@@ -41,6 +41,7 @@
 |  Potpie   |  Context graph over code, PRs, history, tracker, and wiki; local daemon, runs on your existing harness. Team trigger, see PROCESS-TEAM.md Layer 5   |  https://github.com/potpie-ai/potpie   |
 |  Graphiti   |  Temporal knowledge graph for agent memory, facts expire instead of accumulating. Product dependency, not team tooling; held with the LLM infra shelf   |  https://github.com/getzep/graphiti   |
 |  contexton-ai-oss   |  Knowledge graph engine scoring confidence per fact and learning from failures. Held: novel idea, no adoption yet; revisit if it gains traction   |  https://github.com/uma-dv/contexton-ai-oss   |
+|  Mem0   |  LLM-extracted memory layer for agents, vector or graph backed. Product dependency, not team tooling; held under Memory layers in PROCESS.md, where Graphiti is the pick   |  https://github.com/mem0ai/mem0   |
 
 
 ## GUI / Web Apps 

@@ -803,13 +803,18 @@ shelf until a real need shows up.
   oh-my-claudecode, FirstMate, LobeHub, Paperclip, Sim): native subagents,
   teams, and Workflow scripts already cover the orchestration this process
   needs. Revisit only if orchestration outgrows one machine.
-- **Memory layers** (brain.md, memU, Docbank, contexton-ai-oss): native
+- **Memory layers** (brain.md, memU, Docbank, contexton-ai-oss, Mem0): native
   file-based memory plus gbrain and Graphify already hold project knowledge; a
   third memory system adds sync problems, not recall. contexton-ai-oss is held
   on adoption rather than on idea: docs/rules/CODING.md ranks candidates by
   stars, commit recency, issue responsiveness, and real user feedback, and at
   0 stars and 8 commits it has none of them yet, whatever the merits of scoring
-  how much you trust a stored fact.
+  how much you trust a stored fact. Mem0 is the opposite case and still loses:
+  it has the adoption contexton-ai-oss lacks, and it extracts every memory with
+  an LLM call into a vector or graph store, which the LLM-access rule routes
+  through local Claude Code instead. If a product being built ever needs agent
+  memory, Graphiti below is the pick, on adoption and on expiring facts rather
+  than accumulating them; Mem0 is the fallback for the accumulating case.
 - **CodeGraph, Create Context Graph, Context+**: overlap Graphify; one graph is
   enough. Context+ is the closest runner-up and lost on a stated trade: it wants
   an embedding backend per developer, where Graphify parses locally with
